@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vercel.com/luis-projects-e1af291a/travelbuddies/sitemap.xml
