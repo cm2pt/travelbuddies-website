@@ -35,38 +35,38 @@ const copy = {
     ],
     heroTag: 'TravelBuddies | Viagens em Família',
     heroTitle: 'Viagens em família com crianças/bebés para a vida real.',
-    heroBody: 'Ritmo humano, escolhas simples.',
+    heroBody: 'Menos peso mental. Mais leveza.',
     primaryCta: 'Começar diagnóstico',
     heroSecondary: 'Ver serviços',
     proofItems: [
-      { title: 'Curadoria manual', text: 'Nada automático.' },
-      { title: 'Ritmo real', text: 'Sem maratonas.' },
-      { title: 'Acompanhamento', text: 'Antes e durante.' },
-      { title: 'Famílias reais', text: 'Vida real.' },
+      { title: 'Roteiros leves', text: 'Cabe no dia.' },
+      { title: 'Decisões simples', text: 'Sem sobrecarga.' },
+      { title: 'Apoio humano', text: 'Sem automações.' },
+      { title: 'Vida real', text: 'Sem fantasia.' },
     ],
     trustNote: 'Contacto direto por WhatsApp, Email e Instagram.',
-    trustTitle: 'Confiança sem exageros',
+    trustTitle: 'Confiança tranquila',
     trustCards: [
-      { title: 'Experiência real a viajar em família', text: 'Com crianças e bebés.' },
-      { title: 'Roteiros realistas', text: 'Pensados para a vida real.' },
-      { title: 'Apoio na decisão', text: 'Escolhas claras e humanas.' },
+      { title: 'Experiência real', text: 'Com crianças e bebés.' },
+      { title: 'Roteiros realistas', text: 'Sem maratonas.' },
+      { title: 'Apoio na decisão', text: 'Clareza e calma.' },
     ],
     realLifeTitle: 'A vida real não é Pinterest.',
-    realLifeBody: 'Roteiros bonitos, possíveis e adaptados ao vosso ritmo.',
+    realLifeBody: 'Roteiros possíveis, bonitos e com pausas.',
     tile1Title: 'Momentos simples, sem pressa.',
     tile2Title: 'Espaço para todos descansarem.',
     painCards: [
       {
-        title: 'Dias sobrecarregados',
-        text: 'Roteiros maratona não funcionam com crianças.',
+        title: 'Dias cheios demais',
+        text: 'Com crianças, menos é mais.',
       },
       {
-        title: 'Decisões eternas',
-        text: 'Pesquisar tudo drena tempo e energia.',
+        title: 'Demasiadas decisões',
+        text: 'Ajudamos a simplificar.',
       },
       {
-        title: 'Falta de flexibilidade',
-        text: 'O plano precisa adaptar-se ao ritmo da família.',
+        title: 'Pouca flexibilidade',
+        text: 'O plano adapta-se ao vosso ritmo.',
       },
     ],
     servicesTitle: 'Serviços TravelBuddies',
@@ -91,23 +91,23 @@ const copy = {
     howSteps: [
       {
         title: 'Diagnóstico rápido',
-        text: 'Perfil, datas e prioridades.',
+        text: 'Perfil e momento.',
       },
       {
         title: 'Proposta clara',
-        text: 'Roteiro e opções ajustadas.',
+        text: 'Roteiro leve.',
       },
       {
         title: 'Escolhas simples',
-        text: 'Voos, alojamento, experiências.',
+        text: 'Só o essencial.',
       },
       {
         title: 'Acompanhamento',
-        text: 'Suporte antes e durante.',
+        text: 'Estamos por perto.',
       },
     ],
     formTitle: 'Diagnóstico TravelBuddies',
-    formBody: 'Partilha o essencial. Nós desenhamos o roteiro.',
+    formBody: 'Partilha o essencial. Nós simplificamos.',
     formHint: 'Demora 2–3 minutos. Resposta humana, sem automações.',
     formFields: {
       name: 'Nome',
@@ -133,7 +133,7 @@ const copy = {
     email: 'Enviar por Email',
     instagram: 'Falar no Instagram',
     footerTitle: 'TravelBuddies',
-    footerBody: 'Viagens em família com intenção e leveza.',
+    footerBody: 'Viagens em família com leveza.',
     footerSmall: '© 2026 TravelBuddies. Todos os direitos reservados.',
     messageTitle: 'Pedido de Diagnóstico TravelBuddies',
   },
@@ -145,30 +145,30 @@ const copy = {
     ],
     heroTag: 'TravelBuddies | Family Trip Design',
     heroTitle: 'Family travel with kids/babies for real life.',
-    heroBody: 'Human pace, simple choices.',
+    heroBody: 'Less mental load. More ease.',
     primaryCta: 'Começar diagnóstico',
     heroSecondary: 'See services',
     proofItems: [
-      { title: 'Manual curation', text: 'No automation.' },
-      { title: 'Real pace', text: 'No marathons.' },
-      { title: 'Support', text: 'Before and during.' },
-      { title: 'Real families', text: 'Real life.' },
+      { title: 'Light itineraries', text: 'Fits the day.' },
+      { title: 'Simple choices', text: 'Less overwhelm.' },
+      { title: 'Human support', text: 'No automation.' },
+      { title: 'Real life', text: 'No fantasy.' },
     ],
     trustNote: 'Direct contact via WhatsApp, Email, and Instagram.',
-    trustTitle: 'Trust without hype',
+    trustTitle: 'Calm trust',
     trustCards: [
-      { title: 'Real family travel experience', text: 'With kids and babies.' },
-      { title: 'Realistic itineraries', text: 'Made for real life.' },
-      { title: 'Decision support', text: 'Clear, human choices.' },
+      { title: 'Real experience', text: 'With kids and babies.' },
+      { title: 'Realistic itineraries', text: 'No marathons.' },
+      { title: 'Decision support', text: 'Clarity and calm.' },
     ],
     realLifeTitle: 'Real life is not Pinterest.',
-    realLifeBody: 'Beautiful, doable itineraries made for your rhythm.',
+    realLifeBody: 'Doable, beautiful itineraries with pauses.',
     tile1Title: 'Simple moments, no rush.',
     tile2Title: 'Space for everyone to rest.',
     painCards: [
-      { title: 'Overpacked days', text: 'Marathon schedules do not work with kids.' },
-      { title: 'Endless research', text: 'Planning drains time and energy.' },
-      { title: 'No flexibility', text: 'Plans should adapt to the family pace.' },
+      { title: 'Overpacked days', text: 'With kids, less is more.' },
+      { title: 'Too many decisions', text: 'We simplify the choices.' },
+      { title: 'No flexibility', text: 'The plan adapts to your pace.' },
     ],
     servicesTitle: 'TravelBuddies Services',
     servicesBody: 'Two levels, same care.',
@@ -190,13 +190,13 @@ const copy = {
     ],
     howTitle: 'How it works',
     howSteps: [
-      { title: 'Quick diagnosis', text: 'Profile, dates, priorities.' },
-      { title: 'Clear proposal', text: 'Tailored itinerary and options.' },
-      { title: 'Simple choices', text: 'Flights, lodging, experiences.' },
-      { title: 'Follow-up', text: 'Support before and during.' },
+      { title: 'Quick diagnosis', text: 'Profile and moment.' },
+      { title: 'Clear proposal', text: 'Light itinerary.' },
+      { title: 'Simple choices', text: 'Just the essentials.' },
+      { title: 'Follow-up', text: 'We stay close.' },
     ],
     formTitle: 'TravelBuddies Diagnosis',
-    formBody: 'Share the essentials. We craft the plan.',
+    formBody: 'Share the essentials. We simplify.',
     formHint: 'Takes 2–3 minutes. Human response, no automation.',
     formFields: {
       name: 'Name',
@@ -222,7 +222,7 @@ const copy = {
     email: 'Send via Email',
     instagram: 'Chat on Instagram',
     footerTitle: 'TravelBuddies',
-    footerBody: 'Family trips with intention, ease, and beauty.',
+    footerBody: 'Family trips with ease.',
     footerSmall: '© 2026 TravelBuddies. All rights reserved.',
     messageTitle: 'TravelBuddies Diagnosis Request',
   },
@@ -348,7 +348,7 @@ export default function App() {
 
   return (
     <div className="text-navy">
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-navy/10">
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/85 border-b border-navy/10">
         <div className={`${container} flex items-center justify-between py-4`}>
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-full bg-tealSoft/80 border border-teal/40 flex items-center justify-center">
@@ -396,10 +396,10 @@ export default function App() {
       </header>
 
       <main>
-        <section className="pt-14 pb-12 lg:pt-20 lg:pb-16">
+        <section className="pt-12 pb-10 sm:pt-14 sm:pb-12 lg:pt-20 lg:pb-16">
           <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
             <Reveal>
-              <p className="text-sm uppercase tracking-[0.2em] text-navy/60">{t.heroTag}</p>
+              <p className="text-sm uppercase tracking-[0.2em] text-navy/50">{t.heroTag}</p>
               <h1 className="mt-4 text-4xl lg:text-6xl font-display leading-tight text-balance">
                 {t.heroTitle}
               </h1>
@@ -413,7 +413,7 @@ export default function App() {
                 </a>
                 <a
                   href="#services"
-                  className="text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+                  className="text-sm text-navy/60 hover:text-navy focus-visible:outline-none focus-visible:underline"
                 >
                   {t.heroSecondary}
                 </a>
@@ -439,7 +439,7 @@ export default function App() {
               {t.proofItems.map((item) => (
                 <Reveal
                   key={item.title}
-                  className="rounded-2xl border border-navy/10 bg-white/80 p-4 shadow-card"
+                  className="rounded-2xl border border-navy/10 bg-white/80 p-5 shadow-card"
                 >
                   <p className="font-semibold text-sm">{item.title}</p>
                   <p className="text-xs text-navy/60 mt-2">{item.text}</p>
@@ -472,8 +472,8 @@ export default function App() {
         <section className="py-16">
           <div className={`${container} grid gap-10 lg:grid-cols-[0.9fr_1.1fr] items-start`}>
             <Reveal>
-              <p className="text-sm uppercase tracking-[0.2em] text-navy/60">{t.realLifeTitle}</p>
-              <h2 className="mt-4 text-3xl font-display">{t.realLifeBody}</h2>
+              <p className="text-sm uppercase tracking-[0.2em] text-navy/50">{t.realLifeTitle}</p>
+              <h2 className="mt-4 text-3xl font-display text-balance">{t.realLifeBody}</h2>
               <div className="mt-8 grid gap-6 sm:grid-cols-2">
                 <div className="rounded-3xl overflow-hidden border border-navy/10 shadow-card">
                   <SmartImage
