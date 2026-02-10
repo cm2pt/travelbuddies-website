@@ -3,25 +3,10 @@ import { motion } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 import logo from './assets/logo.png'
 import heroImage from './assets/hero.jpg'
-import tile1 from './assets/tile1.jpg'
-import tile2 from './assets/tile2.jpg'
 
 const REMOTE_IMAGES = {
   hero:
     'https://images.unsplash.com/photo-1767411972844-b5e8bdda9e5d?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1800',
-  tile1:
-    'https://images.unsplash.com/photo-1767858898786-75f923424e45?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1400',
-  tile2:
-    'https://images.unsplash.com/photo-1764816667272-68320fc656db?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1400',
-}
-
-const FALLBACKS = {
-  hero:
-    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80',
-  tile1:
-    'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80',
-  tile2:
-    'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80',
 }
 
 const LANG_STORAGE_KEY = 'travelbuddies_lang'
@@ -29,45 +14,19 @@ const LANG_STORAGE_KEY = 'travelbuddies_lang'
 const copy = {
   pt: {
     navLinks: [
-      { href: '#services', label: 'Serviços' },
       { href: '#how', label: 'Como funciona' },
+      { href: '#services', label: 'Base vs Premium' },
       { href: '#diagnostico', label: 'Diagnóstico' },
     ],
     heroTag: 'TravelBuddies | Viagens em Família',
     heroTitle: 'Viagens em família com crianças/bebés para a vida real.',
     heroBody: 'Menos peso mental. Mais leveza.',
     primaryCta: 'Começar diagnóstico',
-    heroSecondary: 'Ver serviços',
-    proofItems: [
-      { title: 'Roteiros leves', text: 'Cabe no dia.' },
-      { title: 'Decisões simples', text: 'Sem sobrecarga.' },
-      { title: 'Apoio humano', text: 'Sem automações.' },
-      { title: 'Vida real', text: 'Sem fantasia.' },
-    ],
-    trustNote: 'Contacto direto por WhatsApp, Email e Instagram.',
-    trustTitle: 'Confiança tranquila',
-    trustCards: [
-      { title: 'Experiência real', text: 'Com crianças e bebés.' },
-      { title: 'Roteiros realistas', text: 'Sem maratonas.' },
-      { title: 'Apoio na decisão', text: 'Clareza e calma.' },
-    ],
-    realLifeTitle: 'A vida real não é Pinterest.',
-    realLifeBody: 'Roteiros possíveis, bonitos e com pausas.',
-    tile1Title: 'Momentos simples, sem pressa.',
-    tile2Title: 'Espaço para todos descansarem.',
-    painCards: [
-      {
-        title: 'Dias cheios demais',
-        text: 'Com crianças, menos é mais.',
-      },
-      {
-        title: 'Demasiadas decisões',
-        text: 'Ajudamos a simplificar.',
-      },
-      {
-        title: 'Pouca flexibilidade',
-        text: 'O plano adapta-se ao vosso ritmo.',
-      },
+    qualifyTitle: 'Isto é para ti se…',
+    qualifyItems: [
+      { title: 'Estás cansada(o)', text: 'E queres decisões simples.' },
+      { title: 'Viajas com bebés/crianças', text: 'E precisas de ritmo real.' },
+      { title: 'Queres segurança', text: 'Sem excesso de pesquisa.' },
     ],
     servicesTitle: 'Serviços TravelBuddies',
     servicesBody: 'Dois níveis, o mesmo cuidado.',
@@ -89,22 +48,15 @@ const copy = {
     ],
     howTitle: 'Como funciona',
     howSteps: [
-      {
-        title: 'Diagnóstico rápido',
-        text: 'Perfil e momento.',
-      },
-      {
-        title: 'Proposta clara',
-        text: 'Roteiro leve.',
-      },
-      {
-        title: 'Escolhas simples',
-        text: 'Só o essencial.',
-      },
-      {
-        title: 'Acompanhamento',
-        text: 'Estamos por perto.',
-      },
+      { title: '1. Diagnóstico', text: 'Entendemos a vossa família e o momento.' },
+      { title: '2. Proposta leve', text: 'Roteiro possível e claro.' },
+      { title: '3. Decisão tranquila', text: 'Apoio humano até fechar.' },
+    ],
+    trustTitle: 'Confiança e cuidado',
+    trustCards: [
+      { title: 'Experiência real', text: 'Viagens em família com crianças/bebés.' },
+      { title: 'Roteiros realistas', text: 'Pensados para a vida real.' },
+      { title: 'Apoio humano', text: 'Sem automações.' },
     ],
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
@@ -139,36 +91,19 @@ const copy = {
   },
   en: {
     navLinks: [
-      { href: '#services', label: 'Services' },
       { href: '#how', label: 'How it works' },
+      { href: '#services', label: 'Base vs Premium' },
       { href: '#diagnosis', label: 'Diagnosis' },
     ],
     heroTag: 'TravelBuddies | Family Trip Design',
     heroTitle: 'Family travel with kids/babies for real life.',
     heroBody: 'Less mental load. More ease.',
     primaryCta: 'Começar diagnóstico',
-    heroSecondary: 'See services',
-    proofItems: [
-      { title: 'Light itineraries', text: 'Fits the day.' },
-      { title: 'Simple choices', text: 'Less overwhelm.' },
-      { title: 'Human support', text: 'No automation.' },
-      { title: 'Real life', text: 'No fantasy.' },
-    ],
-    trustNote: 'Direct contact via WhatsApp, Email, and Instagram.',
-    trustTitle: 'Calm trust',
-    trustCards: [
-      { title: 'Real experience', text: 'With kids and babies.' },
-      { title: 'Realistic itineraries', text: 'No marathons.' },
-      { title: 'Decision support', text: 'Clarity and calm.' },
-    ],
-    realLifeTitle: 'Real life is not Pinterest.',
-    realLifeBody: 'Doable, beautiful itineraries with pauses.',
-    tile1Title: 'Simple moments, no rush.',
-    tile2Title: 'Space for everyone to rest.',
-    painCards: [
-      { title: 'Overpacked days', text: 'With kids, less is more.' },
-      { title: 'Too many decisions', text: 'We simplify the choices.' },
-      { title: 'No flexibility', text: 'The plan adapts to your pace.' },
+    qualifyTitle: 'This is for you if…',
+    qualifyItems: [
+      { title: 'You are tired', text: 'And want simple decisions.' },
+      { title: 'You travel with kids/babies', text: 'And need a real pace.' },
+      { title: 'You want safety', text: 'Without endless research.' },
     ],
     servicesTitle: 'TravelBuddies Services',
     servicesBody: 'Two levels, same care.',
@@ -190,10 +125,15 @@ const copy = {
     ],
     howTitle: 'How it works',
     howSteps: [
-      { title: 'Quick diagnosis', text: 'Profile and moment.' },
-      { title: 'Clear proposal', text: 'Light itinerary.' },
-      { title: 'Simple choices', text: 'Just the essentials.' },
-      { title: 'Follow-up', text: 'We stay close.' },
+      { title: '1. Diagnosis', text: 'We learn your family and timing.' },
+      { title: '2. Light proposal', text: 'A doable, clear itinerary.' },
+      { title: '3. Calm decision', text: 'Human support to close.' },
+    ],
+    trustTitle: 'Trust and care',
+    trustCards: [
+      { title: 'Real experience', text: 'Family travel with kids/babies.' },
+      { title: 'Realistic itineraries', text: 'Made for real life.' },
+      { title: 'Human support', text: 'No automation.' },
     ],
     formTitle: 'TravelBuddies Diagnosis',
     formBody: 'Share the essentials. We simplify.',
@@ -404,18 +344,12 @@ export default function App() {
                 {t.heroTitle}
               </h1>
               <p className="mt-4 text-lg text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
-              <div className="mt-6 flex flex-wrap items-center gap-4">
+              <div className="mt-6">
                 <a
                   href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-                  className="px-7 py-3 rounded-full bg-navy text-white shadow-soft hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex px-7 py-3 rounded-full bg-navy text-white shadow-soft hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   {t.primaryCta}
-                </a>
-                <a
-                  href="#services"
-                  className="text-sm text-navy/60 hover:text-navy focus-visible:outline-none focus-visible:underline"
-                >
-                  {t.heroSecondary}
                 </a>
               </div>
             </Reveal>
@@ -433,86 +367,48 @@ export default function App() {
           </div>
         </section>
 
-        <section className="py-6">
-          <div className={container}>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {t.proofItems.map((item) => (
-                <Reveal
-                  key={item.title}
-                  className="rounded-2xl border border-navy/10 bg-white/80 p-5 shadow-card"
-                >
-                  <p className="font-semibold text-sm">{item.title}</p>
-                  <p className="text-xs text-navy/60 mt-2">{item.text}</p>
-                </Reveal>
-              ))}
-            </div>
-            <p className="mt-4 text-xs text-navy/50">{t.trustNote}</p>
-          </div>
-        </section>
-
-        <section className="py-10">
+        <section id="qualify" className="py-10">
           <div className={container}>
             <Reveal>
-              <h2 className="text-xl font-display">{t.trustTitle}</h2>
+              <h2 className="text-2xl font-display">{t.qualifyTitle}</h2>
             </Reveal>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {t.trustCards.map((card) => (
+              {t.qualifyItems.map((item) => (
                 <Reveal
-                  key={card.title}
-                  className="rounded-2xl border border-navy/10 bg-white/80 p-5 shadow-card"
+                  key={item.title}
+                  className="rounded-2xl border border-navy/10 bg-white/85 p-5 shadow-card"
                 >
-                  <p className="text-sm font-semibold">{card.title}</p>
-                  <p className="mt-2 text-xs text-navy/60">{card.text}</p>
+                  <p className="text-sm font-semibold">{item.title}</p>
+                  <p className="mt-2 text-xs text-navy/60">{item.text}</p>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="py-16">
-          <div className={`${container} grid gap-10 lg:grid-cols-[0.9fr_1.1fr] items-start`}>
-            <Reveal>
-              <p className="text-sm uppercase tracking-[0.2em] text-navy/50">{t.realLifeTitle}</p>
-              <h2 className="mt-4 text-3xl font-display text-balance">{t.realLifeBody}</h2>
-              <div className="mt-8 grid gap-6 sm:grid-cols-2">
-                <div className="rounded-3xl overflow-hidden border border-navy/10 shadow-card">
-                  <SmartImage
-                    src={REMOTE_IMAGES.tile1}
-                    fallback={tile1}
-                    alt={t.tile1Title}
-                    className="h-48 w-full object-cover"
-                  />
-                  <p className="p-4 text-sm text-navy/70">{t.tile1Title}</p>
-                </div>
-                <div className="rounded-3xl overflow-hidden border border-navy/10 shadow-card">
-                  <SmartImage
-                    src={REMOTE_IMAGES.tile2}
-                    fallback={tile2}
-                    alt={t.tile2Title}
-                    className="h-48 w-full object-cover"
-                  />
-                  <p className="p-4 text-sm text-navy/70">{t.tile2Title}</p>
-                </div>
-              </div>
-            </Reveal>
-            <div className="grid gap-4">
-              {t.painCards.map((card) => (
-                <Reveal key={card.title} className="rounded-2xl border border-navy/10 bg-white p-6 shadow-card">
-                  <p className="font-semibold">{card.title}</p>
-                  <p className="mt-2 text-sm text-navy/60">{card.text}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="services" className="py-16 bg-white/70">
+        <section id="how" className="py-12">
           <div className={container}>
             <Reveal>
-              <h2 className="text-3xl font-display">{t.servicesTitle}</h2>
+              <h2 className="text-2xl font-display">{t.howTitle}</h2>
+            </Reveal>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {t.howSteps.map((step) => (
+                <Reveal key={step.title} className="rounded-2xl border border-navy/10 bg-white p-5 shadow-card">
+                  <p className="text-sm font-semibold">{step.title}</p>
+                  <p className="mt-2 text-xs text-navy/60">{step.text}</p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="services" className="py-12 bg-white/70">
+          <div className={container}>
+            <Reveal>
+              <h2 className="text-2xl font-display">{t.servicesTitle}</h2>
               <p className="mt-2 text-navy/70">{t.servicesBody}</p>
             </Reveal>
-            <div className="mt-8 grid gap-6 lg:grid-cols-2">
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <Reveal className="rounded-3xl border border-navy/10 p-6 shadow-card bg-white">
                 <p className="text-xs uppercase tracking-[0.2em] text-navy/60">{t.baseTitle}</p>
                 <ul className="mt-4 space-y-2 text-sm text-navy/70">
@@ -542,29 +438,23 @@ export default function App() {
                 </ul>
               </Reveal>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-4">
-              <p className="text-sm text-navy/60">{t.pricingNote}</p>
-              <a
-                href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-                className="rounded-full border border-navy/20 px-5 py-2 text-sm hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-              >
-                {t.primaryCta}
-              </a>
-            </div>
+            <p className="mt-4 text-sm text-navy/60">{t.pricingNote}</p>
           </div>
         </section>
 
-        <section id="how" className="py-16">
+        <section id="trust" className="py-12">
           <div className={container}>
             <Reveal>
-              <h2 className="text-3xl font-display">{t.howTitle}</h2>
+              <h2 className="text-2xl font-display">{t.trustTitle}</h2>
             </Reveal>
-            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {t.howSteps.map((step, index) => (
-                <Reveal key={step.title} className="rounded-2xl border border-navy/10 bg-white p-5 shadow-card">
-                  <p className="text-xs text-navy/50">0{index + 1}</p>
-                  <p className="mt-2 font-semibold">{step.title}</p>
-                  <p className="mt-2 text-sm text-navy/60">{step.text}</p>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {t.trustCards.map((card) => (
+                <Reveal
+                  key={card.title}
+                  className="rounded-2xl border border-navy/10 bg-white/85 p-5 shadow-card"
+                >
+                  <p className="text-sm font-semibold">{card.title}</p>
+                  <p className="mt-2 text-xs text-navy/60">{card.text}</p>
                 </Reveal>
               ))}
             </div>
@@ -695,7 +585,7 @@ export default function App() {
                 <p className="text-sm font-semibold">{t.formSuccessTitle}</p>
                 <p className="text-xs text-navy/60 mt-2">{t.formSuccessBody}</p>
                 {copyStatus && <p className="mt-2 text-xs text-teal">{copyStatus}</p>}
-                <div className="mt-4 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[180px] whitespace-pre-wrap text-sm text-navy/70">
+                <div className="mt-4 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[160px] whitespace-pre-wrap text-sm text-navy/70">
                   {message || (lang === 'pt' ? 'Preenche o formulário para gerar a mensagem.' : 'Fill the form to generate the message.')}
                 </div>
                 {links && (
@@ -734,13 +624,27 @@ export default function App() {
           <div>
             <p className="font-display text-lg">{t.footerTitle}</p>
             <p className="text-sm text-navy/60">{t.footerBody}</p>
+            <div className="mt-3 flex flex-wrap gap-3 text-xs text-navy/60">
+              <a
+                href="https://wa.me/351919676329"
+                className="hover:text-navy focus-visible:outline-none focus-visible:underline"
+              >
+                WhatsApp
+              </a>
+              <a
+                href="mailto:joana_krisna@hotmail.com"
+                className="hover:text-navy focus-visible:outline-none focus-visible:underline"
+              >
+                Email
+              </a>
+              <a
+                href="https://www.instagram.com/family_in_trouble/"
+                className="hover:text-navy focus-visible:outline-none focus-visible:underline"
+              >
+                Instagram
+              </a>
+            </div>
           </div>
-          <a
-            href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-            className="rounded-full border border-navy/20 px-5 py-2 text-sm text-navy/80 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-          >
-            {t.primaryCta}
-          </a>
           <p className="text-xs text-navy/50">{t.footerSmall}</p>
         </div>
       </footer>
