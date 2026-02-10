@@ -102,22 +102,23 @@ const copy = {
     ],
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós desenhamos o roteiro.',
-    formHint: 'Só nome e email são obrigatórios.',
+    formHint: 'Demora 2–3 minutos. Resposta humana, sem automações.',
     formFields: {
       name: 'Nome',
       email: 'Email',
-      who: 'Quem viaja? (opcional)',
-      dates: 'Datas ou período (opcional)',
-      budget: 'Orçamento (opcional)',
+      dates: 'Para quando é a viagem?',
       service: 'Serviço preferido',
+      who: 'Quem viaja? (opcional)',
+      budget: 'Orçamento (opcional)',
       notes: 'Notas adicionais (opcional)',
     },
     formPlaceholders: {
-      who: '2 adultos + 1 criança',
       dates: 'Julho 2026',
+      who: '2 adultos + 1 criança',
       budget: '€1500',
       notes: 'Preferências, alergias, etc.',
     },
+    formToggle: 'Adicionar detalhes (opcional)',
     formServiceOptions: ['Premium', 'Base', 'Ainda não sei'],
     formSubmit: 'Começar diagnóstico',
     formSuccessTitle: 'Mensagem pronta',
@@ -184,22 +185,23 @@ const copy = {
     ],
     formTitle: 'TravelBuddies Diagnosis',
     formBody: 'Share the essentials. We craft the plan.',
-    formHint: 'Only name and email are required.',
+    formHint: 'Takes 2–3 minutes. Human response, no automation.',
     formFields: {
       name: 'Name',
       email: 'Email',
-      who: 'Who is traveling? (optional)',
-      dates: 'Dates or timeframe (optional)',
-      budget: 'Budget (optional)',
+      dates: 'When is the trip?',
       service: 'Preferred service',
+      who: 'Who is traveling? (optional)',
+      budget: 'Budget (optional)',
       notes: 'Additional notes (optional)',
     },
     formPlaceholders: {
-      who: '2 adults + 1 child',
       dates: 'July 2026',
+      who: '2 adults + 1 child',
       budget: '€1500',
       notes: 'Preferences, allergies, etc.',
     },
+    formToggle: 'Add details (optional)',
     formServiceOptions: ['Premium', 'Base', 'Not sure'],
     formSubmit: 'Começar diagnóstico',
     formSuccessTitle: 'Message ready',
@@ -249,18 +251,17 @@ const SmartImage = ({ src, fallback, alt, className }) => {
 const buildMessage = (lang, form) => {
   const t = copy[lang]
   const labels = t.formFields
-
-  return [
-    t.messageTitle,
-    '',
+  const lines = [
     `${labels.name}: ${form.name}`,
     `${labels.email}: ${form.email}`,
-    `${labels.who}: ${form.who}`,
-    `${labels.dates}: ${form.dates}`,
-    `${labels.budget}: ${form.budget}`,
+    form.dates ? `${labels.dates}: ${form.dates}` : null,
     `${labels.service}: ${form.service}`,
-    `${labels.notes}: ${form.notes}`,
-  ].join('\n')
+    form.who ? `${labels.who}: ${form.who}` : null,
+    form.budget ? `${labels.budget}: ${form.budget}` : null,
+    form.notes ? `${labels.notes}: ${form.notes}` : null,
+  ].filter(Boolean)
+
+  return [t.messageTitle, '', ...lines].join('\n')
 }
 
 export default function App() {
@@ -281,6 +282,7 @@ export default function App() {
 
   const [message, setMessage] = useState('')
   const [copyStatus, setCopyStatus] = useState('')
+  const [showDetails, setShowDetails] = useState(false)
 
   const t = copy[lang]
 
@@ -573,17 +575,6 @@ export default function App() {
                   </div>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="flex flex-col gap-2">
-                      <label className="text-xs text-navy/60" htmlFor="who">{t.formFields.who}</label>
-                      <input
-                        id="who"
-                        name="who"
-                        value={form.who}
-                        onChange={handleChange}
-                        placeholder={t.formPlaceholders.who}
-                        className="rounded-xl border border-navy/10 px-3 py-2"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-2">
                       <label className="text-xs text-navy/60" htmlFor="dates">{t.formFields.dates}</label>
                       <input
                         id="dates"
@@ -591,19 +582,6 @@ export default function App() {
                         value={form.dates}
                         onChange={handleChange}
                         placeholder={t.formPlaceholders.dates}
-                        className="rounded-xl border border-navy/10 px-3 py-2"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs text-navy/60" htmlFor="budget">{t.formFields.budget}</label>
-                      <input
-                        id="budget"
-                        name="budget"
-                        value={form.budget}
-                        onChange={handleChange}
-                        placeholder={t.formPlaceholders.budget}
                         className="rounded-xl border border-navy/10 px-3 py-2"
                       />
                     </div>
@@ -624,18 +602,53 @@ export default function App() {
                       </select>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs text-navy/60" htmlFor="notes">{t.formFields.notes}</label>
-                    <textarea
-                      id="notes"
-                      name="notes"
-                      rows="4"
-                      value={form.notes}
-                      onChange={handleChange}
-                      placeholder={t.formPlaceholders.notes}
-                      className="rounded-xl border border-navy/10 px-3 py-2"
-                    />
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowDetails((prev) => !prev)}
+                    className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+                  >
+                    {t.formToggle}
+                  </button>
+                  {showDetails && (
+                    <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <div className="flex flex-col gap-2">
+                          <label className="text-xs text-navy/60" htmlFor="who">{t.formFields.who}</label>
+                          <input
+                            id="who"
+                            name="who"
+                            value={form.who}
+                            onChange={handleChange}
+                            placeholder={t.formPlaceholders.who}
+                            className="rounded-xl border border-navy/10 px-3 py-2"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <label className="text-xs text-navy/60" htmlFor="budget">{t.formFields.budget}</label>
+                          <input
+                            id="budget"
+                            name="budget"
+                            value={form.budget}
+                            onChange={handleChange}
+                            placeholder={t.formPlaceholders.budget}
+                            className="rounded-xl border border-navy/10 px-3 py-2"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <label className="text-xs text-navy/60" htmlFor="notes">{t.formFields.notes}</label>
+                        <textarea
+                          id="notes"
+                          name="notes"
+                          rows="4"
+                          value={form.notes}
+                          onChange={handleChange}
+                          placeholder={t.formPlaceholders.notes}
+                          className="rounded-xl border border-navy/10 px-3 py-2"
+                        />
+                      </div>
+                    </div>
+                  )}
                   <button
                     type="submit"
                     className="rounded-full bg-navy text-white py-3 shadow-soft hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
