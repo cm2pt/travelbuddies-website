@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
+import { Analytics } from '@vercel/analytics/react'
 import logo from './assets/logo.png'
 import heroImage from './assets/hero.jpg'
 import tile1 from './assets/tile1.jpg'
@@ -678,6 +679,7 @@ export default function App() {
           <p className="text-xs text-navy/50">{t.footerSmall}</p>
         </div>
       </footer>
+      <Analytics />
     </div>
   )
 }
