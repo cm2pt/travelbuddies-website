@@ -23,31 +23,30 @@ const copy = {
       { href: '#how', label: 'Como funciona' },
       { href: '#diagnostico', label: 'Diagnóstico' },
     ],
-    heroTag: 'TravelBuddies | Organizamos Viagens em Família',
-    heroTitle: 'Viagens em família sem stress, com um plano realista e bonito.',
-    heroBody:
-      'Criamos roteiros pensados para o ritmo dos miúdos, decisões mais fáceis e experiências que todos aproveitam.',
-    heroCta: 'Quero um diagnóstico',
+    heroTag: 'TravelBuddies | Viagens em Família',
+    heroTitle: 'Viagens em família com um plano leve e realista.',
+    heroBody: 'Ritmo humano, decisões rápidas, experiências que todos aproveitam.',
+    primaryCta: 'Pedir diagnóstico',
     heroSecondary: 'Ver serviços',
     proofItems: [
-      { title: 'Planeamento humano', text: 'Ritmo realista, sem exageros.' },
-      { title: 'Decisões rápidas', text: 'Comparativos claros e escolhas seguras.' },
-      { title: 'Apoio durante', text: 'Continuamos por perto.' },
-      { title: 'Famílias reais', text: 'Não é Pinterest, é vida.' },
+      { title: 'Curadoria manual', text: 'Nada automático.' },
+      { title: 'Ritmo real', text: 'Sem maratonas.' },
+      { title: 'Acompanhamento', text: 'Antes e durante.' },
+      { title: 'Famílias reais', text: 'Vida real.' },
     ],
+    trustNote: 'Contacto direto por WhatsApp, Email e Instagram.',
     realLifeTitle: 'A vida real não é Pinterest.',
-    realLifeBody:
-      'Transformamos o caos das viagens em família num roteiro leve, bonito e exequível.',
+    realLifeBody: 'Roteiros bonitos, possíveis e adaptados ao vosso ritmo.',
     tile1Title: 'Momentos simples, sem pressa.',
     tile2Title: 'Espaço para todos descansarem.',
     painCards: [
       {
         title: 'Dias sobrecarregados',
-        text: 'Roteiros que parecem maratonas não funcionam com crianças.',
+        text: 'Roteiros maratona não funcionam com crianças.',
       },
       {
         title: 'Decisões eternas',
-        text: 'Pesquisar tudo demora tempo e drena energia.',
+        text: 'Pesquisar tudo drena tempo e energia.',
       },
       {
         title: 'Falta de flexibilidade',
@@ -55,7 +54,7 @@ const copy = {
       },
     ],
     servicesTitle: 'Serviços TravelBuddies',
-    servicesBody: 'Escolhe o nível de apoio. Nós tratamos do resto.',
+    servicesBody: 'Dois níveis, o mesmo cuidado.',
     baseTitle: 'BASE desde 50€',
     premiumTitle: 'PREMIUM desde 100€',
     pricingNote: 'Valores variam consoante duração e complexidade.',
@@ -76,41 +75,48 @@ const copy = {
     howSteps: [
       {
         title: 'Diagnóstico rápido',
-        text: 'Entendemos o perfil da família, datas e prioridades.',
+        text: 'Perfil, datas e prioridades.',
       },
       {
         title: 'Proposta clara',
-        text: 'Apresentamos o roteiro e opções ajustadas ao vosso ritmo.',
+        text: 'Roteiro e opções ajustadas.',
       },
       {
         title: 'Escolhas simples',
-        text: 'Ajudamos a decidir voos, alojamento e experiências.',
+        text: 'Voos, alojamento, experiências.',
       },
       {
         title: 'Acompanhamento',
-        text: 'Suporte antes e durante a viagem.',
+        text: 'Suporte antes e durante.',
       },
     ],
-    formTitle: 'Pede o teu Diagnóstico TravelBuddies',
-    formBody: 'Preenche os dados principais e nós criamos uma proposta alinhada com a tua família.',
+    formTitle: 'Diagnóstico TravelBuddies',
+    formBody: 'Partilha o essencial. Nós desenhamos o roteiro.',
+    formHint: 'Só nome e email são obrigatórios.',
     formFields: {
       name: 'Nome',
       email: 'Email',
-      who: 'Quem viaja?',
-      dates: 'Datas ou período',
-      budget: 'Orçamento',
+      who: 'Quem viaja? (opcional)',
+      dates: 'Datas ou período (opcional)',
+      budget: 'Orçamento (opcional)',
       service: 'Serviço preferido',
-      notes: 'Notas adicionais',
+      notes: 'Notas adicionais (opcional)',
+    },
+    formPlaceholders: {
+      who: '2 adultos + 1 criança',
+      dates: 'Julho 2026',
+      budget: '€1500',
+      notes: 'Preferências, alergias, etc.',
     },
     formServiceOptions: ['Premium', 'Base', 'Ainda não sei'],
-    formSubmit: 'Gerar mensagem',
-    formSuccessTitle: 'Mensagem pronta para enviar',
-    formSuccessBody: 'Cópia automática para a área de transferência.',
+    formSubmit: 'Pedir diagnóstico',
+    formSuccessTitle: 'Mensagem pronta',
+    formSuccessBody: 'Copiada automaticamente.',
     whatsapp: 'Enviar por WhatsApp',
     email: 'Enviar por Email',
     instagram: 'Falar no Instagram',
     footerTitle: 'TravelBuddies',
-    footerBody: 'Viagens em família com intenção, leveza e beleza.',
+    footerBody: 'Viagens em família com intenção e leveza.',
     footerSmall: '© 2026 TravelBuddies. Todos os direitos reservados.',
     messageTitle: 'Pedido de Diagnóstico TravelBuddies',
   },
@@ -121,18 +127,19 @@ const copy = {
       { href: '#diagnosis', label: 'Diagnosis' },
     ],
     heroTag: 'TravelBuddies | Family Trip Design',
-    heroTitle: 'Family travel with less stress and a plan that actually works.',
-    heroBody: 'We craft itineraries designed for kids, faster decisions, and shared experiences.',
-    heroCta: 'Start diagnosis',
+    heroTitle: 'Family travel with a light, realistic plan.',
+    heroBody: 'Human pace, faster decisions, shared experiences.',
+    primaryCta: 'Request diagnosis',
     heroSecondary: 'See services',
     proofItems: [
-      { title: 'Human pace', text: 'Realistic days with kids.' },
-      { title: 'Clear choices', text: 'Clean comparisons, confident picks.' },
-      { title: 'Ongoing support', text: 'We stay close.' },
-      { title: 'Real families', text: 'Not Pinterest, real life.' },
+      { title: 'Manual curation', text: 'No automation.' },
+      { title: 'Real pace', text: 'No marathons.' },
+      { title: 'Support', text: 'Before and during.' },
+      { title: 'Real families', text: 'Real life.' },
     ],
+    trustNote: 'Direct contact via WhatsApp, Email, and Instagram.',
     realLifeTitle: 'Real life is not Pinterest.',
-    realLifeBody: 'We turn family travel chaos into light, beautiful, doable itineraries.',
+    realLifeBody: 'Beautiful, doable itineraries made for your rhythm.',
     tile1Title: 'Simple moments, no rush.',
     tile2Title: 'Space for everyone to rest.',
     painCards: [
@@ -141,7 +148,7 @@ const copy = {
       { title: 'No flexibility', text: 'Plans should adapt to the family pace.' },
     ],
     servicesTitle: 'TravelBuddies Services',
-    servicesBody: 'Pick the level of support. We handle the rest.',
+    servicesBody: 'Two levels, same care.',
     baseTitle: 'BASE from €50',
     premiumTitle: 'PREMIUM from €100',
     pricingNote: 'Prices vary by duration and complexity.',
@@ -160,26 +167,33 @@ const copy = {
     ],
     howTitle: 'How it works',
     howSteps: [
-      { title: 'Quick diagnosis', text: 'We learn the family profile, dates, priorities.' },
-      { title: 'Clear proposal', text: 'We deliver a tailored itinerary and options.' },
-      { title: 'Simple choices', text: 'We help decide flights, lodging, experiences.' },
-      { title: 'Follow-up', text: 'Support before and during the trip.' },
+      { title: 'Quick diagnosis', text: 'Profile, dates, priorities.' },
+      { title: 'Clear proposal', text: 'Tailored itinerary and options.' },
+      { title: 'Simple choices', text: 'Flights, lodging, experiences.' },
+      { title: 'Follow-up', text: 'Support before and during.' },
     ],
-    formTitle: 'Request your TravelBuddies Diagnosis',
-    formBody: 'Share the essentials and we will craft a proposal aligned to your family.',
+    formTitle: 'TravelBuddies Diagnosis',
+    formBody: 'Share the essentials. We craft the plan.',
+    formHint: 'Only name and email are required.',
     formFields: {
       name: 'Name',
       email: 'Email',
-      who: 'Who is traveling?',
-      dates: 'Dates or timeframe',
-      budget: 'Budget',
+      who: 'Who is traveling? (optional)',
+      dates: 'Dates or timeframe (optional)',
+      budget: 'Budget (optional)',
       service: 'Preferred service',
-      notes: 'Additional notes',
+      notes: 'Additional notes (optional)',
+    },
+    formPlaceholders: {
+      who: '2 adults + 1 child',
+      dates: 'July 2026',
+      budget: '€1500',
+      notes: 'Preferences, allergies, etc.',
     },
     formServiceOptions: ['Premium', 'Base', 'Not sure'],
-    formSubmit: 'Generate message',
-    formSuccessTitle: 'Message ready to send',
-    formSuccessBody: 'Automatically copied to clipboard.',
+    formSubmit: 'Request diagnosis',
+    formSuccessTitle: 'Message ready',
+    formSuccessBody: 'Automatically copied.',
     whatsapp: 'Send via WhatsApp',
     email: 'Send via Email',
     instagram: 'Chat on Instagram',
@@ -329,6 +343,12 @@ export default function App() {
             ))}
           </nav>
           <div className="flex items-center gap-3">
+            <a
+              href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
+              className="hidden sm:inline-flex items-center rounded-full border border-navy/20 px-4 py-2 text-xs text-navy/80 hover:border-navy"
+            >
+              {t.primaryCta}
+            </a>
             <button
               type="button"
               className={`px-3 py-1 rounded-full text-xs border ${
@@ -356,7 +376,7 @@ export default function App() {
           <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
             <Reveal>
               <p className="text-sm uppercase tracking-[0.2em] text-navy/60">{t.heroTag}</p>
-              <h1 className="mt-4 text-4xl lg:text-5xl font-display leading-tight text-balance">
+              <h1 className="mt-4 text-4xl lg:text-6xl font-display leading-tight text-balance">
                 {t.heroTitle}
               </h1>
               <p className="mt-4 text-lg text-navy/70 text-balance">{t.heroBody}</p>
@@ -365,7 +385,7 @@ export default function App() {
                   href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
                   className="px-6 py-3 rounded-full bg-navy text-white shadow-soft"
                 >
-                  {t.heroCta}
+                  {t.primaryCta}
                 </a>
                 <a
                   href="#services"
@@ -402,6 +422,7 @@ export default function App() {
                 </Reveal>
               ))}
             </div>
+            <p className="mt-4 text-xs text-navy/50">{t.trustNote}</p>
           </div>
         </section>
 
@@ -478,7 +499,15 @@ export default function App() {
                 </ul>
               </Reveal>
             </div>
-            <p className="mt-4 text-sm text-navy/60">{t.pricingNote}</p>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <p className="text-sm text-navy/60">{t.pricingNote}</p>
+              <a
+                href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
+                className="rounded-full border border-navy/20 px-5 py-2 text-sm"
+              >
+                {t.primaryCta}
+              </a>
+            </div>
           </div>
         </section>
 
@@ -504,6 +533,7 @@ export default function App() {
             <Reveal>
               <h2 className="text-3xl font-display">{t.formTitle}</h2>
               <p className="mt-3 text-navy/70">{t.formBody}</p>
+              <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
               <div className="mt-6 rounded-3xl border border-navy/10 p-6 bg-white/80 shadow-card">
                 <form onSubmit={handleSubmit} className="grid gap-4">
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -539,6 +569,7 @@ export default function App() {
                         name="who"
                         value={form.who}
                         onChange={handleChange}
+                        placeholder={t.formPlaceholders.who}
                         className="rounded-xl border border-navy/10 px-3 py-2"
                       />
                     </div>
@@ -549,6 +580,7 @@ export default function App() {
                         name="dates"
                         value={form.dates}
                         onChange={handleChange}
+                        placeholder={t.formPlaceholders.dates}
                         className="rounded-xl border border-navy/10 px-3 py-2"
                       />
                     </div>
@@ -561,6 +593,7 @@ export default function App() {
                         name="budget"
                         value={form.budget}
                         onChange={handleChange}
+                        placeholder={t.formPlaceholders.budget}
                         className="rounded-xl border border-navy/10 px-3 py-2"
                       />
                     </div>
@@ -589,6 +622,7 @@ export default function App() {
                       rows="4"
                       value={form.notes}
                       onChange={handleChange}
+                      placeholder={t.formPlaceholders.notes}
                       className="rounded-xl border border-navy/10 px-3 py-2"
                     />
                   </div>
