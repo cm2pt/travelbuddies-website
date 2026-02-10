@@ -45,6 +45,12 @@ const copy = {
       { title: 'Famílias reais', text: 'Vida real.' },
     ],
     trustNote: 'Contacto direto por WhatsApp, Email e Instagram.',
+    trustTitle: 'Confiança sem exageros',
+    trustCards: [
+      { title: 'Experiência real a viajar em família', text: 'Com crianças e bebés.' },
+      { title: 'Roteiros realistas', text: 'Pensados para a vida real.' },
+      { title: 'Apoio na decisão', text: 'Escolhas claras e humanas.' },
+    ],
     realLifeTitle: 'A vida real não é Pinterest.',
     realLifeBody: 'Roteiros bonitos, possíveis e adaptados ao vosso ritmo.',
     tile1Title: 'Momentos simples, sem pressa.',
@@ -149,6 +155,12 @@ const copy = {
       { title: 'Real families', text: 'Real life.' },
     ],
     trustNote: 'Direct contact via WhatsApp, Email, and Instagram.',
+    trustTitle: 'Trust without hype',
+    trustCards: [
+      { title: 'Real family travel experience', text: 'With kids and babies.' },
+      { title: 'Realistic itineraries', text: 'Made for real life.' },
+      { title: 'Decision support', text: 'Clear, human choices.' },
+    ],
     realLifeTitle: 'Real life is not Pinterest.',
     realLifeBody: 'Beautiful, doable itineraries made for your rhythm.',
     tile1Title: 'Simple moments, no rush.',
@@ -435,6 +447,25 @@ export default function App() {
               ))}
             </div>
             <p className="mt-4 text-xs text-navy/50">{t.trustNote}</p>
+          </div>
+        </section>
+
+        <section className="py-10">
+          <div className={container}>
+            <Reveal>
+              <h2 className="text-xl font-display">{t.trustTitle}</h2>
+            </Reveal>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {t.trustCards.map((card) => (
+                <Reveal
+                  key={card.title}
+                  className="rounded-2xl border border-navy/10 bg-white/80 p-5 shadow-card"
+                >
+                  <p className="text-sm font-semibold">{card.title}</p>
+                  <p className="mt-2 text-xs text-navy/60">{card.text}</p>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
