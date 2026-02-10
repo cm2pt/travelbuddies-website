@@ -119,7 +119,7 @@ const copy = {
       notes: 'Preferências, alergias, etc.',
     },
     formServiceOptions: ['Premium', 'Base', 'Ainda não sei'],
-    formSubmit: 'Pedir diagnóstico',
+    formSubmit: 'Começar diagnóstico',
     formSuccessTitle: 'Mensagem pronta',
     formSuccessBody: 'Copiada automaticamente.',
     whatsapp: 'Enviar por WhatsApp',
@@ -139,7 +139,7 @@ const copy = {
     heroTag: 'TravelBuddies | Family Trip Design',
     heroTitle: 'Family travel with kids/babies for real life.',
     heroBody: 'Human pace, simple choices.',
-    primaryCta: 'Start diagnosis',
+    primaryCta: 'Começar diagnóstico',
     heroSecondary: 'See services',
     proofItems: [
       { title: 'Manual curation', text: 'No automation.' },
@@ -201,7 +201,7 @@ const copy = {
       notes: 'Preferences, allergies, etc.',
     },
     formServiceOptions: ['Premium', 'Base', 'Not sure'],
-    formSubmit: 'Request diagnosis',
+    formSubmit: 'Começar diagnóstico',
     formSuccessTitle: 'Message ready',
     formSuccessBody: 'Automatically copied.',
     whatsapp: 'Send via WhatsApp',
@@ -355,7 +355,7 @@ export default function App() {
           <div className="flex items-center gap-3">
             <a
               href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-              className="hidden sm:inline-flex items-center rounded-full border border-navy/20 px-4 py-2 text-xs text-navy/80 hover:border-navy"
+              className="hidden sm:inline-flex items-center rounded-full border border-navy/20 px-4 py-2 text-xs text-navy/80 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
               {t.primaryCta}
             </a>
@@ -393,13 +393,13 @@ export default function App() {
               <div className="mt-6 flex flex-wrap items-center gap-4">
                 <a
                   href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-                  className="px-7 py-3 rounded-full bg-navy text-white shadow-soft"
+                  className="px-7 py-3 rounded-full bg-navy text-white shadow-soft hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   {t.primaryCta}
                 </a>
                 <a
                   href="#services"
-                  className="text-sm text-navy/70 hover:text-navy"
+                  className="text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
                 >
                   {t.heroSecondary}
                 </a>
@@ -513,7 +513,7 @@ export default function App() {
               <p className="text-sm text-navy/60">{t.pricingNote}</p>
               <a
                 href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-                className="rounded-full border border-navy/20 px-5 py-2 text-sm"
+                className="rounded-full border border-navy/20 px-5 py-2 text-sm hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               >
                 {t.primaryCta}
               </a>
@@ -636,7 +636,10 @@ export default function App() {
                       className="rounded-xl border border-navy/10 px-3 py-2"
                     />
                   </div>
-                  <button type="submit" className="rounded-full bg-navy text-white py-3 shadow-soft">
+                  <button
+                    type="submit"
+                    className="rounded-full bg-navy text-white py-3 shadow-soft hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  >
                     {t.formSubmit}
                   </button>
                 </form>
@@ -656,12 +659,15 @@ export default function App() {
                     <a href={links.whatsapp} className="rounded-full bg-teal text-navy px-4 py-3 text-center">
                       {t.whatsapp}
                     </a>
-                    <a href={links.email} className="rounded-full border border-navy/20 px-4 py-3 text-center">
+                    <a
+                      href={links.email}
+                      className="rounded-full border border-navy/20 px-4 py-3 text-center hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                    >
                       {t.email}
                     </a>
                     <a
                       href={links.instagram}
-                      className="rounded-full border border-navy/20 px-4 py-3 text-center"
+                      className="rounded-full border border-navy/20 px-4 py-3 text-center hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                       onClick={async (event) => {
                         if (!message) return
                         event.preventDefault()
@@ -685,6 +691,12 @@ export default function App() {
             <p className="font-display text-lg">{t.footerTitle}</p>
             <p className="text-sm text-navy/60">{t.footerBody}</p>
           </div>
+          <a
+            href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
+            className="rounded-full border border-navy/20 px-5 py-2 text-sm text-navy/80 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+          >
+            {t.primaryCta}
+          </a>
           <p className="text-xs text-navy/50">{t.footerSmall}</p>
         </div>
       </footer>
