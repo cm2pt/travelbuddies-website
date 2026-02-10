@@ -25,9 +25,9 @@ const copy = {
       { href: '#diagnostico', label: 'Diagnóstico' },
     ],
     heroTag: 'TravelBuddies | Viagens em Família',
-    heroTitle: 'Viagens em família com um plano leve e realista.',
-    heroBody: 'Ritmo humano, decisões rápidas, experiências que todos aproveitam.',
-    primaryCta: 'Pedir diagnóstico',
+    heroTitle: 'Viagens em família com crianças/bebés para a vida real.',
+    heroBody: 'Ritmo humano, escolhas simples.',
+    primaryCta: 'Começar diagnóstico',
     heroSecondary: 'Ver serviços',
     proofItems: [
       { title: 'Curadoria manual', text: 'Nada automático.' },
@@ -128,9 +128,9 @@ const copy = {
       { href: '#diagnosis', label: 'Diagnosis' },
     ],
     heroTag: 'TravelBuddies | Family Trip Design',
-    heroTitle: 'Family travel with a light, realistic plan.',
-    heroBody: 'Human pace, faster decisions, shared experiences.',
-    primaryCta: 'Request diagnosis',
+    heroTitle: 'Family travel with kids/babies for real life.',
+    heroBody: 'Human pace, simple choices.',
+    primaryCta: 'Start diagnosis',
     heroSecondary: 'See services',
     proofItems: [
       { title: 'Manual curation', text: 'No automation.' },
@@ -373,24 +373,24 @@ export default function App() {
       </header>
 
       <main>
-        <section className="pt-20 pb-16">
+        <section className="pt-14 pb-12 lg:pt-20 lg:pb-16">
           <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
             <Reveal>
               <p className="text-sm uppercase tracking-[0.2em] text-navy/60">{t.heroTag}</p>
               <h1 className="mt-4 text-4xl lg:text-6xl font-display leading-tight text-balance">
                 {t.heroTitle}
               </h1>
-              <p className="mt-4 text-lg text-navy/70 text-balance">{t.heroBody}</p>
-              <div className="mt-6 flex flex-wrap gap-4">
+              <p className="mt-4 text-lg text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
+              <div className="mt-6 flex flex-wrap items-center gap-4">
                 <a
                   href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-                  className="px-6 py-3 rounded-full bg-navy text-white shadow-soft"
+                  className="px-7 py-3 rounded-full bg-navy text-white shadow-soft"
                 >
                   {t.primaryCta}
                 </a>
                 <a
                   href="#services"
-                  className="px-6 py-3 rounded-full border border-navy/20 text-navy/80"
+                  className="text-sm text-navy/70 hover:text-navy"
                 >
                   {t.heroSecondary}
                 </a>
@@ -403,7 +403,7 @@ export default function App() {
                   src={heroImage}
                   fallback={FALLBACKS.hero}
                   alt="Family traveling"
-                  className="h-[320px] w-full object-cover"
+                  className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover"
                 />
               </div>
             </Reveal>
