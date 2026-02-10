@@ -6,6 +6,15 @@ import heroImage from './assets/hero.jpg'
 import tile1 from './assets/tile1.jpg'
 import tile2 from './assets/tile2.jpg'
 
+const REMOTE_IMAGES = {
+  hero:
+    'https://images.unsplash.com/photo-1767411972844-b5e8bdda9e5d?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1800',
+  tile1:
+    'https://images.unsplash.com/photo-1767858898786-75f923424e45?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1400',
+  tile2:
+    'https://images.unsplash.com/photo-1764816667272-68320fc656db?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1400',
+}
+
 const FALLBACKS = {
   hero:
     'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80',
@@ -400,8 +409,8 @@ export default function App() {
               <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
               <div className="rounded-[32px] border border-navy/10 bg-white/90 shadow-soft overflow-hidden">
                 <SmartImage
-                  src={heroImage}
-                  fallback={FALLBACKS.hero}
+                  src={REMOTE_IMAGES.hero}
+                  fallback={heroImage}
                   alt="Family traveling"
                   className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover"
                 />
@@ -435,8 +444,8 @@ export default function App() {
               <div className="mt-8 grid gap-6 sm:grid-cols-2">
                 <div className="rounded-3xl overflow-hidden border border-navy/10 shadow-card">
                   <SmartImage
-                    src={tile1}
-                    fallback={FALLBACKS.tile1}
+                    src={REMOTE_IMAGES.tile1}
+                    fallback={tile1}
                     alt={t.tile1Title}
                     className="h-48 w-full object-cover"
                   />
@@ -444,8 +453,8 @@ export default function App() {
                 </div>
                 <div className="rounded-3xl overflow-hidden border border-navy/10 shadow-card">
                   <SmartImage
-                    src={tile2}
-                    fallback={FALLBACKS.tile2}
+                    src={REMOTE_IMAGES.tile2}
+                    fallback={tile2}
                     alt={t.tile2Title}
                     className="h-48 w-full object-cover"
                   />
