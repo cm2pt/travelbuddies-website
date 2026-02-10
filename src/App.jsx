@@ -25,9 +25,11 @@ const copy = {
     primaryCta: 'Começar diagnóstico',
     qualifyTitle: 'Isto é para ti se…',
     qualifyItems: [
-      { title: 'Estás cansada(o)', text: 'E queres decisões simples.' },
-      { title: 'Viajas com bebés/crianças', text: 'E precisas de ritmo real.' },
-      { title: 'Queres segurança', text: 'Sem excesso de pesquisa.' },
+      { title: 'Queres um ritmo possível', text: 'Com pausas e sestas.' },
+      { title: 'Precisas de logística simples', text: 'Sem mil escolhas.' },
+      { title: 'Estás sem tempo', text: 'E não queres pesquisar tudo.' },
+      { title: 'Queres clareza', text: 'E apoio humano na decisão.' },
+      { title: 'Isto não é para ti', text: 'Se queres viagens maratona.' },
     ],
     servicesTitle: 'Serviços TravelBuddies',
     servicesBody: 'Dois níveis, o mesmo cuidado.',
@@ -103,9 +105,11 @@ const copy = {
     primaryCta: 'Começar diagnóstico',
     qualifyTitle: 'This is for you if…',
     qualifyItems: [
-      { title: 'You are tired', text: 'And want simple decisions.' },
-      { title: 'You travel with kids/babies', text: 'And need a real pace.' },
-      { title: 'You want safety', text: 'Without endless research.' },
+      { title: 'You want a doable pace', text: 'With breaks and naps.' },
+      { title: 'You need simple logistics', text: 'Not a thousand choices.' },
+      { title: 'You are short on time', text: 'And can’t research everything.' },
+      { title: 'You want clarity', text: 'With human support.' },
+      { title: 'This is not for you', text: 'If you want marathon trips.' },
     ],
     servicesTitle: 'TravelBuddies Services',
     servicesBody: 'Two levels, same care.',
@@ -375,14 +379,14 @@ export default function App() {
             <Reveal>
               <h2 className="text-2xl font-display">{t.qualifyTitle}</h2>
             </Reveal>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="mt-5 grid gap-3 md:grid-cols-2">
               {t.qualifyItems.map((item) => (
                 <Reveal
                   key={item.title}
-                  className="rounded-2xl border border-navy/10 bg-white/85 p-5 shadow-card"
+                  className="rounded-2xl border border-navy/10 bg-white/85 p-4 shadow-card"
                 >
                   <p className="text-sm font-semibold">{item.title}</p>
-                  <p className="mt-2 text-xs text-navy/60">{item.text}</p>
+                  <p className="mt-1 text-xs text-navy/60">{item.text}</p>
                 </Reveal>
               ))}
             </div>
