@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  font-family: theme('fontFamily.sans');
+  background: radial-gradient(circle at top left, rgba(207, 232, 228, 0.5), transparent 45%),
+    radial-gradient(circle at top right, rgba(239, 231, 207, 0.5), transparent 45%),
+    #ffffff;
+  color: #1e2d3c;
+  min-height: 100vh;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.section-glow {
+  background: linear-gradient(135deg, rgba(207, 232, 228, 0.5), rgba(231, 176, 164, 0.25));
+}
+
+.text-balance {
+  text-wrap: balance;
+}
