@@ -19,8 +19,9 @@ const copy = {
       { href: '#diagnostico', label: 'Diagnóstico' },
     ],
     heroTag: 'TravelBuddies | Viagens em Família',
-    heroTitle: 'Viagens em família com crianças/bebés para a vida real.',
-    heroBody: 'Menos peso mental. Mais leveza.',
+    heroTitle: 'Viagens em família com crianças/bebés para a vida real (não perfeita).',
+    heroBody: 'Planeamento leve para pais cansados.',
+    heroCtaNote: 'Resposta humana, sem automações.',
     primaryCta: 'Começar diagnóstico',
     qualifyTitle: 'Isto é para ti se…',
     qualifyItems: [
@@ -96,8 +97,9 @@ const copy = {
       { href: '#diagnosis', label: 'Diagnosis' },
     ],
     heroTag: 'TravelBuddies | Family Trip Design',
-    heroTitle: 'Family travel with kids/babies for real life.',
-    heroBody: 'Less mental load. More ease.',
+    heroTitle: 'Family travel with kids/babies for real life (not perfect).',
+    heroBody: 'Light planning for tired parents.',
+    heroCtaNote: 'Human response, no automation.',
     primaryCta: 'Começar diagnóstico',
     qualifyTitle: 'This is for you if…',
     qualifyItems: [
@@ -343,14 +345,15 @@ export default function App() {
               <h1 className="mt-4 text-4xl lg:text-6xl font-display leading-tight text-balance">
                 {t.heroTitle}
               </h1>
-              <p className="mt-4 text-lg text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
-              <div className="mt-6">
+              <p className="mt-3 text-lg text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
+              <div className="mt-5">
                 <a
                   href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
                   className="inline-flex px-7 py-3 rounded-full bg-navy text-white shadow-soft hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   {t.primaryCta}
                 </a>
+                <p className="mt-2 text-xs text-navy/60">{t.heroCtaNote}</p>
               </div>
             </Reveal>
             <Reveal className="relative">
