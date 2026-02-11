@@ -70,14 +70,54 @@ const copy = {
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
     formHint: 'Demora 2–3 minutos. Resposta humana, sem automações.',
-    wizardSteps: ['Começo', 'Datas', 'Família', 'Preferências', 'Notas'],
+    wizardIntroTitle: 'Diagnóstico em família, na vida real',
+    wizardIntroBody:
+      'Ajuda-nos a perceber o que funciona para a vossa família. Primeiro respondem ao questionário e depois recebem uma proposta.',
+    wizardPricingLines: [
+      'Orçamento e marcação de viagem (gratuito)',
+      'Organização Base — 60€',
+      'Premium — 130€',
+    ],
+    wizardPricingNote: 'Valores variam consoante a complexidade e duração.',
+    wizardStepTitles: [
+      'Email',
+      'Sobre a viagem',
+      'Estilo de alojamento',
+      'Tipo de serviço',
+      'Perfil de viajantes',
+      'Experiências anteriores',
+    ],
+    wizardQuestions: {
+      email: 'Email',
+      destination: 'Qual é o destino da viagem? Tens algum destino em mente? Se sim, qual?',
+      attraction: 'Quando vão de férias, o que vos atrai mais?',
+      motivation: 'Qual é a principal motivação desta viagem?',
+      dates: 'Tens data definida para a Viagem? É flexível?',
+      people: 'Quantas pessoas vão viajar? Indica a idade das crianças, no caso de irem.',
+      meal: 'Que tipo de regime alimentar preferem?',
+      lodging: 'Que tipo de alojamento preferes?',
+      lodgingValues: 'O que valorizam mais quando escolhem um alojamento?',
+      budget:
+        'Qual é o vosso orçamento aproximado? Esta pergunta vai nos permitir ver opções mais ajustadas à realidade',
+      service: 'Que tipo de ajuda procuram?',
+      motherProfile: 'Vamos conhecer o perfil da Mãe',
+      fatherProfile: 'Vamos conhecer o perfil do Pai',
+      child1: 'E os filhos? Começando pelo mais velho',
+      child2: 'E o filho do meio?',
+      child3: 'Finalmente o mais novo (Caso tenham mais filhos, escreve nos comentários finais)',
+      familyTraveled: 'Já viajaram em família antes?',
+      previousTrips: 'Para onde foram e o que correu bem em viagens anteriores?',
+      hardest: 'O que foi mais difícil ou stressante?',
+      success: 'O que faria esta viagem ser um sucesso para vocês? E o que gostariam de evitar?',
+      moreInfo: 'Há mais alguma informação importante que devamos saber?',
+    },
     wizardNext: 'Seguinte',
     wizardBack: 'Voltar',
     wizardSubmit: 'Gerar resumo',
     wizardProgress: 'Passo',
+    wizardOptional: 'Adicionar detalhes (opcional)',
     wizardSummaryTitle: 'Resumo',
     wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
-    wizardReset: 'Editar respostas',
     formFields: {
       name: 'Nome',
       email: 'Email',
@@ -94,7 +134,69 @@ const copy = {
       notes: 'Preferências, alergias, etc.',
     },
     wizardOptions: {
-      service: ['Premium', 'Base', 'Ainda não sei'],
+      attraction: [
+        'Cidade',
+        'Praia',
+        'Natureza',
+        'Mistura de tudo',
+        'Ainda não sei mas vais me ajudar a descobrir',
+        'Other',
+      ],
+      motivation: [
+        'Descanso',
+        'Aventura',
+        'Tempo de qualidade em família',
+        'Celebração (aniversário, lua de mel, etc.)',
+        'Conhecer outra cultura',
+        'Other',
+      ],
+      meal: ['Tudo incluído', 'Meia - Pensão', 'Pequeno-almoço', 'Sem refeições incluídas', 'Ainda não sei'],
+      lodging: ['Hotel', 'Apartamento', 'Resort', 'Casa de Locais', 'Não tenho preferência'],
+      lodgingValues: [
+        'Localização',
+        'Preço',
+        'Conforto',
+        'Atividades para Crianças',
+        'Possibilidade de ter dois quartos ou sala com cama para as crianças',
+        'Serviços (Cozinha, Maquina de Lavar, etc)',
+        'Hotel na Praia',
+        'Piscina',
+        'Other',
+      ],
+      service: [
+        'Organização de Viagem em família (Plano Base)',
+        'Organização de Viagem em família (Premium)',
+        'Orçamento e marcação de viagem',
+        'Ainda não sei',
+      ],
+      parentProfileMother: [
+        'Gosta de planear e ter tudo controlado',
+        'Precisa de conforto e pausas',
+        'Gosta de explorar e improvisar',
+        'Para ela o importante é estarem juntos e todos bem',
+        'Viaja sobretudo para descansar',
+        'O mais importante para ela são as novas Experiências',
+      ],
+      parentProfileFather: [
+        'Gosta de planear e ter tudo controlado',
+        'Precisa de conforto e pausas',
+        'Gosta de explorar e improvisar',
+        'Para ele o importante é estarem juntos e bem',
+        'Viaja sobretudo para descansar',
+        'O mais importante para ele são as novas Experiências',
+      ],
+      childProfile: [
+        'Sensível a mudanças de rotina',
+        'Adaptável e tranquilo',
+        'Ativo e curioso',
+        'Precisa de sestas e tranquilidade para as fazer',
+        'Dá-se bem com novos ambientes',
+        'Gosta de saber tudo sobre os sítios para onde vão',
+        'O mais importante para ele é ir à frente',
+        'Vibra com as novas experiências',
+        'Para ele está tudo bem desde que estejam juntos',
+      ],
+      familyTraveled: ['Sim', 'Não'],
     },
     formToggle: 'Adicionar detalhes (opcional)',
     formServiceOptions: ['Premium', 'Base', 'Ainda não sei'],
@@ -104,6 +206,29 @@ const copy = {
     formThankTitle: 'Obrigado! Já recebemos o teu pedido.',
     formThankBody: 'Vamos analisar com calma e responder com uma proposta clara.',
     formThankNote: 'Resposta humana, normalmente em 24–48h úteis.',
+    messageLabels: {
+      email: 'Email',
+      destination: 'Destino',
+      attraction: 'Atrai mais',
+      motivation: 'Motivação',
+      dates: 'Datas',
+      people: 'Pessoas',
+      meal: 'Regime alimentar',
+      lodging: 'Alojamento',
+      lodgingValues: 'Valorizam',
+      budget: 'Orçamento',
+      service: 'Tipo de ajuda',
+      motherProfile: 'Perfil da Mãe',
+      fatherProfile: 'Perfil do Pai',
+      child1: 'Filho mais velho',
+      child2: 'Filho do meio',
+      child3: 'Filho mais novo',
+      familyTraveled: 'Já viajaram em família',
+      previousTrips: 'Viagens anteriores',
+      hardest: 'Mais difícil',
+      success: 'Sucesso para vocês',
+      moreInfo: 'Mais info',
+    },
     whatsapp: 'Enviar por WhatsApp',
     email: 'Enviar por Email',
     instagram: 'Falar no Instagram',
@@ -169,14 +294,54 @@ const copy = {
     formTitle: 'TravelBuddies Diagnosis',
     formBody: 'Share the essentials. We simplify.',
     formHint: 'Takes 2–3 minutes. Human response, no automation.',
-    wizardSteps: ['Start', 'Dates', 'Family', 'Preferences', 'Notes'],
+    wizardIntroTitle: 'Family diagnosis for real life',
+    wizardIntroBody:
+      'Help us understand what works for your family. First you answer the questionnaire, then you receive a proposal.',
+    wizardPricingLines: [
+      'Trip budgeting and booking (free)',
+      'Base Organization — 60€',
+      'Premium — 130€',
+    ],
+    wizardPricingNote: 'Values vary by complexity and duration.',
+    wizardStepTitles: [
+      'Email',
+      'About the trip',
+      'Lodging style',
+      'Service type',
+      'Traveler profiles',
+      'Past experiences',
+    ],
+    wizardQuestions: {
+      email: 'Email',
+      destination: 'What is the trip destination? Do you have one in mind? If yes, which?',
+      attraction: 'When you go on holiday, what attracts you most?',
+      motivation: 'What is the main motivation for this trip?',
+      dates: 'Do you have dates defined for the trip? Is it flexible?',
+      people: 'How many people will travel? Include children’s ages if any.',
+      meal: 'Which meal plan do you prefer?',
+      lodging: 'What type of lodging do you prefer?',
+      lodgingValues: 'What do you value most when choosing lodging?',
+      budget:
+        'What is your approximate budget? This helps us see options closer to reality.',
+      service: 'What kind of help are you looking for?',
+      motherProfile: 'Let’s get to know the mother’s profile',
+      fatherProfile: 'Let’s get to know the father’s profile',
+      child1: 'And the kids? Starting with the oldest',
+      child2: 'And the middle child?',
+      child3: 'Finally the youngest (if more, write in final comments)',
+      familyTraveled: 'Have you traveled as a family before?',
+      previousTrips: 'Where did you go and what went well?',
+      hardest: 'What was the hardest or most stressful?',
+      success: 'What would make this trip a success for you? What would you like to avoid?',
+      moreInfo: 'Any other important information we should know?',
+    },
     wizardNext: 'Next',
     wizardBack: 'Back',
     wizardSubmit: 'Generate summary',
     wizardProgress: 'Step',
+    wizardOptional: 'Add details (optional)',
     wizardSummaryTitle: 'Summary',
     wizardSummaryBody: 'Review and send via your preferred channel.',
-    wizardReset: 'Edit answers',
     formFields: {
       name: 'Name',
       email: 'Email',
@@ -193,7 +358,69 @@ const copy = {
       notes: 'Preferences, allergies, etc.',
     },
     wizardOptions: {
-      service: ['Premium', 'Base', 'Not sure'],
+      attraction: [
+        'City',
+        'Beach',
+        'Nature',
+        'A mix of everything',
+        'Not sure yet, but you will help me find out',
+        'Other',
+      ],
+      motivation: [
+        'Rest',
+        'Adventure',
+        'Quality family time',
+        'Celebration (birthday, honeymoon, etc.)',
+        'Discover another culture',
+        'Other',
+      ],
+      meal: ['All inclusive', 'Half-board', 'Breakfast', 'No meals included', 'Not sure yet'],
+      lodging: ['Hotel', 'Apartment', 'Resort', 'Local home', 'No preference'],
+      lodgingValues: [
+        'Location',
+        'Price',
+        'Comfort',
+        'Kids activities',
+        'Two bedrooms or living room bed for kids',
+        'Services (kitchen, washing machine, etc.)',
+        'Beachfront hotel',
+        'Pool',
+        'Other',
+      ],
+      service: [
+        'Family trip organization (Base Plan)',
+        'Family trip organization (Premium)',
+        'Trip budgeting and booking',
+        'Not sure',
+      ],
+      parentProfileMother: [
+        'Likes to plan and have everything controlled',
+        'Needs comfort and breaks',
+        'Likes to explore and improvise',
+        'For her, the most important is being together and well',
+        'Travels mainly to rest',
+        'For her, new experiences matter most',
+      ],
+      parentProfileFather: [
+        'Likes to plan and have everything controlled',
+        'Needs comfort and breaks',
+        'Likes to explore and improvise',
+        'For him, the most important is being together and well',
+        'Travels mainly to rest',
+        'For him, new experiences matter most',
+      ],
+      childProfile: [
+        'Sensitive to routine changes',
+        'Adaptable and calm',
+        'Active and curious',
+        'Needs naps and calm to take them',
+        'Does well in new environments',
+        'Likes to know everything about where they go',
+        'The most important for them is to be in front',
+        'Thrives on new experiences',
+        'For them it is fine as long as we are together',
+      ],
+      familyTraveled: ['Yes', 'No'],
     },
     formToggle: 'Add details (optional)',
     formServiceOptions: ['Premium', 'Base', 'Not sure'],
@@ -203,6 +430,29 @@ const copy = {
     formThankTitle: 'Thank you! We received your request.',
     formThankBody: 'We will review it calmly and reply with a clear proposal.',
     formThankNote: 'Human response, usually within 24–48 business hours.',
+    messageLabels: {
+      email: 'Email',
+      destination: 'Destination',
+      attraction: 'Attracted to',
+      motivation: 'Motivation',
+      dates: 'Dates',
+      people: 'People',
+      meal: 'Meal plan',
+      lodging: 'Lodging',
+      lodgingValues: 'Priorities',
+      budget: 'Budget',
+      service: 'Type of help',
+      motherProfile: 'Mother profile',
+      fatherProfile: 'Father profile',
+      child1: 'Oldest child',
+      child2: 'Middle child',
+      child3: 'Youngest child',
+      familyTraveled: 'Traveled as a family',
+      previousTrips: 'Previous trips',
+      hardest: 'Hardest part',
+      success: 'Success for you',
+      moreInfo: 'More info',
+    },
     whatsapp: 'Send via WhatsApp',
     email: 'Send via Email',
     instagram: 'Chat on Instagram',
@@ -247,29 +497,59 @@ const SmartImage = ({ src, fallback, alt, className }) => {
 
 const buildMessage = (lang, form) => {
   const t = copy[lang]
-  const labels = t.formFields
+  const labels = t.messageLabels
   const lines = [
-    `${labels.name}: ${form.name}`,
     `${labels.email}: ${form.email}`,
+    form.destination ? `${labels.destination}: ${form.destination}` : null,
+    form.attraction ? `${labels.attraction}: ${form.attraction}` : null,
+    form.motivation ? `${labels.motivation}: ${form.motivation}` : null,
     form.dates ? `${labels.dates}: ${form.dates}` : null,
-    `${labels.service}: ${form.service}`,
-    form.who ? `${labels.who}: ${form.who}` : null,
+    form.people ? `${labels.people}: ${form.people}` : null,
+    form.meal ? `${labels.meal}: ${form.meal}` : null,
+    form.lodging ? `${labels.lodging}: ${form.lodging}` : null,
+    form.lodgingValues && form.lodgingValues.length
+      ? `${labels.lodgingValues}: ${form.lodgingValues.join(', ')}`
+      : null,
     form.budget ? `${labels.budget}: ${form.budget}` : null,
-    form.notes ? `${labels.notes}: ${form.notes}` : null,
+    form.service ? `${labels.service}: ${form.service}` : null,
+    form.motherProfile ? `${labels.motherProfile}: ${form.motherProfile}` : null,
+    form.fatherProfile ? `${labels.fatherProfile}: ${form.fatherProfile}` : null,
+    form.child1 ? `${labels.child1}: ${form.child1}` : null,
+    form.child2 ? `${labels.child2}: ${form.child2}` : null,
+    form.child3 ? `${labels.child3}: ${form.child3}` : null,
+    form.familyTraveled ? `${labels.familyTraveled}: ${form.familyTraveled}` : null,
+    form.previousTrips ? `${labels.previousTrips}: ${form.previousTrips}` : null,
+    form.hardest ? `${labels.hardest}: ${form.hardest}` : null,
+    form.success ? `${labels.success}: ${form.success}` : null,
+    form.moreInfo ? `${labels.moreInfo}: ${form.moreInfo}` : null,
   ].filter(Boolean)
 
   return [t.messageTitle, '', ...lines].join('\n')
 }
 
-const DiagnosisWizard = ({ lang, t, onSubmit }) => {
+const DiagnosisWizard = ({ t, onSubmit }) => {
   const initialState = {
-    name: '',
     email: '',
+    destination: '',
+    attraction: '',
+    motivation: '',
     dates: '',
-    who: '',
+    people: '',
+    meal: '',
+    lodging: '',
+    lodgingValues: [],
     budget: '',
-    service: t.wizardOptions.service[2],
-    notes: '',
+    service: '',
+    motherProfile: '',
+    fatherProfile: '',
+    child1: '',
+    child2: '',
+    child3: '',
+    familyTraveled: '',
+    previousTrips: '',
+    hardest: '',
+    success: '',
+    moreInfo: '',
   }
 
   const [step, setStep] = useState(0)
@@ -285,112 +565,90 @@ const DiagnosisWizard = ({ lang, t, onSubmit }) => {
     }
   })
 
+  const [optionalOpen, setOptionalOpen] = useState({
+    trip: false,
+    lodging: false,
+    profiles: false,
+    experiences: false,
+  })
+
   useEffect(() => {
     localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(data))
   }, [data])
-
-  useEffect(() => {
-    setData((prev) => ({
-      ...prev,
-      service: t.wizardOptions.service.includes(prev.service) ? prev.service : t.wizardOptions.service[2],
-    }))
-  }, [t.wizardOptions.service])
 
   const handleChange = (event) => {
     const { name, value } = event.target
     setData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const next = () => setStep((prev) => Math.min(prev + 1, 4))
+  const toggleMulti = (value) => {
+    setData((prev) => {
+      const set = new Set(prev.lodgingValues || [])
+      if (set.has(value)) {
+        set.delete(value)
+      } else {
+        set.add(value)
+      }
+      return { ...prev, lodgingValues: Array.from(set) }
+    })
+  }
+
+  const next = () => setStep((prev) => Math.min(prev + 1, 5))
   const back = () => setStep((prev) => Math.max(prev - 1, 0))
+
+  const canAdvance = [
+    data.email.trim(),
+    data.motivation && data.dates.trim() && data.people.trim(),
+    data.meal && data.lodging,
+    data.service,
+    data.motherProfile,
+    data.familyTraveled,
+  ][step]
+
+  const progress = ((step + 1) / 6) * 100
 
   const steps = [
     {
-      id: 'start',
-      content: (
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="name">
-              {t.formFields.name}
-            </label>
-            <input
-              id="name"
-              name="name"
-              required
-              value={data.name}
-              onChange={handleChange}
-              className="rounded-xl border border-navy/10 px-3 py-3"
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="email">
-              {t.formFields.email}
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              value={data.email}
-              onChange={handleChange}
-              className="rounded-xl border border-navy/10 px-3 py-3"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: 'dates',
+      id: 'email',
+      title: t.wizardStepTitles[0],
       content: (
         <div className="flex flex-col gap-2">
-          <label className="text-xs text-navy/60" htmlFor="dates">
-            {t.formFields.dates}
+          <label className="text-xs text-navy/60" htmlFor="email">
+            {t.wizardQuestions.email}
           </label>
           <input
-            id="dates"
-            name="dates"
-            value={data.dates}
+            id="email"
+            name="email"
+            type="email"
+            required
+            value={data.email}
             onChange={handleChange}
-            placeholder={t.formPlaceholders.dates}
             className="rounded-xl border border-navy/10 px-3 py-3"
           />
         </div>
       ),
     },
     {
-      id: 'family',
+      id: 'trip',
+      title: t.wizardStepTitles[1],
       content: (
-        <div className="flex flex-col gap-2">
-          <label className="text-xs text-navy/60" htmlFor="who">
-            {t.formFields.who}
-          </label>
-          <input
-            id="who"
-            name="who"
-            value={data.who}
-            onChange={handleChange}
-            placeholder={t.formPlaceholders.who}
-            className="rounded-xl border border-navy/10 px-3 py-3"
-          />
-        </div>
-      ),
-    },
-    {
-      id: 'prefs',
-      content: (
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="space-y-4">
           <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="service">
-              {t.formFields.service}
+            <label className="text-xs text-navy/60" htmlFor="motivation">
+              {t.wizardQuestions.motivation}
             </label>
             <select
-              id="service"
-              name="service"
-              value={data.service}
+              id="motivation"
+              name="motivation"
+              required
+              value={data.motivation}
               onChange={handleChange}
               className="rounded-xl border border-navy/10 px-3 py-3"
             >
-              {t.wizardOptions.service.map((option) => (
+              <option value="" disabled>
+                —
+              </option>
+              {t.wizardOptions.motivation.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
@@ -398,44 +656,408 @@ const DiagnosisWizard = ({ lang, t, onSubmit }) => {
             </select>
           </div>
           <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="budget">
-              {t.formFields.budget}
+            <label className="text-xs text-navy/60" htmlFor="dates">
+              {t.wizardQuestions.dates}
             </label>
             <input
-              id="budget"
-              name="budget"
-              value={data.budget}
+              id="dates"
+              name="dates"
+              required
+              value={data.dates}
               onChange={handleChange}
-              placeholder={t.formPlaceholders.budget}
               className="rounded-xl border border-navy/10 px-3 py-3"
             />
           </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-xs text-navy/60" htmlFor="people">
+              {t.wizardQuestions.people}
+            </label>
+            <input
+              id="people"
+              name="people"
+              required
+              value={data.people}
+              onChange={handleChange}
+              className="rounded-xl border border-navy/10 px-3 py-3"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => setOptionalOpen((prev) => ({ ...prev, trip: !prev.trip }))}
+            className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+          >
+            {t.wizardOptional}
+          </button>
+          {optionalOpen.trip && (
+            <div className="grid gap-3 rounded-2xl border border-dashed border-navy/10 p-4">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs text-navy/60" htmlFor="destination">
+                  {t.wizardQuestions.destination}
+                </label>
+                <input
+                  id="destination"
+                  name="destination"
+                  value={data.destination}
+                  onChange={handleChange}
+                  className="rounded-xl border border-navy/10 px-3 py-3"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs text-navy/60" htmlFor="attraction">
+                  {t.wizardQuestions.attraction}
+                </label>
+                <select
+                  id="attraction"
+                  name="attraction"
+                  value={data.attraction}
+                  onChange={handleChange}
+                  className="rounded-xl border border-navy/10 px-3 py-3"
+                >
+                  <option value="">—</option>
+                  {t.wizardOptions.attraction.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
         </div>
       ),
     },
     {
-      id: 'notes',
+      id: 'lodging',
+      title: t.wizardStepTitles[2],
+      content: (
+        <div className="space-y-4">
+          <div className="flex flex-col gap-2">
+            <label className="text-xs text-navy/60" htmlFor="meal">
+              {t.wizardQuestions.meal}
+            </label>
+            <select
+              id="meal"
+              name="meal"
+              required
+              value={data.meal}
+              onChange={handleChange}
+              className="rounded-xl border border-navy/10 px-3 py-3"
+            >
+              <option value="" disabled>
+                —
+              </option>
+              {t.wizardOptions.meal.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-xs text-navy/60" htmlFor="lodging">
+              {t.wizardQuestions.lodging}
+            </label>
+            <select
+              id="lodging"
+              name="lodging"
+              required
+              value={data.lodging}
+              onChange={handleChange}
+              className="rounded-xl border border-navy/10 px-3 py-3"
+            >
+              <option value="" disabled>
+                —
+              </option>
+              {t.wizardOptions.lodging.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            type="button"
+            onClick={() => setOptionalOpen((prev) => ({ ...prev, lodging: !prev.lodging }))}
+            className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+          >
+            {t.wizardOptional}
+          </button>
+          {optionalOpen.lodging && (
+            <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
+              <div className="space-y-2">
+                <p className="text-xs text-navy/60">{t.wizardQuestions.lodgingValues}</p>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {t.wizardOptions.lodgingValues.map((option) => (
+                    <label key={option} className="flex items-center gap-2 text-sm text-navy/70">
+                      <input
+                        type="checkbox"
+                        checked={data.lodgingValues.includes(option)}
+                        onChange={() => toggleMulti(option)}
+                        className="h-4 w-4 rounded border-navy/30 text-teal focus:ring-teal/60"
+                      />
+                      {option}
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs text-navy/60" htmlFor="budget">
+                  {t.wizardQuestions.budget}
+                </label>
+                <input
+                  id="budget"
+                  name="budget"
+                  value={data.budget}
+                  onChange={handleChange}
+                  className="rounded-xl border border-navy/10 px-3 py-3"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      ),
+    },
+    {
+      id: 'service',
+      title: t.wizardStepTitles[3],
       content: (
         <div className="flex flex-col gap-2">
-          <label className="text-xs text-navy/60" htmlFor="notes">
-            {t.formFields.notes}
+          <label className="text-xs text-navy/60" htmlFor="service">
+            {t.wizardQuestions.service}
           </label>
-          <textarea
-            id="notes"
-            name="notes"
-            rows="4"
-            value={data.notes}
+          <select
+            id="service"
+            name="service"
+            required
+            value={data.service}
             onChange={handleChange}
-            placeholder={t.formPlaceholders.notes}
             className="rounded-xl border border-navy/10 px-3 py-3"
-          />
+          >
+            <option value="" disabled>
+              —
+            </option>
+            {t.wizardOptions.service.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+      ),
+    },
+    {
+      id: 'profiles',
+      title: t.wizardStepTitles[4],
+      content: (
+        <div className="space-y-4">
+          <div className="flex flex-col gap-2">
+            <label className="text-xs text-navy/60" htmlFor="motherProfile">
+              {t.wizardQuestions.motherProfile}
+            </label>
+            <select
+              id="motherProfile"
+              name="motherProfile"
+              required
+              value={data.motherProfile}
+              onChange={handleChange}
+              className="rounded-xl border border-navy/10 px-3 py-3"
+            >
+              <option value="" disabled>
+                —
+              </option>
+              {t.wizardOptions.parentProfileMother.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            type="button"
+            onClick={() => setOptionalOpen((prev) => ({ ...prev, profiles: !prev.profiles }))}
+            className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+          >
+            {t.wizardOptional}
+          </button>
+          {optionalOpen.profiles && (
+            <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs text-navy/60" htmlFor="fatherProfile">
+                  {t.wizardQuestions.fatherProfile}
+                </label>
+                <select
+                  id="fatherProfile"
+                  name="fatherProfile"
+                  value={data.fatherProfile}
+                  onChange={handleChange}
+                  className="rounded-xl border border-navy/10 px-3 py-3"
+                >
+                  <option value="">—</option>
+                  {t.wizardOptions.parentProfileFather.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs text-navy/60" htmlFor="child1">
+                    {t.wizardQuestions.child1}
+                  </label>
+                  <select
+                    id="child1"
+                    name="child1"
+                    value={data.child1}
+                    onChange={handleChange}
+                    className="rounded-xl border border-navy/10 px-3 py-3"
+                  >
+                    <option value="">—</option>
+                    {t.wizardOptions.childProfile.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs text-navy/60" htmlFor="child2">
+                    {t.wizardQuestions.child2}
+                  </label>
+                  <select
+                    id="child2"
+                    name="child2"
+                    value={data.child2}
+                    onChange={handleChange}
+                    className="rounded-xl border border-navy/10 px-3 py-3"
+                  >
+                    <option value="">—</option>
+                    {t.wizardOptions.childProfile.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs text-navy/60" htmlFor="child3">
+                  {t.wizardQuestions.child3}
+                </label>
+                <select
+                  id="child3"
+                  name="child3"
+                  value={data.child3}
+                  onChange={handleChange}
+                  className="rounded-xl border border-navy/10 px-3 py-3"
+                >
+                  <option value="">—</option>
+                  {t.wizardOptions.childProfile.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
+        </div>
+      ),
+    },
+    {
+      id: 'experiences',
+      title: t.wizardStepTitles[5],
+      content: (
+        <div className="space-y-4">
+          <div className="flex flex-col gap-2">
+            <label className="text-xs text-navy/60" htmlFor="familyTraveled">
+              {t.wizardQuestions.familyTraveled}
+            </label>
+            <select
+              id="familyTraveled"
+              name="familyTraveled"
+              required
+              value={data.familyTraveled}
+              onChange={handleChange}
+              className="rounded-xl border border-navy/10 px-3 py-3"
+            >
+              <option value="" disabled>
+                —
+              </option>
+              {t.wizardOptions.familyTraveled.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            type="button"
+            onClick={() => setOptionalOpen((prev) => ({ ...prev, experiences: !prev.experiences }))}
+            className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+          >
+            {t.wizardOptional}
+          </button>
+          {optionalOpen.experiences && (
+            <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs text-navy/60" htmlFor="previousTrips">
+                  {t.wizardQuestions.previousTrips}
+                </label>
+                <textarea
+                  id="previousTrips"
+                  name="previousTrips"
+                  rows="3"
+                  value={data.previousTrips}
+                  onChange={handleChange}
+                  className="rounded-xl border border-navy/10 px-3 py-3"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs text-navy/60" htmlFor="hardest">
+                  {t.wizardQuestions.hardest}
+                </label>
+                <textarea
+                  id="hardest"
+                  name="hardest"
+                  rows="3"
+                  value={data.hardest}
+                  onChange={handleChange}
+                  className="rounded-xl border border-navy/10 px-3 py-3"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs text-navy/60" htmlFor="success">
+                  {t.wizardQuestions.success}
+                </label>
+                <textarea
+                  id="success"
+                  name="success"
+                  rows="3"
+                  value={data.success}
+                  onChange={handleChange}
+                  className="rounded-xl border border-navy/10 px-3 py-3"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs text-navy/60" htmlFor="moreInfo">
+                  {t.wizardQuestions.moreInfo}
+                </label>
+                <textarea
+                  id="moreInfo"
+                  name="moreInfo"
+                  rows="3"
+                  value={data.moreInfo}
+                  onChange={handleChange}
+                  className="rounded-xl border border-navy/10 px-3 py-3"
+                />
+              </div>
+            </div>
+          )}
         </div>
       ),
     },
   ]
-
-  const progress = ((step + 1) / steps.length) * 100
-  const canAdvanceStart = data.name.trim() && data.email.trim()
 
   return (
     <div className="rounded-3xl border border-navy/10 p-6 bg-white/80 shadow-card">
@@ -443,7 +1065,7 @@ const DiagnosisWizard = ({ lang, t, onSubmit }) => {
         <span>
           {t.wizardProgress} {step + 1}/{steps.length}
         </span>
-        <span>{t.wizardSteps[step]}</span>
+        <span>{steps[step].title}</span>
       </div>
       <div className="mt-3 h-2 w-full rounded-full bg-cream/60">
         <div className="h-2 rounded-full bg-teal" style={{ width: `${progress}%` }} />
@@ -462,7 +1084,7 @@ const DiagnosisWizard = ({ lang, t, onSubmit }) => {
           <button
             type="button"
             onClick={next}
-            disabled={step === 0 && !canAdvanceStart}
+            disabled={!canAdvance}
             className="rounded-full bg-navy text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
           >
             {t.wizardNext}
@@ -471,7 +1093,8 @@ const DiagnosisWizard = ({ lang, t, onSubmit }) => {
           <button
             type="button"
             onClick={() => onSubmit(data)}
-            className="rounded-full bg-navy text-white px-6 py-2 text-sm shadow-soft"
+            disabled={!canAdvance}
+            className="rounded-full bg-navy text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
           >
             {t.wizardSubmit}
           </button>
@@ -716,7 +1339,19 @@ export default function App() {
               <h2 className="text-3xl font-display">{t.formTitle}</h2>
               <p className="mt-3 text-navy/70">{t.formBody}</p>
               <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
-              <DiagnosisWizard lang={lang} t={t} onSubmit={handleWizardSubmit} />
+              <div className="mt-4 rounded-2xl border border-navy/10 bg-white/70 p-4">
+                <p className="text-sm font-semibold">{t.wizardIntroTitle}</p>
+                <p className="mt-2 text-xs text-navy/60">{t.wizardIntroBody}</p>
+                <ul className="mt-3 space-y-1 text-xs text-navy/70">
+                  {t.wizardPricingLines.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ul>
+                <p className="mt-2 text-xs text-navy/50">{t.wizardPricingNote}</p>
+              </div>
+              <div className="mt-6">
+                <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} />
+              </div>
             </Reveal>
 
             <Reveal>
