@@ -95,6 +95,8 @@ const copy = {
       'Cada família é única, contamos contigo.',
       'O que já viveram ajuda-nos muito.',
     ],
+    wizardReassureEmail: 'Só usamos para te responder. Sem spam.',
+    wizardAutosaveNote: 'Podes continuar depois — guardamos automaticamente.',
     wizardQuestions: {
       email: 'Email',
       destination: 'Qual é o destino da viagem? Tens algum destino em mente? Se sim, qual?',
@@ -124,6 +126,7 @@ const copy = {
     wizardSubmit: 'Gerar resumo',
     wizardProgress: 'Passo',
     wizardProgressNote: 'Falta pouco.',
+    wizardProgressRemaining: 'Só faltam {count} passos.',
     wizardOptional: 'Adicionar detalhes (opcional)',
     wizardSummaryTitle: 'Resumo',
     wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
@@ -309,6 +312,8 @@ const copy = {
       'Every family is different.',
       'Your past helps us a lot.',
     ],
+    wizardReassureEmail: 'Only for your reply. No spam.',
+    wizardAutosaveNote: 'You can continue later — we save automatically.',
     wizardQuestions: {
       email: 'Email',
       destination: 'What is the trip destination? Do you have one in mind? If yes, which?',
@@ -338,6 +343,7 @@ const copy = {
     wizardSubmit: 'Generate summary',
     wizardProgress: 'Step',
     wizardProgressNote: 'Almost there.',
+    wizardProgressRemaining: 'Only {count} steps left.',
     wizardOptional: 'Add details (optional)',
     wizardSummaryTitle: 'Summary',
     wizardSummaryBody: 'Review and send via your preferred channel.',
@@ -585,6 +591,11 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
   ][step]
 
   const progress = ((step + 1) / 6) * 100
+  const remaining = steps.length - (step + 1)
+  const remainingText =
+    remaining > 0 && remaining <= 2
+      ? t.wizardProgressRemaining.replace('{count}', String(remaining))
+      : ''
 
   const steps = [
     {
@@ -604,6 +615,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
             onChange={handleChange}
             className="rounded-xl border border-navy/10 px-3 py-3"
           />
+          <p className="text-xs text-navy/50">{t.wizardReassureEmail}</p>
         </div>
       ),
     },
@@ -1047,6 +1059,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
         <span>{steps[step].title}</span>
       </div>
       <p className="mt-2 text-xs text-navy/60">{t.wizardStepHelpers[step]}</p>
+      {remainingText && <p className="mt-1 text-xs text-teal">{remainingText}</p>}
       {step === steps.length - 1 && (
         <p className="mt-1 text-xs text-teal">{t.wizardProgressNote}</p>
       )}
@@ -1083,6 +1096,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
           </button>
         )}
       </div>
+      <p className="mt-3 text-xs text-navy/50">{t.wizardAutosaveNote}</p>
     </div>
   )
 }
@@ -1323,7 +1337,7 @@ export default function App() {
               <h2 className="text-3xl font-display">{t.formTitle}</h2>
               <p className="mt-3 text-navy/70">{t.formBody}</p>
               <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
-              <div className="mt-6">
+              <div className="mt-6 rounded-3xl border border-navy/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
                 <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} />
               </div>
             </Reveal>
