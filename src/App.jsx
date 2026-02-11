@@ -497,28 +497,31 @@ const buildMessage = (lang, form) => {
   const labels = t.messageLabels
   const lines = [
     `${labels.email}: ${form.email}`,
-    form.destination ? `${labels.destination}: ${form.destination}` : null,
-    form.attraction ? `${labels.attraction}: ${form.attraction}` : null,
-    form.motivation ? `${labels.motivation}: ${form.motivation}` : null,
-    form.dates ? `${labels.dates}: ${form.dates}` : null,
-    form.people ? `${labels.people}: ${form.people}` : null,
-    form.meal ? `${labels.meal}: ${form.meal}` : null,
-    form.lodging ? `${labels.lodging}: ${form.lodging}` : null,
-    form.lodgingValues && form.lodgingValues.length
-      ? `${labels.lodgingValues}: ${form.lodgingValues.join(', ')}`
-      : null,
-    form.budget ? `${labels.budget}: ${form.budget}` : null,
-    form.service ? `${labels.service}: ${form.service}` : null,
-    form.motherProfile ? `${labels.motherProfile}: ${form.motherProfile}` : null,
-    form.fatherProfile ? `${labels.fatherProfile}: ${form.fatherProfile}` : null,
-    form.child1 ? `${labels.child1}: ${form.child1}` : null,
-    form.child2 ? `${labels.child2}: ${form.child2}` : null,
-    form.child3 ? `${labels.child3}: ${form.child3}` : null,
-    form.familyTraveled ? `${labels.familyTraveled}: ${form.familyTraveled}` : null,
-    form.previousTrips ? `${labels.previousTrips}: ${form.previousTrips}` : null,
-    form.hardest ? `${labels.hardest}: ${form.hardest}` : null,
-    form.success ? `${labels.success}: ${form.success}` : null,
-    form.moreInfo ? `${labels.moreInfo}: ${form.moreInfo}` : null,
+    '',
+    `${labels.destination}: ${form.destination || '-'}`,
+    `${labels.attraction}: ${form.attraction || '-'}`,
+    `${labels.motivation}: ${form.motivation || '-'}`,
+    `${labels.dates}: ${form.dates || '-'}`,
+    `${labels.people}: ${form.people || '-'}`,
+    '',
+    `${labels.meal}: ${form.meal || '-'}`,
+    `${labels.lodging}: ${form.lodging || '-'}`,
+    `${labels.lodgingValues}: ${(form.lodgingValues && form.lodgingValues.length && form.lodgingValues.join(', ')) || '-'}`,
+    `${labels.budget}: ${form.budget || '-'}`,
+    '',
+    `${labels.service}: ${form.service || '-'}`,
+    '',
+    `${labels.motherProfile}: ${form.motherProfile || '-'}`,
+    `${labels.fatherProfile}: ${form.fatherProfile || '-'}`,
+    `${labels.child1}: ${form.child1 || '-'}`,
+    `${labels.child2}: ${form.child2 || '-'}`,
+    `${labels.child3}: ${form.child3 || '-'}`,
+    '',
+    `${labels.familyTraveled}: ${form.familyTraveled || '-'}`,
+    `${labels.previousTrips}: ${form.previousTrips || '-'}`,
+    `${labels.hardest}: ${form.hardest || '-'}`,
+    `${labels.success}: ${form.success || '-'}`,
+    `${labels.moreInfo}: ${form.moreInfo || '-'}`,
   ].filter(Boolean)
 
   return [t.messageTitle, '', ...lines].join('\n')
@@ -1089,9 +1092,9 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
         <span>
           {t.wizardProgress} {step + 1}/{stepsCount}
         </span>
-        <span>{steps[step].title}</span>
+        <span className="text-sm text-navy/70">{steps[step].title}</span>
       </div>
-      <p className="mt-2 text-xs text-navy/60">{t.wizardStepHelpers[step]}</p>
+      <p className="mt-2 text-sm text-navy/70">{t.wizardStepHelpers[step]}</p>
       <p className="mt-1 text-xs text-navy/50">{t.wizardTimeNote}</p>
       {remainingText && <p className="mt-1 text-xs text-teal">{remainingText}</p>}
       {step === steps.length - 1 && (
@@ -1233,14 +1236,14 @@ export default function App() {
       </header>
 
       <main>
-        <section className="pt-10 pb-8 sm:pt-14 sm:pb-12 lg:pt-20 lg:pb-16">
+        <section className="pt-8 pb-6 sm:pt-14 sm:pb-12 lg:pt-20 lg:pb-16">
           <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
             <Reveal>
               <p className="text-sm uppercase tracking-[0.2em] text-navy/50">{t.heroTag}</p>
-              <h1 className="mt-4 text-4xl lg:text-6xl font-display leading-tight text-balance">
+              <h1 className="mt-4 text-[2.25rem] lg:text-6xl font-display leading-tight text-balance">
                 {t.heroTitle}
               </h1>
-              <p className="mt-3 text-lg text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
+              <p className="mt-3 text-base text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
               <p className="mt-3 text-sm text-navy/60 max-w-xl">{t.heroWhy}</p>
               <div className="mt-5">
                 <p className="mb-2 text-sm text-navy/70">{t.heroCtaPrompt}</p>
@@ -1389,7 +1392,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-16 border-t border-navy/10">
+        <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 border-t border-navy/10">
           <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
             <Reveal>
               <h2 className="text-3xl font-display">{t.formTitle}</h2>
@@ -1416,7 +1419,7 @@ export default function App() {
             <Reveal>
               <div className="rounded-3xl border border-navy/10 bg-white/90 p-6 shadow-card">
                 {message ? (
-                  <div className="space-y-5">
+                    <div className="space-y-6">
                     <div>
                       <p className="text-sm font-semibold">{t.formThankTitle}</p>
                       <p className="mt-2 text-xs text-navy/60">{t.formThankBody}</p>
@@ -1433,16 +1436,17 @@ export default function App() {
                       Se preferires, manda só WhatsApp e nós pedimos o resto depois.
                     </p>
                     {links && (
-                      <div className="grid gap-3">
-                        <a href={links.whatsapp} className="rounded-full bg-navy text-white px-4 py-4 text-center text-sm shadow-soft">
-                          {t.whatsapp}
-                        </a>
-                        <a
-                          href={links.email}
-                          className="rounded-full border border-navy/20 px-4 py-3 text-center hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                        >
-                          {t.email}
-                        </a>
+                    <div className="grid gap-3">
+                      <a href={links.whatsapp} className="rounded-full bg-navy text-white px-4 py-4 text-center text-sm shadow-soft">
+                        {t.whatsapp}
+                      </a>
+                      <p className="text-xs text-navy/60 text-center">Resposta humana em 24–48h úteis.</p>
+                      <a
+                        href={links.email}
+                        className="rounded-full border border-navy/20 px-4 py-3 text-center hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                      >
+                        {t.email}
+                      </a>
                         <a
                           href={links.instagram}
                           className="rounded-full border border-navy/10 px-4 py-3 text-center text-navy/70 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
