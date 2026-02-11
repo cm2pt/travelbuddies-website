@@ -1166,7 +1166,6 @@ export default function App() {
 
   const [message, setMessage] = useState('')
   const [copyStatus, setCopyStatus] = useState('')
-  const [saveStatus, setSaveStatus] = useState('')
   const [stepStatus, setStepStatus] = useState('')
 
   const t = copy[lang]
@@ -1190,11 +1189,6 @@ export default function App() {
     const built = buildMessage(lang, data)
     setMessage(built)
     await copyToClipboard(built)
-  }
-
-  const handleAutosave = () => {
-    setSaveStatus(lang === 'pt' ? 'Guardado ✅' : 'Saved ✅')
-    setTimeout(() => setSaveStatus(''), 1200)
   }
 
   const handleStepChange = () => {
@@ -1434,12 +1428,7 @@ export default function App() {
               <p className="mt-3 text-navy/70">{t.formBody}</p>
               <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
               <div className="mt-6 rounded-3xl border border-navy/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
-                <DiagnosisWizard
-                  t={t}
-                  onSubmit={handleWizardSubmit}
-                  onAutosave={handleAutosave}
-                  onStepChange={handleStepChange}
-                />
+                <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} />
               </div>
               <div className="mt-4 rounded-2xl border border-navy/10 bg-white/80 p-4">
                 <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
@@ -1455,8 +1444,7 @@ export default function App() {
                   ))}
                 </div>
               </div>
-              {saveStatus && <p className="mt-2 text-xs text-teal">{saveStatus}</p>}
-              {stepStatus && <p className="mt-1 text-xs text-teal">{stepStatus}</p>}
+              {stepStatus && <p className="mt-2 text-xs text-teal">{stepStatus}</p>}
             </Reveal>
 
             <Reveal>
