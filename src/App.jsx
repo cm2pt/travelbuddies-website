@@ -126,21 +126,6 @@ const copy = {
     wizardOptional: 'Adicionar detalhes (opcional)',
     wizardSummaryTitle: 'Resumo',
     wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
-    formFields: {
-      name: 'Nome',
-      email: 'Email',
-      dates: 'Para quando é a viagem?',
-      service: 'Serviço preferido',
-      who: 'Quem viaja? (opcional)',
-      budget: 'Orçamento (opcional)',
-      notes: 'Notas adicionais (opcional)',
-    },
-    formPlaceholders: {
-      dates: 'Julho 2026',
-      who: '2 adultos + 1 criança',
-      budget: '€1500',
-      notes: 'Preferências, alergias, etc.',
-    },
     wizardOptions: {
       attraction: [
         'Cidade',
@@ -206,14 +191,9 @@ const copy = {
       ],
       familyTraveled: ['Sim', 'Não'],
     },
-    formToggle: 'Adicionar detalhes (opcional)',
-    formServiceOptions: ['Premium', 'Base', 'Ainda não sei'],
-    formSubmit: 'Começar diagnóstico',
-    formSuccessTitle: 'Mensagem pronta',
     formSuccessBody: 'Copiada automaticamente.',
     formThankTitle: 'Obrigado! Já recebemos o teu pedido.',
-    formThankBody: 'Vamos analisar com calma e responder com uma proposta clara.',
-    formThankNote: 'Resposta humana, normalmente em 24–48h úteis.',
+    formThankBody: 'Vamos analisar e responder com proposta.',
     messageLabels: {
       email: 'Email',
       destination: 'Destino',
@@ -359,21 +339,6 @@ const copy = {
     wizardOptional: 'Add details (optional)',
     wizardSummaryTitle: 'Summary',
     wizardSummaryBody: 'Review and send via your preferred channel.',
-    formFields: {
-      name: 'Name',
-      email: 'Email',
-      dates: 'When is the trip?',
-      service: 'Preferred service',
-      who: 'Who is traveling? (optional)',
-      budget: 'Budget (optional)',
-      notes: 'Additional notes (optional)',
-    },
-    formPlaceholders: {
-      dates: 'July 2026',
-      who: '2 adults + 1 child',
-      budget: '€1500',
-      notes: 'Preferences, allergies, etc.',
-    },
     wizardOptions: {
       attraction: [
         'City',
@@ -439,14 +404,9 @@ const copy = {
       ],
       familyTraveled: ['Yes', 'No'],
     },
-    formToggle: 'Add details (optional)',
-    formServiceOptions: ['Premium', 'Base', 'Not sure'],
-    formSubmit: 'Começar diagnóstico',
-    formSuccessTitle: 'Message ready',
     formSuccessBody: 'Automatically copied.',
     formThankTitle: 'Thank you! We received your request.',
-    formThankBody: 'We will review it calmly and reply with a clear proposal.',
-    formThankNote: 'Human response, usually within 24–48 business hours.',
+    formThankBody: 'We will review and reply with a proposal.',
     messageLabels: {
       email: 'Email',
       destination: 'Destination',
@@ -1422,10 +1382,10 @@ export default function App() {
                   </div>
                 ) : (
                   <div>
-                    <p className="text-sm font-semibold">{t.formSuccessTitle}</p>
-                    <p className="text-xs text-navy/60 mt-2">{t.formSuccessBody}</p>
+                    <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
+                    <p className="text-xs text-navy/60 mt-2">{t.wizardSummaryBody}</p>
                     <div className="mt-4 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[160px] whitespace-pre-wrap text-sm text-navy/70">
-                      {lang === 'pt' ? 'Preenche o formulário para gerar a mensagem.' : 'Fill the form to generate the message.'}
+                      {lang === 'pt' ? 'Preenche o questionário para gerar a mensagem.' : 'Complete the questionnaire to generate the message.'}
                     </div>
                   </div>
                 )}
