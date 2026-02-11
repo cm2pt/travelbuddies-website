@@ -508,15 +508,18 @@ const SmartImage = ({ src, fallback, alt, className }) => {
 const buildMessage = (lang, form) => {
   const t = copy[lang]
   const labels = t.messageLabels
+  const sections = t.wizardSummarySections
   const lines = [
     `${labels.email}: ${form.email}`,
     '',
+    `[${sections.trip}]`,
     `${labels.destination}: ${form.destination || '-'}`,
     `${labels.attraction}: ${form.attraction || '-'}`,
     `${labels.motivation}: ${form.motivation || '-'}`,
     `${labels.dates}: ${form.dates || '-'}`,
     `${labels.people}: ${form.people || '-'}`,
     '',
+    `[${sections.lodging}]`,
     `${labels.meal}: ${form.meal || '-'}`,
     `${labels.lodging}: ${form.lodging || '-'}`,
     `${labels.lodgingValues}: ${(form.lodgingValues && form.lodgingValues.length && form.lodgingValues.join(', ')) || '-'}`,
@@ -524,12 +527,14 @@ const buildMessage = (lang, form) => {
     '',
     `${labels.service}: ${form.service || '-'}`,
     '',
+    `[${sections.profiles}]`,
     `${labels.motherProfile}: ${form.motherProfile || '-'}`,
     `${labels.fatherProfile}: ${form.fatherProfile || '-'}`,
     `${labels.child1}: ${form.child1 || '-'}`,
     `${labels.child2}: ${form.child2 || '-'}`,
     `${labels.child3}: ${form.child3 || '-'}`,
     '',
+    `[${sections.experiences}]`,
     `${labels.familyTraveled}: ${form.familyTraveled || '-'}`,
     `${labels.previousTrips}: ${form.previousTrips || '-'}`,
     `${labels.hardest}: ${form.hardest || '-'}`,
@@ -1208,14 +1213,14 @@ export default function App() {
     }
   }, [message, t.messageTitle])
 
-  const container = 'mx-auto w-full max-w-6xl px-6'
+  const container = 'mx-auto w-full max-w-5xl px-6'
 
   return (
     <div className="text-navy">
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/85 border-b border-navy/10">
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-navy/10">
         <div className={`${container} flex items-center justify-between py-4`}>
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-tealSoft/80 border border-teal/40 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-full bg-tealSoft/80 border border-teal/30 flex items-center justify-center">
               <img src={logo} alt="TravelBuddies" className="h-6 w-6" />
             </div>
             <div>
@@ -1260,11 +1265,11 @@ export default function App() {
       </header>
 
       <main>
-        <section className="pt-8 pb-6 sm:pt-14 sm:pb-12 lg:pt-20 lg:pb-16">
+        <section className="pt-10 pb-10 sm:pt-16 sm:pb-14 lg:pt-20 lg:pb-16">
           <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
             <Reveal>
               <p className="text-sm uppercase tracking-[0.2em] text-navy/50">{t.heroTag}</p>
-              <h1 className="mt-4 text-[2.25rem] lg:text-6xl font-display leading-tight text-balance">
+              <h1 className="mt-4 text-[2.35rem] sm:text-4xl lg:text-6xl font-display leading-tight text-balance">
                 {t.heroTitle}
               </h1>
               <p className="mt-3 text-base text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
@@ -1281,7 +1286,7 @@ export default function App() {
             </Reveal>
             <Reveal className="relative hidden sm:block">
               <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
-              <div className="rounded-[32px] border border-navy/10 bg-white/90 shadow-soft overflow-hidden">
+              <div className="panel overflow-hidden">
                 <SmartImage
                   src={REMOTE_IMAGES.hero}
                   fallback={heroImage}
@@ -1293,7 +1298,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="qualify" className="py-10 border-t border-navy/10">
+        <section id="qualify" className="py-12 border-t border-navy/10">
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.qualifyTitle}</h2>
@@ -1302,7 +1307,7 @@ export default function App() {
               {t.qualifyItems.map((item) => (
                 <Reveal
                   key={item.title}
-                  className="rounded-2xl border border-navy/10 bg-white/85 p-4 shadow-card min-h-[104px]"
+                  className="card p-4 min-h-[104px]"
                 >
                   <p className="text-sm font-semibold">{item.title}</p>
                   <p className="mt-1 text-xs text-navy/60">{item.text}</p>
@@ -1319,7 +1324,7 @@ export default function App() {
             </Reveal>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
               {t.howSteps.map((step, index) => (
-                <Reveal key={step.title} className="rounded-2xl border border-navy/10 bg-white p-5 shadow-card min-h-[128px]">
+                <Reveal key={step.title} className="card p-5 min-h-[128px]">
                   <div className="flex items-center gap-3">
                     <span className="flex h-9 w-9 items-center justify-center rounded-full border border-navy/10 bg-tealSoft/60 text-sm">
                       {index + 1}
@@ -1341,7 +1346,7 @@ export default function App() {
               <p className="mt-2 text-sm text-navy/60">{t.servicesFreeLine}</p>
             </Reveal>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
-              <Reveal className="rounded-3xl border border-navy/10 p-6 shadow-card bg-white min-h-[260px]">
+              <Reveal className="card p-6 min-h-[260px]">
                 <p className="text-xs uppercase tracking-[0.2em] text-navy/60">{t.baseTitle}</p>
                 <p className="mt-3 text-sm text-navy/70">{t.baseOutcome}</p>
                 <p className="mt-2 text-xs text-navy/60">{t.baseWhen}</p>
@@ -1349,7 +1354,7 @@ export default function App() {
                   {t.baseBenefits.map((item) => (
                     <span
                       key={item}
-                      className="rounded-full border border-navy/10 bg-tealSoft/60 px-3 py-1 text-xs text-navy/70"
+                      className="chip"
                     >
                       {item}
                     </span>
@@ -1367,7 +1372,7 @@ export default function App() {
                   {t.premiumBenefits.map((item) => (
                     <span
                       key={item}
-                      className="rounded-full border border-navy/10 bg-white/70 px-3 py-1 text-xs text-navy/70"
+                      className="chip"
                     >
                       {item}
                     </span>
@@ -1388,7 +1393,7 @@ export default function App() {
               {t.trustCards.map((card) => (
                 <Reveal
                   key={card.title}
-                  className="rounded-2xl border border-navy/10 bg-white/85 p-5 shadow-card min-h-[128px]"
+                  className="card p-5 min-h-[128px]"
                 >
                   <p className="text-sm font-semibold">{card.title}</p>
                   <p className="mt-2 text-xs text-navy/60">{card.text}</p>
@@ -1448,9 +1453,9 @@ export default function App() {
             </Reveal>
 
             <Reveal>
-              <div className="rounded-3xl border border-navy/10 bg-white/90 p-6 shadow-card">
+              <div className="panel p-6">
                 {message ? (
-                    <div className="space-y-6">
+                  <div className="space-y-6">
                     <div>
                       <p className="text-sm font-semibold">{t.formThankTitle}</p>
                       <p className="mt-2 text-xs text-navy/60">{t.formThankBody}</p>
@@ -1459,16 +1464,8 @@ export default function App() {
                       <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
                       <p className="text-xs text-navy/60 mt-2">{t.wizardSummaryBody}</p>
                       <p className="text-xs text-navy/60 mt-2">Copiado ✅</p>
-                      <div className="mt-3 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[160px] text-sm text-navy/70">
-                        <div className="space-y-3 whitespace-pre-wrap">
-                          {message}
-                        </div>
-                        <div className="mt-4 grid gap-2 text-xs text-navy/50">
-                          <span>{t.wizardSummarySections.trip}</span>
-                          <span>{t.wizardSummarySections.lodging}</span>
-                          <span>{t.wizardSummarySections.profiles}</span>
-                          <span>{t.wizardSummarySections.experiences}</span>
-                        </div>
+                      <div className="mt-3 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[160px] text-sm text-navy/70 whitespace-pre-wrap">
+                        {message}
                       </div>
                     </div>
                     <p className="text-xs text-navy/60">
@@ -1480,6 +1477,13 @@ export default function App() {
                         {t.whatsapp}
                       </a>
                       <p className="text-xs text-navy/60 text-center">Resposta humana em 24–48h úteis.</p>
+                      <button
+                        type="button"
+                        onClick={() => setMessage('')}
+                        className="rounded-full border border-navy/20 px-4 py-3 text-center text-sm text-navy/70 hover:border-navy"
+                      >
+                        {lang === 'pt' ? 'Editar respostas' : 'Edit answers'}
+                      </button>
                       <a
                         href={links.email}
                         className="rounded-full border border-navy/20 px-4 py-3 text-center hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"

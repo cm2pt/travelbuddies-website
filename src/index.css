@@ -8,8 +8,9 @@
 
 body {
   font-family: theme('fontFamily.sans');
-  background: radial-gradient(circle at top left, rgba(207, 232, 228, 0.5), transparent 45%),
-    radial-gradient(circle at top right, rgba(239, 231, 207, 0.5), transparent 45%),
+  background: radial-gradient(circle at 15% 0%, rgba(207, 232, 228, 0.45), transparent 45%),
+    radial-gradient(circle at 85% 5%, rgba(239, 231, 207, 0.45), transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(231, 176, 164, 0.25), transparent 50%),
     #ffffff;
   color: #1e2d3c;
   min-height: 100vh;
@@ -25,4 +26,27 @@ html {
 
 .text-balance {
   text-wrap: balance;
+}
+
+.card {
+  border-radius: 24px;
+  border: 1px solid rgba(30, 45, 60, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 30px rgba(30, 45, 60, 0.08);
+}
+
+.panel {
+  border-radius: 28px;
+  border: 1px solid rgba(30, 45, 60, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 40px rgba(30, 45, 60, 0.1);
+}
+
+.chip {
+  border-radius: 999px;
+  border: 1px solid rgba(30, 45, 60, 0.12);
+  background: rgba(239, 231, 207, 0.6);
+  padding: 6px 12px;
+  font-size: 12px;
+  color: rgba(30, 45, 60, 0.7);
 }
