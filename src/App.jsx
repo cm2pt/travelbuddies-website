@@ -1537,21 +1537,24 @@ export default function App() {
           <div className="flex flex-wrap gap-3 text-sm text-navy/70">
             <a
               href="https://wa.me/351919676329"
-              className="rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="inline-flex items-center gap-2 rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              WhatsApp
+              <span className="text-base">🟢</span>
+              <span>WhatsApp</span>
             </a>
             <a
               href="mailto:joana_krisna@hotmail.com"
-              className="rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="inline-flex items-center gap-2 rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              Email
+              <span className="text-base">✉️</span>
+              <span>Email</span>
             </a>
             <a
               href="https://www.instagram.com/family_in_trouble/"
-              className="rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="inline-flex items-center gap-2 rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              Instagram
+              <span className="text-base">📷</span>
+              <span>Instagram</span>
             </a>
           </div>
           <p className="text-xs text-navy/50">{t.footerSmall}</p>
