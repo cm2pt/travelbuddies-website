@@ -26,7 +26,7 @@ const copy = {
     heroTitle: 'Viagens em família com crianças/bebés para a vida real (não perfeita).',
     heroBody: 'Planeamento leve para pais cansados.',
     heroWhy: 'Planeamos como pais: com pausas, sestas e pouca complicação.',
-    heroCtaNote: 'Resposta humana, sem automações.',
+    heroCtaNote: 'Sem compromisso. Resposta humana.',
     primaryCta: 'Começar diagnóstico',
     heroCtaPrompt: 'Se estás cansada(o) de decidir, começa aqui.',
     qualifyTitle: 'Isto é para ti se…',
@@ -138,6 +138,12 @@ const copy = {
     wizardOptionalNote: 'Não tens de saber isto agora.',
     wizardSummaryTitle: 'Resumo',
     wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
+    wizardSummarySections: {
+      trip: 'Viagem',
+      lodging: 'Alojamento',
+      profiles: 'Perfis',
+      experiences: 'Experiências',
+    },
     wizardOptions: {
       attraction: [
         'Cidade',
@@ -247,7 +253,7 @@ const copy = {
     heroTitle: 'Family travel with kids/babies for real life (not perfect).',
     heroBody: 'Light planning for busy parents.',
     heroWhy: 'We plan like parents: breaks, naps, and less complexity.',
-    heroCtaNote: 'Human response, no automation.',
+    heroCtaNote: 'No commitment. Human response.',
     primaryCta: 'Começar diagnóstico',
     heroCtaPrompt: 'If you are tired of deciding, start here.',
     qualifyTitle: 'This is for you if…',
@@ -359,6 +365,12 @@ const copy = {
     wizardOptionalNote: "You don't need to know this now.",
     wizardSummaryTitle: 'Summary',
     wizardSummaryBody: 'Review and send via your preferred channel.',
+    wizardSummarySections: {
+      trip: 'Trip',
+      lodging: 'Lodging',
+      profiles: 'Profiles',
+      experiences: 'Experiences',
+    },
     wizardOptions: {
       attraction: [
         'City',
@@ -527,7 +539,7 @@ const buildMessage = (lang, form) => {
   return [t.messageTitle, '', ...lines].join('\n')
 }
 
-const DiagnosisWizard = ({ t, onSubmit }) => {
+const DiagnosisWizard = ({ t, onSubmit, onAutosave }) => {
   const initialState = {
     email: '',
     destination: '',
@@ -574,7 +586,8 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
 
   useEffect(() => {
     localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(data))
-  }, [data])
+    onAutosave?.()
+  }, [data, onAutosave])
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -1149,6 +1162,7 @@ export default function App() {
 
   const [message, setMessage] = useState('')
   const [copyStatus, setCopyStatus] = useState('')
+  const [saveStatus, setSaveStatus] = useState('')
 
   const t = copy[lang]
 
@@ -1171,6 +1185,11 @@ export default function App() {
     const built = buildMessage(lang, data)
     setMessage(built)
     await copyToClipboard(built)
+  }
+
+  const handleAutosave = () => {
+    setSaveStatus(lang === 'pt' ? 'Guardado ✅' : 'Saved ✅')
+    setTimeout(() => setSaveStatus(''), 1200)
   }
 
   const links = useMemo(() => {
@@ -1399,7 +1418,7 @@ export default function App() {
               <p className="mt-3 text-navy/70">{t.formBody}</p>
               <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
               <div className="mt-6 rounded-3xl border border-navy/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
-                <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} />
+                <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onAutosave={handleAutosave} />
               </div>
               <div className="mt-4 rounded-2xl border border-navy/10 bg-white/80 p-4">
                 <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
@@ -1414,6 +1433,7 @@ export default function App() {
                   ))}
                 </div>
               </div>
+              {saveStatus && <p className="mt-2 text-xs text-teal">{saveStatus}</p>}
             </Reveal>
 
             <Reveal>
@@ -1428,8 +1448,16 @@ export default function App() {
                       <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
                       <p className="text-xs text-navy/60 mt-2">{t.wizardSummaryBody}</p>
                       <p className="text-xs text-navy/60 mt-2">Copiado ✅</p>
-                      <div className="mt-3 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[140px] whitespace-pre-wrap text-sm text-navy/70">
-                        {message}
+                      <div className="mt-3 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[160px] text-sm text-navy/70">
+                        <div className="space-y-3 whitespace-pre-wrap">
+                          {message}
+                        </div>
+                        <div className="mt-4 grid gap-2 text-xs text-navy/50">
+                          <span>{t.wizardSummarySections.trip}</span>
+                          <span>{t.wizardSummarySections.lodging}</span>
+                          <span>{t.wizardSummarySections.profiles}</span>
+                          <span>{t.wizardSummarySections.experiences}</span>
+                        </div>
                       </div>
                     </div>
                     <p className="text-xs text-navy/60">
