@@ -3,9 +3,9 @@ import { motion } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 import logo from './assets/logo.png'
 import heroImage from './assets/hero.jpg'
-import travel1 from './assets/WhatsApp Image 2026-02-10 at 23.59.04.jpeg'
-import travel2 from './assets/WhatsApp Image 2026-02-10 at 23.59.04 (1).jpeg'
-import travel3 from './assets/WhatsApp Image 2026-02-10 at 23.59.04 (2).jpeg'
+import travel1 from './assets/travel-family-1.jpeg'
+import travel2 from './assets/travel-family-2.jpeg'
+import travel3 from './assets/travel-family-3.jpeg'
 
 const REMOTE_IMAGES = {
   hero:
