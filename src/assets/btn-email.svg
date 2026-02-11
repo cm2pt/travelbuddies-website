@@ -1,6 +1,8 @@
 <svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="120" height="48" rx="24" fill="#4F8FC9"/>
-  <rect x="14" y="16" width="20" height="16" rx="3" fill="white"/>
-  <path d="M16 19l8 6 8-6" stroke="#4F8FC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="42" y="29" fill="#ffffff" font-size="13" font-family="Manrope, sans-serif" font-weight="600">Email</text>
+  <g transform="translate(26,0)">
+    <rect x="0" y="16" width="20" height="16" rx="3" fill="white"/>
+    <path d="M2 19l8 6 8-6" stroke="#4F8FC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="28" y="29" fill="#ffffff" font-size="13" font-family="Manrope, sans-serif" font-weight="600">Email</text>
+  </g>
 </svg>

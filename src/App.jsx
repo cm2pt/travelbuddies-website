@@ -1529,23 +1529,23 @@ export default function App() {
             <a
               href="https://wa.me/351919676329"
               aria-label="WhatsApp"
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              <img src={btnWhatsapp} alt="WhatsApp" className="h-12 w-auto" />
+              <img src={btnWhatsapp} alt="WhatsApp" className="h-12 w-auto block mx-auto" />
             </a>
             <a
               href="mailto:joana_krisna@hotmail.com"
               aria-label="Email"
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              <img src={btnEmail} alt="Email" className="h-12 w-auto" />
+              <img src={btnEmail} alt="Email" className="h-12 w-auto block mx-auto" />
             </a>
             <a
               href="https://www.instagram.com/family_in_trouble/"
               aria-label="Instagram"
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              <img src={btnInstagram} alt="Instagram" className="h-12 w-auto" />
+              <img src={btnInstagram} alt="Instagram" className="h-12 w-auto block mx-auto" />
             </a>
           </div>
           <p className="text-xs text-navy/50">{t.footerSmall}</p>
