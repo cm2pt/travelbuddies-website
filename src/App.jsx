@@ -51,9 +51,9 @@ const copy = {
     ],
     howTitle: 'Como funciona',
     howSteps: [
-      { title: '1. Diagnóstico', text: 'Entendemos a vossa família e o momento.' },
-      { title: '2. Proposta leve', text: 'Roteiro possível e claro.' },
-      { title: '3. Decisão tranquila', text: 'Apoio humano até fechar.' },
+      { title: 'Diagnóstico curto', text: 'Ouvimos a vossa família.' },
+      { title: 'Desenhamos e alinhamos', text: 'Ajustamos juntos, com calma.' },
+      { title: 'Viajas com confiança', text: 'Estamos por perto.' },
     ],
     trustTitle: 'Confiança e cuidado',
     trustCards: [
@@ -131,9 +131,9 @@ const copy = {
     ],
     howTitle: 'How it works',
     howSteps: [
-      { title: '1. Diagnosis', text: 'We learn your family and timing.' },
-      { title: '2. Light proposal', text: 'A doable, clear itinerary.' },
-      { title: '3. Calm decision', text: 'Human support to close.' },
+      { title: 'Short diagnosis', text: 'We listen to your family.' },
+      { title: 'Design and align', text: 'We adjust together, calmly.' },
+      { title: 'Travel with confidence', text: 'We stay close.' },
     ],
     trustTitle: 'Trust and care',
     trustCards: [
@@ -399,9 +399,14 @@ export default function App() {
               <h2 className="text-2xl font-display">{t.howTitle}</h2>
             </Reveal>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {t.howSteps.map((step) => (
+              {t.howSteps.map((step, index) => (
                 <Reveal key={step.title} className="rounded-2xl border border-navy/10 bg-white p-5 shadow-card">
-                  <p className="text-sm font-semibold">{step.title}</p>
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-navy/10 bg-tealSoft/60 text-sm">
+                      {index + 1}
+                    </span>
+                    <p className="text-sm font-semibold">{step.title}</p>
+                  </div>
                   <p className="mt-2 text-xs text-navy/60">{step.text}</p>
                 </Reveal>
               ))}
