@@ -10,6 +10,7 @@ const REMOTE_IMAGES = {
 }
 
 const LANG_STORAGE_KEY = 'travelbuddies_lang'
+const WIZARD_STORAGE_KEY = 'travelbuddies_wizard'
 
 const copy = {
   pt: {
@@ -69,6 +70,14 @@ const copy = {
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
     formHint: 'Demora 2–3 minutos. Resposta humana, sem automações.',
+    wizardSteps: ['Começo', 'Datas', 'Família', 'Preferências', 'Notas'],
+    wizardNext: 'Seguinte',
+    wizardBack: 'Voltar',
+    wizardSubmit: 'Gerar resumo',
+    wizardProgress: 'Passo',
+    wizardSummaryTitle: 'Resumo',
+    wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
+    wizardReset: 'Editar respostas',
     formFields: {
       name: 'Nome',
       email: 'Email',
@@ -83,6 +92,9 @@ const copy = {
       who: '2 adultos + 1 criança',
       budget: '€1500',
       notes: 'Preferências, alergias, etc.',
+    },
+    wizardOptions: {
+      service: ['Premium', 'Base', 'Ainda não sei'],
     },
     formToggle: 'Adicionar detalhes (opcional)',
     formServiceOptions: ['Premium', 'Base', 'Ainda não sei'],
@@ -157,6 +169,14 @@ const copy = {
     formTitle: 'TravelBuddies Diagnosis',
     formBody: 'Share the essentials. We simplify.',
     formHint: 'Takes 2–3 minutes. Human response, no automation.',
+    wizardSteps: ['Start', 'Dates', 'Family', 'Preferences', 'Notes'],
+    wizardNext: 'Next',
+    wizardBack: 'Back',
+    wizardSubmit: 'Generate summary',
+    wizardProgress: 'Step',
+    wizardSummaryTitle: 'Summary',
+    wizardSummaryBody: 'Review and send via your preferred channel.',
+    wizardReset: 'Edit answers',
     formFields: {
       name: 'Name',
       email: 'Email',
@@ -171,6 +191,9 @@ const copy = {
       who: '2 adults + 1 child',
       budget: '€1500',
       notes: 'Preferences, allergies, etc.',
+    },
+    wizardOptions: {
+      service: ['Premium', 'Base', 'Not sure'],
     },
     formToggle: 'Add details (optional)',
     formServiceOptions: ['Premium', 'Base', 'Not sure'],
@@ -238,25 +261,234 @@ const buildMessage = (lang, form) => {
   return [t.messageTitle, '', ...lines].join('\n')
 }
 
+const DiagnosisWizard = ({ lang, t, onSubmit }) => {
+  const initialState = {
+    name: '',
+    email: '',
+    dates: '',
+    who: '',
+    budget: '',
+    service: t.wizardOptions.service[2],
+    notes: '',
+  }
+
+  const [step, setStep] = useState(0)
+  const [data, setData] = useState(() => {
+    if (typeof window === 'undefined') return initialState
+    const saved = localStorage.getItem(WIZARD_STORAGE_KEY)
+    if (!saved) return initialState
+    try {
+      const parsed = JSON.parse(saved)
+      return { ...initialState, ...parsed }
+    } catch {
+      return initialState
+    }
+  })
+
+  useEffect(() => {
+    localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(data))
+  }, [data])
+
+  useEffect(() => {
+    setData((prev) => ({
+      ...prev,
+      service: t.wizardOptions.service.includes(prev.service) ? prev.service : t.wizardOptions.service[2],
+    }))
+  }, [t.wizardOptions.service])
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const next = () => setStep((prev) => Math.min(prev + 1, 4))
+  const back = () => setStep((prev) => Math.max(prev - 1, 0))
+
+  const steps = [
+    {
+      id: 'start',
+      content: (
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="flex flex-col gap-2">
+            <label className="text-xs text-navy/60" htmlFor="name">
+              {t.formFields.name}
+            </label>
+            <input
+              id="name"
+              name="name"
+              required
+              value={data.name}
+              onChange={handleChange}
+              className="rounded-xl border border-navy/10 px-3 py-3"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-xs text-navy/60" htmlFor="email">
+              {t.formFields.email}
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              value={data.email}
+              onChange={handleChange}
+              className="rounded-xl border border-navy/10 px-3 py-3"
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 'dates',
+      content: (
+        <div className="flex flex-col gap-2">
+          <label className="text-xs text-navy/60" htmlFor="dates">
+            {t.formFields.dates}
+          </label>
+          <input
+            id="dates"
+            name="dates"
+            value={data.dates}
+            onChange={handleChange}
+            placeholder={t.formPlaceholders.dates}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          />
+        </div>
+      ),
+    },
+    {
+      id: 'family',
+      content: (
+        <div className="flex flex-col gap-2">
+          <label className="text-xs text-navy/60" htmlFor="who">
+            {t.formFields.who}
+          </label>
+          <input
+            id="who"
+            name="who"
+            value={data.who}
+            onChange={handleChange}
+            placeholder={t.formPlaceholders.who}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          />
+        </div>
+      ),
+    },
+    {
+      id: 'prefs',
+      content: (
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="flex flex-col gap-2">
+            <label className="text-xs text-navy/60" htmlFor="service">
+              {t.formFields.service}
+            </label>
+            <select
+              id="service"
+              name="service"
+              value={data.service}
+              onChange={handleChange}
+              className="rounded-xl border border-navy/10 px-3 py-3"
+            >
+              {t.wizardOptions.service.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-xs text-navy/60" htmlFor="budget">
+              {t.formFields.budget}
+            </label>
+            <input
+              id="budget"
+              name="budget"
+              value={data.budget}
+              onChange={handleChange}
+              placeholder={t.formPlaceholders.budget}
+              className="rounded-xl border border-navy/10 px-3 py-3"
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 'notes',
+      content: (
+        <div className="flex flex-col gap-2">
+          <label className="text-xs text-navy/60" htmlFor="notes">
+            {t.formFields.notes}
+          </label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="4"
+            value={data.notes}
+            onChange={handleChange}
+            placeholder={t.formPlaceholders.notes}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          />
+        </div>
+      ),
+    },
+  ]
+
+  const progress = ((step + 1) / steps.length) * 100
+  const canAdvanceStart = data.name.trim() && data.email.trim()
+
+  return (
+    <div className="rounded-3xl border border-navy/10 p-6 bg-white/80 shadow-card">
+      <div className="flex items-center justify-between text-xs text-navy/60">
+        <span>
+          {t.wizardProgress} {step + 1}/{steps.length}
+        </span>
+        <span>{t.wizardSteps[step]}</span>
+      </div>
+      <div className="mt-3 h-2 w-full rounded-full bg-cream/60">
+        <div className="h-2 rounded-full bg-teal" style={{ width: `${progress}%` }} />
+      </div>
+      <div className="mt-6">{steps[step].content}</div>
+      <div className="mt-6 flex items-center justify-between gap-3">
+        <button
+          type="button"
+          onClick={back}
+          disabled={step === 0}
+          className="rounded-full border border-navy/20 px-4 py-2 text-sm text-navy/70 disabled:opacity-40"
+        >
+          {t.wizardBack}
+        </button>
+        {step < steps.length - 1 ? (
+          <button
+            type="button"
+            onClick={next}
+            disabled={step === 0 && !canAdvanceStart}
+            className="rounded-full bg-navy text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
+          >
+            {t.wizardNext}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => onSubmit(data)}
+            className="rounded-full bg-navy text-white px-6 py-2 text-sm shadow-soft"
+          >
+            {t.wizardSubmit}
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [lang, setLang] = useState(() => {
     if (typeof window === 'undefined') return 'pt'
     return localStorage.getItem(LANG_STORAGE_KEY) || 'pt'
   })
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    who: '',
-    dates: '',
-    budget: '',
-    service: copy.pt.formServiceOptions[2],
-    notes: '',
-  })
-
   const [message, setMessage] = useState('')
   const [copyStatus, setCopyStatus] = useState('')
-  const [showDetails, setShowDetails] = useState(false)
 
   const t = copy[lang]
 
@@ -264,19 +496,6 @@ export default function App() {
     localStorage.setItem(LANG_STORAGE_KEY, lang)
     document.documentElement.lang = lang
   }, [lang])
-
-  useEffect(() => {
-    const options = copy[lang].formServiceOptions
-    setForm((prev) => ({
-      ...prev,
-      service: options.includes(prev.service) ? prev.service : options[2],
-    }))
-  }, [lang])
-
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-  }
 
   const copyToClipboard = async (text) => {
     try {
@@ -288,9 +507,8 @@ export default function App() {
     }
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const built = buildMessage(lang, form)
+  const handleWizardSubmit = async (data) => {
+    const built = buildMessage(lang, data)
     setMessage(built)
     await copyToClipboard(built)
   }
@@ -498,117 +716,7 @@ export default function App() {
               <h2 className="text-3xl font-display">{t.formTitle}</h2>
               <p className="mt-3 text-navy/70">{t.formBody}</p>
               <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
-              <div className="mt-6 rounded-3xl border border-navy/10 p-6 bg-white/80 shadow-card">
-                <form onSubmit={handleSubmit} className="grid gap-4">
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs text-navy/60" htmlFor="name">{t.formFields.name}</label>
-                      <input
-                        id="name"
-                        name="name"
-                        required
-                        value={form.name}
-                        onChange={handleChange}
-                        className="rounded-xl border border-navy/10 px-3 py-2"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs text-navy/60" htmlFor="email">{t.formFields.email}</label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        required
-                        value={form.email}
-                        onChange={handleChange}
-                        className="rounded-xl border border-navy/10 px-3 py-2"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs text-navy/60" htmlFor="dates">{t.formFields.dates}</label>
-                      <input
-                        id="dates"
-                        name="dates"
-                        value={form.dates}
-                        onChange={handleChange}
-                        placeholder={t.formPlaceholders.dates}
-                        className="rounded-xl border border-navy/10 px-3 py-2"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs text-navy/60" htmlFor="service">{t.formFields.service}</label>
-                      <select
-                        id="service"
-                        name="service"
-                        value={form.service}
-                        onChange={handleChange}
-                        className="rounded-xl border border-navy/10 px-3 py-2"
-                      >
-                        {copy[lang].formServiceOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowDetails((prev) => !prev)}
-                    className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
-                  >
-                    {t.formToggle}
-                  </button>
-                  {showDetails && (
-                    <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
-                      <div className="grid gap-3 sm:grid-cols-2">
-                        <div className="flex flex-col gap-2">
-                          <label className="text-xs text-navy/60" htmlFor="who">{t.formFields.who}</label>
-                          <input
-                            id="who"
-                            name="who"
-                            value={form.who}
-                            onChange={handleChange}
-                            placeholder={t.formPlaceholders.who}
-                            className="rounded-xl border border-navy/10 px-3 py-2"
-                          />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <label className="text-xs text-navy/60" htmlFor="budget">{t.formFields.budget}</label>
-                          <input
-                            id="budget"
-                            name="budget"
-                            value={form.budget}
-                            onChange={handleChange}
-                            placeholder={t.formPlaceholders.budget}
-                            className="rounded-xl border border-navy/10 px-3 py-2"
-                          />
-                        </div>
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <label className="text-xs text-navy/60" htmlFor="notes">{t.formFields.notes}</label>
-                        <textarea
-                          id="notes"
-                          name="notes"
-                          rows="4"
-                          value={form.notes}
-                          onChange={handleChange}
-                          placeholder={t.formPlaceholders.notes}
-                          className="rounded-xl border border-navy/10 px-3 py-2"
-                        />
-                      </div>
-                    </div>
-                  )}
-                  <button
-                    type="submit"
-                    className="rounded-full bg-navy text-white py-3 shadow-soft hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                  >
-                    {t.formSubmit}
-                  </button>
-                </form>
-              </div>
+              <DiagnosisWizard lang={lang} t={t} onSubmit={handleWizardSubmit} />
             </Reveal>
 
             <Reveal>
@@ -621,7 +729,8 @@ export default function App() {
                       <p className="mt-2 text-xs text-navy/60">{t.formThankNote}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-semibold">{t.formSuccessTitle}</p>
+                      <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
+                      <p className="text-xs text-navy/60 mt-2">{t.wizardSummaryBody}</p>
                       <p className="text-xs text-navy/60 mt-2">{t.formSuccessBody}</p>
                       {copyStatus && <p className="mt-2 text-xs text-teal">{copyStatus}</p>}
                       <div className="mt-4 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[140px] whitespace-pre-wrap text-sm text-navy/70">
