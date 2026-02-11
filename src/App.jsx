@@ -1525,24 +1525,43 @@ export default function App() {
           <div className="flex flex-wrap gap-3 text-sm text-navy/70">
             <a
               href="https://wa.me/351919676329"
-              className="inline-flex items-center gap-2 rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              aria-label="WhatsApp"
+              className="rounded-full border border-navy/10 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              <span className="text-base">🟢</span>
-              <span>WhatsApp</span>
+              <svg width="140" height="44" viewBox="0 0 140 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="138" height="42" rx="21" fill="white"/>
+                <rect x="1" y="1" width="138" height="42" rx="21" stroke="#1e2d3c" stroke-opacity="0.15"/>
+                <circle cx="26" cy="22" r="12" fill="#25D366"/>
+                <path d="M23.6 18.2c.2-.5.5-.6.9-.6h1c.3 0 .6.1.7.4l.8 1.9c.1.3.1.6-.1.8l-.4.5c-.1.2-.2.4 0 .6.4.8 1.2 1.7 2.1 2.2.2.1.5.1.7-.1l.6-.5c.2-.2.5-.2.8-.1l2 .8c.3.1.4.4.4.7v1c0 .4-.2.8-.6 1-1 .5-2.3.6-3.3.2-2.1-.8-4.3-2.9-5.4-4.9-.6-1.1-.6-2.5-.1-3.6z" fill="#fff"/>
+                <text x="48" y="27" fill="#1e2d3c" font-size="12" font-family="Manrope, sans-serif" font-weight="600">WhatsApp</text>
+              </svg>
             </a>
             <a
               href="mailto:joana_krisna@hotmail.com"
-              className="inline-flex items-center gap-2 rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              aria-label="Email"
+              className="rounded-full border border-navy/10 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              <span className="text-base">✉️</span>
-              <span>Email</span>
+              <svg width="110" height="44" viewBox="0 0 110 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="108" height="42" rx="21" fill="white"/>
+                <rect x="1" y="1" width="108" height="42" rx="21" stroke="#1e2d3c" stroke-opacity="0.15"/>
+                <rect x="16" y="14" width="20" height="16" rx="3" fill="#4F8FC9"/>
+                <path d="M18 17l8 6 8-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="44" y="27" fill="#1e2d3c" font-size="12" font-family="Manrope, sans-serif" font-weight="600">Email</text>
+              </svg>
             </a>
             <a
               href="https://www.instagram.com/family_in_trouble/"
-              className="inline-flex items-center gap-2 rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              aria-label="Instagram"
+              className="rounded-full border border-navy/10 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              <span className="text-base">📷</span>
-              <span>Instagram</span>
+              <svg width="140" height="44" viewBox="0 0 140 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="138" height="42" rx="21" fill="white"/>
+                <rect x="1" y="1" width="138" height="42" rx="21" stroke="#1e2d3c" stroke-opacity="0.15"/>
+                <rect x="16" y="14" width="20" height="20" rx="6" fill="#E1306C"/>
+                <circle cx="26" cy="24" r="5" stroke="#fff" stroke-width="2"/>
+                <circle cx="31.5" cy="18.5" r="1.5" fill="#fff"/>
+                <text x="44" y="27" fill="#1e2d3c" font-size="12" font-family="Manrope, sans-serif" font-weight="600">Instagram</text>
+              </svg>
             </a>
           </div>
           <p className="text-xs text-navy/50">{t.footerSmall}</p>
