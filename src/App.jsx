@@ -69,7 +69,7 @@ const copy = {
     ],
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
-    formHint: 'Demora 2–3 minutos. Resposta humana, sem automações.',
+    formHint: 'Demora 2–3 minutos. Resposta humana. Sem compromisso.',
     wizardIntroTitle: 'Diagnóstico em família, na vida real',
     wizardIntroBody:
       'Ajuda-nos a perceber o que funciona para a vossa família. Primeiro respondem ao questionário e depois recebem uma proposta.',
@@ -86,6 +86,14 @@ const copy = {
       'Tipo de serviço',
       'Perfil de viajantes',
       'Experiências anteriores',
+    ],
+    wizardStepHelpers: [
+      'Só para conseguirmos responder-te.',
+      'Ajuda-nos a perceber o ritmo ideal.',
+      'Para dormir bem e com pouco stress.',
+      'Para alinharmos o nível de apoio.',
+      'Cada família é única, contamos contigo.',
+      'O que já viveram ajuda-nos muito.',
     ],
     wizardQuestions: {
       email: 'Email',
@@ -115,6 +123,7 @@ const copy = {
     wizardBack: 'Voltar',
     wizardSubmit: 'Gerar resumo',
     wizardProgress: 'Passo',
+    wizardProgressNote: 'Falta pouco.',
     wizardOptional: 'Adicionar detalhes (opcional)',
     wizardSummaryTitle: 'Resumo',
     wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
@@ -293,7 +302,7 @@ const copy = {
     ],
     formTitle: 'TravelBuddies Diagnosis',
     formBody: 'Share the essentials. We simplify.',
-    formHint: 'Takes 2–3 minutes. Human response, no automation.',
+    formHint: 'Takes 2–3 minutes. Human response. No commitment.',
     wizardIntroTitle: 'Family diagnosis for real life',
     wizardIntroBody:
       'Help us understand what works for your family. First you answer the questionnaire, then you receive a proposal.',
@@ -310,6 +319,14 @@ const copy = {
       'Service type',
       'Traveler profiles',
       'Past experiences',
+    ],
+    wizardStepHelpers: [
+      'So we can reply to you.',
+      'Helps us understand the right pace.',
+      'For better rest and less stress.',
+      'So we align the level of support.',
+      'Every family is different.',
+      'Your past helps us a lot.',
     ],
     wizardQuestions: {
       email: 'Email',
@@ -339,6 +356,7 @@ const copy = {
     wizardBack: 'Back',
     wizardSubmit: 'Generate summary',
     wizardProgress: 'Step',
+    wizardProgressNote: 'Almost there.',
     wizardOptional: 'Add details (optional)',
     wizardSummaryTitle: 'Summary',
     wizardSummaryBody: 'Review and send via your preferred channel.',
@@ -1067,6 +1085,10 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
         </span>
         <span>{steps[step].title}</span>
       </div>
+      <p className="mt-2 text-xs text-navy/60">{t.wizardStepHelpers[step]}</p>
+      {step === steps.length - 1 && (
+        <p className="mt-1 text-xs text-teal">{t.wizardProgressNote}</p>
+      )}
       <div className="mt-3 h-2 w-full rounded-full bg-cream/60">
         <div className="h-2 rounded-full bg-teal" style={{ width: `${progress}%` }} />
       </div>
