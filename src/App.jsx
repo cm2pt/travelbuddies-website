@@ -105,7 +105,6 @@ const copy = {
     wizardRequiredNote: 'Precisamos disto para avançar.',
     wizardReceiveTitle: 'O que vais receber',
     wizardReceiveItems: ['Roteiro leve', 'Opções claras', 'Checklist útil'],
-    wizardReceiveIcons: ['🗺️', '✅', '🧾'],
     wizardQuestions: {
       email: 'Email',
       destination: 'Qual é o destino da viagem? Tens algum destino em mente? Se sim, qual?',
@@ -332,7 +331,6 @@ const copy = {
     wizardRequiredNote: 'We need this to move forward.',
     wizardReceiveTitle: 'What you will receive',
     wizardReceiveItems: ['Light itinerary', 'Clear options', 'Helpful checklist'],
-    wizardReceiveIcons: ['🗺️', '✅', '🧾'],
     wizardQuestions: {
       email: 'Email',
       destination: 'What is the trip destination? Do you have one in mind? If yes, which?',
@@ -1436,13 +1434,12 @@ export default function App() {
               <div className="mt-4 rounded-2xl border border-navy/10 bg-white/80 p-4">
                 <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
                 <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                  {t.wizardReceiveItems.map((item, index) => (
+                  {t.wizardReceiveItems.map((item) => (
                     <div
                       key={item}
-                      className="flex items-center gap-2 rounded-xl border border-navy/10 bg-cream/60 px-3 py-2 text-xs text-navy/70"
+                      className="rounded-xl border border-navy/10 bg-cream/60 px-3 py-3 text-xs text-navy/70 text-center"
                     >
-                      <span className="text-base">{t.wizardReceiveIcons[index]}</span>
-                      <span>{item}</span>
+                      {item}
                     </div>
                   ))}
                 </div>
