@@ -584,8 +584,9 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
     data.familyTraveled,
   ][step]
 
-  const progress = ((step + 1) / 6) * 100
-  const remaining = steps.length - (step + 1)
+  const stepsCount = t.wizardStepTitles.length
+  const progress = ((step + 1) / stepsCount) * 100
+  const remaining = stepsCount - (step + 1)
   const remainingText =
     remaining > 0 && remaining <= 2
       ? t.wizardProgressRemaining.replace('{count}', String(remaining))
@@ -1048,7 +1049,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
     <div className="rounded-3xl border border-navy/10 p-6 bg-white/80 shadow-card">
       <div className="flex items-center justify-between text-xs text-navy/60">
         <span>
-          {t.wizardProgress} {step + 1}/{steps.length}
+          {t.wizardProgress} {step + 1}/{stepsCount}
         </span>
         <span>{steps[step].title}</span>
       </div>
