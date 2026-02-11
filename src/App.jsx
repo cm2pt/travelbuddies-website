@@ -25,6 +25,7 @@ const copy = {
     heroTag: 'TravelBuddies | Viagens em Família',
     heroTitle: 'Viagens em família com crianças/bebés para a vida real (não perfeita).',
     heroBody: 'Planeamento leve para pais cansados.',
+    heroWhy: 'Planeamos como pais: com pausas, sestas e pouca complicação.',
     heroCtaNote: 'Resposta humana, sem automações.',
     primaryCta: 'Começar diagnóstico',
     qualifyTitle: 'Isto é para ti se…',
@@ -43,6 +44,8 @@ const copy = {
     premiumBadge: 'Menos decisões',
     baseOutcome: 'Para ganhar clareza e seguir em frente.',
     premiumOutcome: 'Para reduzir ao máximo o peso mental.',
+    baseWhen: 'Escolhe Base se queres alinhar e decidir rápido.',
+    premiumWhen: 'Escolhe Premium se queres o mínimo de carga mental.',
     baseBenefits: ['Roteiro leve', 'Comparações claras', 'Decisão com apoio'],
     premiumBenefits: ['Planeamento por dias', 'Experiências alinhadas', 'Apoio antes e durante'],
     pricingNote: 'Valores variam consoante duração e complexidade.',
@@ -74,14 +77,6 @@ const copy = {
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
     formHint: 'Demora 2–3 minutos. Resposta humana. Sem compromisso.',
-    wizardIntroTitle: 'Diagnóstico para famílias reais',
-    wizardIntroBody: 'Conta-nos o essencial. Respondes ao questionário e nós tratamos do resto.',
-    wizardPricingLines: [
-      'Orçamento e marcação de viagem (gratuito)',
-      'Organização Base — 60€',
-      'Premium — 130€',
-    ],
-    wizardPricingNote: 'Valores variam consoante a complexidade e duração.',
     wizardStepTitles: [
       'Email',
       'Sobre a viagem',
@@ -99,7 +94,8 @@ const copy = {
       'O que já viveram ajuda-nos muito.',
     ],
     wizardReassureEmail: 'Só usamos para te responder. Sem spam.',
-    wizardAutosaveNote: 'Podes continuar depois — guardamos automaticamente.',
+    wizardAutosaveNote: 'Podes parar a qualquer momento — guardamos automaticamente.',
+    wizardNextStepNote: 'Depois enviamos uma proposta clara e humana.',
     wizardQuestions: {
       email: 'Email',
       destination: 'Qual é o destino da viagem? Tens algum destino em mente? Se sim, qual?',
@@ -241,6 +237,7 @@ const copy = {
     heroTag: 'TravelBuddies | Family Trip Design',
     heroTitle: 'Family travel with kids/babies for real life (not perfect).',
     heroBody: 'Light planning for tired parents.',
+    heroWhy: 'We plan like parents: breaks, naps, and less complexity.',
     heroCtaNote: 'Human response, no automation.',
     primaryCta: 'Começar diagnóstico',
     qualifyTitle: 'This is for you if…',
@@ -259,6 +256,8 @@ const copy = {
     premiumBadge: 'Less decisions',
     baseOutcome: 'For clarity and to move forward.',
     premiumOutcome: 'To reduce mental load as much as possible.',
+    baseWhen: 'Choose Base if you want alignment and quick decisions.',
+    premiumWhen: 'Choose Premium if you want minimal mental load.',
     baseBenefits: ['Light itinerary', 'Clear comparisons', 'Decision support'],
     premiumBenefits: ['Day-by-day plan', 'Aligned experiences', 'Support before and during'],
     pricingNote: 'Prices vary by duration and complexity.',
@@ -290,15 +289,6 @@ const copy = {
     formTitle: 'TravelBuddies Diagnosis',
     formBody: 'Share the essentials. We simplify.',
     formHint: 'Takes 2–3 minutes. Human response. No commitment.',
-    wizardIntroTitle: 'Family diagnosis for real life',
-    wizardIntroBody:
-      'Help us understand what works for your family. First you answer the questionnaire, then you receive a proposal.',
-    wizardPricingLines: [
-      'Trip budgeting and booking (free)',
-      'Base Organization — 60€',
-      'Premium — 130€',
-    ],
-    wizardPricingNote: 'Values vary by complexity and duration.',
     wizardStepTitles: [
       'Email',
       'About the trip',
@@ -316,7 +306,8 @@ const copy = {
       'Your past helps us a lot.',
     ],
     wizardReassureEmail: 'Only for your reply. No spam.',
-    wizardAutosaveNote: 'You can continue later — we save automatically.',
+    wizardAutosaveNote: 'You can pause anytime — we save automatically.',
+    wizardNextStepNote: 'Then we send a clear, human proposal.',
     wizardQuestions: {
       email: 'Email',
       destination: 'What is the trip destination? Do you have one in mind? If yes, which?',
@@ -1089,14 +1080,17 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
             {t.wizardNext}
           </button>
         ) : (
-          <button
-            type="button"
-            onClick={() => onSubmit(data)}
-            disabled={!canAdvance}
-            className="rounded-full bg-navy text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
-          >
-            {t.wizardSubmit}
-          </button>
+          <div className="flex flex-col items-end gap-2">
+            <button
+              type="button"
+              onClick={() => onSubmit(data)}
+              disabled={!canAdvance}
+              className="rounded-full bg-navy text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
+            >
+              {t.wizardSubmit}
+            </button>
+            <p className="text-xs text-navy/60">{t.wizardNextStepNote}</p>
+          </div>
         )}
       </div>
       <p className="mt-3 text-xs text-navy/50">{t.wizardAutosaveNote}</p>
@@ -1207,6 +1201,7 @@ export default function App() {
                 {t.heroTitle}
               </h1>
               <p className="mt-3 text-lg text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
+              <p className="mt-3 text-sm text-navy/60 max-w-xl">{t.heroWhy}</p>
               <div className="mt-5">
                 <a
                   href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
@@ -1231,7 +1226,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="qualify" className="py-10">
+        <section id="qualify" className="py-10 border-t border-navy/10">
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.qualifyTitle}</h2>
@@ -1250,7 +1245,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="how" className="py-12">
+        <section id="how" className="py-12 border-t border-navy/10">
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.howTitle}</h2>
@@ -1271,7 +1266,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="services" className="py-12 bg-white/70">
+        <section id="services" className="py-12 bg-white/70 border-t border-navy/10">
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.servicesTitle}</h2>
@@ -1282,6 +1277,7 @@ export default function App() {
               <Reveal className="rounded-3xl border border-navy/10 p-6 shadow-card bg-white">
                 <p className="text-xs uppercase tracking-[0.2em] text-navy/60">{t.baseTitle}</p>
                 <p className="mt-3 text-sm text-navy/70">{t.baseOutcome}</p>
+                <p className="mt-2 text-xs text-navy/60">{t.baseWhen}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {t.baseBenefits.map((item) => (
                     <span
@@ -1299,6 +1295,7 @@ export default function App() {
                 </span>
                 <p className="text-xs uppercase tracking-[0.2em] text-navy/60">{t.premiumTitle}</p>
                 <p className="mt-3 text-sm text-navy/70">{t.premiumOutcome}</p>
+                <p className="mt-2 text-xs text-navy/60">{t.premiumWhen}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {t.premiumBenefits.map((item) => (
                     <span
@@ -1315,7 +1312,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="trust" className="py-12">
+        <section id="trust" className="py-12 border-t border-navy/10">
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.trustTitle}</h2>
@@ -1346,10 +1343,11 @@ export default function App() {
                 </Reveal>
               ))}
             </div>
+            <p className="mt-3 text-xs text-navy/60">Fotos reais da nossa família.</p>
           </div>
         </section>
 
-        <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-16">
+        <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-16 border-t border-navy/10">
           <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
             <Reveal>
               <h2 className="text-3xl font-display">{t.formTitle}</h2>
