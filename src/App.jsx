@@ -28,6 +28,7 @@ const copy = {
     heroWhy: 'Planeamos como pais: com pausas, sestas e pouca complicação.',
     heroCtaNote: 'Resposta humana, sem automações.',
     primaryCta: 'Começar diagnóstico',
+    heroCtaPrompt: 'Se estás cansada(o) de decidir, começa aqui.',
     qualifyTitle: 'Isto é para ti se…',
     qualifyItems: [
       { title: 'Queres um ritmo possível', text: 'Com pausas e sestas.' },
@@ -128,6 +129,7 @@ const copy = {
     wizardProgressRemaining: 'Só faltam {count} passos.',
     wizardProgressRemainingSingle: 'Só falta 1 passo.',
     wizardOptional: 'Adicionar detalhes (opcional)',
+    wizardOptionalNote: 'Não tens de saber isto agora.',
     wizardSummaryTitle: 'Resumo',
     wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
     wizardOptions: {
@@ -237,10 +239,11 @@ const copy = {
     ],
     heroTag: 'TravelBuddies | Family Trip Design',
     heroTitle: 'Family travel with kids/babies for real life (not perfect).',
-    heroBody: 'Light planning for tired parents.',
+    heroBody: 'Light planning for busy parents.',
     heroWhy: 'We plan like parents: breaks, naps, and less complexity.',
     heroCtaNote: 'Human response, no automation.',
     primaryCta: 'Começar diagnóstico',
+    heroCtaPrompt: 'If you are tired of deciding, start here.',
     qualifyTitle: 'This is for you if…',
     qualifyItems: [
       { title: 'You want a doable pace', text: 'With breaks and naps.' },
@@ -341,6 +344,7 @@ const copy = {
     wizardProgressRemaining: 'Only {count} steps left.',
     wizardProgressRemainingSingle: 'Only 1 step left.',
     wizardOptional: 'Add details (optional)',
+    wizardOptionalNote: "You don't need to know this now.",
     wizardSummaryTitle: 'Summary',
     wizardSummaryBody: 'Review and send via your preferred channel.',
     wizardOptions: {
@@ -678,6 +682,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
           >
             {t.wizardOptional}
           </button>
+          <p className="text-xs text-navy/50">{t.wizardOptionalNote}</p>
           {optionalOpen.trip && (
             <div className="grid gap-3 rounded-2xl border border-dashed border-navy/10 p-4">
               <div className="flex flex-col gap-2">
@@ -772,13 +777,17 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
           >
             {t.wizardOptional}
           </button>
+          <p className="text-xs text-navy/50">{t.wizardOptionalNote}</p>
           {optionalOpen.lodging && (
             <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
               <div className="space-y-2">
                 <p className="text-xs text-navy/60">{t.wizardQuestions.lodgingValues}</p>
                 <div className="grid gap-2 sm:grid-cols-2">
                   {t.wizardOptions.lodgingValues.map((option) => (
-                    <label key={option} className="flex items-center gap-2 text-sm text-navy/70">
+                    <label
+                      key={option}
+                      className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-navy/70 hover:bg-cream/40"
+                    >
                       <input
                         type="checkbox"
                         checked={data.lodgingValues.includes(option)}
@@ -832,6 +841,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
               </option>
             ))}
           </select>
+          <p className="text-xs text-navy/50">Orçamento e marcação de viagem (gratuito)</p>
         </div>
       ),
     },
@@ -869,6 +879,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
           >
             {t.wizardOptional}
           </button>
+          <p className="text-xs text-navy/50">{t.wizardOptionalNote}</p>
           {optionalOpen.profiles && (
             <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
               <div className="flex flex-col gap-2">
@@ -988,6 +999,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
           >
             {t.wizardOptional}
           </button>
+          <p className="text-xs text-navy/50">{t.wizardOptionalNote}</p>
           {optionalOpen.experiences && (
             <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
               <div className="flex flex-col gap-2">
@@ -1198,7 +1210,7 @@ export default function App() {
       </header>
 
       <main>
-        <section className="pt-12 pb-10 sm:pt-14 sm:pb-12 lg:pt-20 lg:pb-16">
+        <section className="pt-10 pb-8 sm:pt-14 sm:pb-12 lg:pt-20 lg:pb-16">
           <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
             <Reveal>
               <p className="text-sm uppercase tracking-[0.2em] text-navy/50">{t.heroTag}</p>
@@ -1208,6 +1220,7 @@ export default function App() {
               <p className="mt-3 text-lg text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
               <p className="mt-3 text-sm text-navy/60 max-w-xl">{t.heroWhy}</p>
               <div className="mt-5">
+                <p className="mb-2 text-sm text-navy/70">{t.heroCtaPrompt}</p>
                 <a
                   href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
                   className="inline-flex px-7 py-3 rounded-full bg-navy text-white shadow-soft hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
@@ -1217,7 +1230,7 @@ export default function App() {
                 <p className="mt-2 text-xs text-navy/60">{t.heroCtaNote}</p>
               </div>
             </Reveal>
-            <Reveal className="relative">
+            <Reveal className="relative hidden sm:block">
               <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
               <div className="rounded-[32px] border border-navy/10 bg-white/90 shadow-soft overflow-hidden">
                 <SmartImage
