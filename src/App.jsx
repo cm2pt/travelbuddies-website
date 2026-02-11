@@ -3,6 +3,9 @@ import { motion } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 import logo from './assets/logo.png'
 import heroImage from './assets/hero.jpg'
+import travel1 from './assets/WhatsApp Image 2026-02-10 at 23.59.04.jpeg'
+import travel2 from './assets/WhatsApp Image 2026-02-10 at 23.59.04 (1).jpeg'
+import travel3 from './assets/WhatsApp Image 2026-02-10 at 23.59.04 (2).jpeg'
 
 const REMOTE_IMAGES = {
   hero:
@@ -1325,6 +1328,21 @@ export default function App() {
                 >
                   <p className="text-sm font-semibold">{card.title}</p>
                   <p className="mt-2 text-xs text-navy/60">{card.text}</p>
+                </Reveal>
+              ))}
+            </div>
+            <div className="mt-6 grid gap-4 sm:grid-cols-3">
+              {[travel1, travel2, travel3].map((img, index) => (
+                <Reveal
+                  key={img}
+                  className="overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-card"
+                >
+                  <img
+                    src={img}
+                    alt={`Viagem em família ${index + 1}`}
+                    className="h-40 w-full object-cover"
+                    loading="lazy"
+                  />
                 </Reveal>
               ))}
             </div>
