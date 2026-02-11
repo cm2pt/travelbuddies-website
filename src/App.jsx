@@ -93,8 +93,8 @@ const copy = {
     email: 'Enviar por Email',
     instagram: 'Falar no Instagram',
     footerTitle: 'TravelBuddies',
-    footerBody: 'Viagens em família com leveza.',
-    footerSmall: '© 2026 TravelBuddies. Todos os direitos reservados.',
+    footerBody: 'Estamos aqui para ajudar a tua família.',
+    footerSmall: 'Com carinho, TravelBuddies.',
     messageTitle: 'Pedido de Diagnóstico TravelBuddies',
   },
   en: {
@@ -178,8 +178,8 @@ const copy = {
     email: 'Send via Email',
     instagram: 'Chat on Instagram',
     footerTitle: 'TravelBuddies',
-    footerBody: 'Family trips with ease.',
-    footerSmall: '© 2026 TravelBuddies. All rights reserved.',
+    footerBody: 'We are here to help your family.',
+    footerSmall: 'With care, TravelBuddies.',
     messageTitle: 'TravelBuddies Diagnosis Request',
   },
 }
@@ -644,31 +644,31 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="py-12 border-t border-navy/10 bg-white/80">
-        <div className={`${container} flex flex-col gap-4 md:flex-row md:items-center md:justify-between`}>
-          <div>
+      <footer className="py-12 border-t border-navy/10 bg-white/85">
+        <div className={`${container} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}>
+          <div className="space-y-2">
             <p className="font-display text-lg">{t.footerTitle}</p>
             <p className="text-sm text-navy/60">{t.footerBody}</p>
-            <div className="mt-3 flex flex-wrap gap-3 text-xs text-navy/60">
-              <a
-                href="https://wa.me/351919676329"
-                className="hover:text-navy focus-visible:outline-none focus-visible:underline"
-              >
-                WhatsApp
-              </a>
-              <a
-                href="mailto:joana_krisna@hotmail.com"
-                className="hover:text-navy focus-visible:outline-none focus-visible:underline"
-              >
-                Email
-              </a>
-              <a
-                href="https://www.instagram.com/family_in_trouble/"
-                className="hover:text-navy focus-visible:outline-none focus-visible:underline"
-              >
-                Instagram
-              </a>
-            </div>
+          </div>
+          <div className="flex flex-wrap gap-3 text-sm text-navy/70">
+            <a
+              href="https://wa.me/351919676329"
+              className="rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            >
+              WhatsApp
+            </a>
+            <a
+              href="mailto:joana_krisna@hotmail.com"
+              className="rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            >
+              Email
+            </a>
+            <a
+              href="https://www.instagram.com/family_in_trouble/"
+              className="rounded-full border border-navy/10 px-4 py-2 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            >
+              Instagram
+            </a>
           </div>
           <p className="text-xs text-navy/50">{t.footerSmall}</p>
         </div>
