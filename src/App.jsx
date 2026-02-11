@@ -75,6 +75,7 @@ const copy = {
       { title: 'Vida real primeiro', text: 'Sem promessas irreais.' },
       { title: 'Presença humana', text: 'Acompanhamento próximo.' },
     ],
+    trustLine: 'Somos uma família que viaja com crianças e conhece os desafios.',
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
     formHint: 'Demora 2–3 minutos. Resposta humana. Sem compromisso.',
@@ -95,8 +96,13 @@ const copy = {
       'O que já viveram ajuda-nos muito.',
     ],
     wizardReassureEmail: 'Só usamos para te responder. Sem spam.',
+    wizardReassurePrivacy: 'Não partilhamos com terceiros.',
     wizardAutosaveNote: 'Podes parar a qualquer momento — guardamos automaticamente.',
     wizardNextStepNote: 'Depois enviamos uma proposta clara e humana.',
+    wizardTimeNote: 'Menos de 1 minuto.',
+    wizardRequiredNote: 'Precisamos disto para avançar.',
+    wizardReceiveTitle: 'O que vais receber',
+    wizardReceiveItems: ['Roteiro leve', 'Opções claras', 'Checklist útil'],
     wizardQuestions: {
       email: 'Email',
       destination: 'Qual é o destino da viagem? Tens algum destino em mente? Se sim, qual?',
@@ -290,6 +296,7 @@ const copy = {
       { title: 'Real life first', text: 'No unrealistic promises.' },
       { title: 'Human presence', text: 'Close support.' },
     ],
+    trustLine: 'We are a family that travels with kids and knows the challenges.',
     formTitle: 'TravelBuddies Diagnosis',
     formBody: 'Share the essentials. We simplify.',
     formHint: 'Takes 2–3 minutes. Human response. No commitment.',
@@ -310,8 +317,13 @@ const copy = {
       'Your past helps us a lot.',
     ],
     wizardReassureEmail: 'Only for your reply. No spam.',
+    wizardReassurePrivacy: 'We do not share with third parties.',
     wizardAutosaveNote: 'You can pause anytime — we save automatically.',
     wizardNextStepNote: 'Then we send a clear, human proposal.',
+    wizardTimeNote: 'Less than 1 minute.',
+    wizardRequiredNote: 'We need this to move forward.',
+    wizardReceiveTitle: 'What you will receive',
+    wizardReceiveItems: ['Light itinerary', 'Clear options', 'Helpful checklist'],
     wizardQuestions: {
       email: 'Email',
       destination: 'What is the trip destination? Do you have one in mind? If yes, which?',
@@ -619,6 +631,8 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
             className="rounded-xl border border-navy/10 px-3 py-3"
           />
           <p className="text-xs text-navy/50">{t.wizardReassureEmail}</p>
+          <p className="text-xs text-navy/50">{t.wizardReassurePrivacy}</p>
+          <p className="text-xs text-navy/50">{t.wizardTimeNote}</p>
         </div>
       ),
     },
@@ -631,50 +645,53 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
             <label className="text-xs text-navy/60" htmlFor="motivation">
               {t.wizardQuestions.motivation}
             </label>
-            <select
-              id="motivation"
-              name="motivation"
-              required
-              value={data.motivation}
-              onChange={handleChange}
-              className="rounded-xl border border-navy/10 px-3 py-3"
-            >
-              <option value="" disabled>
-                —
+          <select
+            id="motivation"
+            name="motivation"
+            required
+            value={data.motivation}
+            onChange={handleChange}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          >
+            <option value="" disabled>
+              —
+            </option>
+            {t.wizardOptions.motivation.map((option) => (
+              <option key={option} value={option}>
+                {option}
               </option>
-              {t.wizardOptions.motivation.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
+            ))}
+          </select>
+          {!data.motivation && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+        </div>
           <div className="flex flex-col gap-2">
             <label className="text-xs text-navy/60" htmlFor="dates">
               {t.wizardQuestions.dates}
             </label>
-            <input
-              id="dates"
-              name="dates"
-              required
-              value={data.dates}
-              onChange={handleChange}
-              className="rounded-xl border border-navy/10 px-3 py-3"
-            />
-          </div>
+          <input
+            id="dates"
+            name="dates"
+            required
+            value={data.dates}
+            onChange={handleChange}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          />
+          {!data.dates.trim() && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+        </div>
           <div className="flex flex-col gap-2">
             <label className="text-xs text-navy/60" htmlFor="people">
               {t.wizardQuestions.people}
             </label>
-            <input
-              id="people"
-              name="people"
-              required
-              value={data.people}
-              onChange={handleChange}
-              className="rounded-xl border border-navy/10 px-3 py-3"
-            />
-          </div>
+          <input
+            id="people"
+            name="people"
+            required
+            value={data.people}
+            onChange={handleChange}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          />
+          {!data.people.trim() && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+        </div>
           <button
             type="button"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, trip: !prev.trip }))}
@@ -730,46 +747,48 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
             <label className="text-xs text-navy/60" htmlFor="meal">
               {t.wizardQuestions.meal}
             </label>
-            <select
-              id="meal"
-              name="meal"
-              required
-              value={data.meal}
-              onChange={handleChange}
-              className="rounded-xl border border-navy/10 px-3 py-3"
-            >
-              <option value="" disabled>
-                —
+          <select
+            id="meal"
+            name="meal"
+            required
+            value={data.meal}
+            onChange={handleChange}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          >
+            <option value="" disabled>
+              —
+            </option>
+            {t.wizardOptions.meal.map((option) => (
+              <option key={option} value={option}>
+                {option}
               </option>
-              {t.wizardOptions.meal.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
+            ))}
+          </select>
+          {!data.meal && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+        </div>
           <div className="flex flex-col gap-2">
             <label className="text-xs text-navy/60" htmlFor="lodging">
               {t.wizardQuestions.lodging}
             </label>
-            <select
-              id="lodging"
-              name="lodging"
-              required
-              value={data.lodging}
-              onChange={handleChange}
-              className="rounded-xl border border-navy/10 px-3 py-3"
-            >
-              <option value="" disabled>
-                —
+          <select
+            id="lodging"
+            name="lodging"
+            required
+            value={data.lodging}
+            onChange={handleChange}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          >
+            <option value="" disabled>
+              —
+            </option>
+            {t.wizardOptions.lodging.map((option) => (
+              <option key={option} value={option}>
+                {option}
               </option>
-              {t.wizardOptions.lodging.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
+            ))}
+          </select>
+          {!data.lodging && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+        </div>
           <button
             type="button"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, lodging: !prev.lodging }))}
@@ -842,6 +861,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
             ))}
           </select>
           <p className="text-xs text-navy/50">Orçamento e marcação de viagem (gratuito)</p>
+          {!data.service && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
         </div>
       ),
     },
@@ -854,24 +874,25 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
             <label className="text-xs text-navy/60" htmlFor="motherProfile">
               {t.wizardQuestions.motherProfile}
             </label>
-            <select
-              id="motherProfile"
-              name="motherProfile"
-              required
-              value={data.motherProfile}
-              onChange={handleChange}
-              className="rounded-xl border border-navy/10 px-3 py-3"
-            >
-              <option value="" disabled>
-                —
+          <select
+            id="motherProfile"
+            name="motherProfile"
+            required
+            value={data.motherProfile}
+            onChange={handleChange}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          >
+            <option value="" disabled>
+              —
+            </option>
+            {t.wizardOptions.parentProfileMother.map((option) => (
+              <option key={option} value={option}>
+                {option}
               </option>
-              {t.wizardOptions.parentProfileMother.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
+            ))}
+          </select>
+          {!data.motherProfile && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+        </div>
           <button
             type="button"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, profiles: !prev.profiles }))}
@@ -974,24 +995,25 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
             <label className="text-xs text-navy/60" htmlFor="familyTraveled">
               {t.wizardQuestions.familyTraveled}
             </label>
-            <select
-              id="familyTraveled"
-              name="familyTraveled"
-              required
-              value={data.familyTraveled}
-              onChange={handleChange}
-              className="rounded-xl border border-navy/10 px-3 py-3"
-            >
-              <option value="" disabled>
-                —
+          <select
+            id="familyTraveled"
+            name="familyTraveled"
+            required
+            value={data.familyTraveled}
+            onChange={handleChange}
+            className="rounded-xl border border-navy/10 px-3 py-3"
+          >
+            <option value="" disabled>
+              —
+            </option>
+            {t.wizardOptions.familyTraveled.map((option) => (
+              <option key={option} value={option}>
+                {option}
               </option>
-              {t.wizardOptions.familyTraveled.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
+            ))}
+          </select>
+          {!data.familyTraveled && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+        </div>
           <button
             type="button"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, experiences: !prev.experiences }))}
@@ -1070,6 +1092,7 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
         <span>{steps[step].title}</span>
       </div>
       <p className="mt-2 text-xs text-navy/60">{t.wizardStepHelpers[step]}</p>
+      <p className="mt-1 text-xs text-navy/50">{t.wizardTimeNote}</p>
       {remainingText && <p className="mt-1 text-xs text-teal">{remainingText}</p>}
       {step === steps.length - 1 && (
         <p className="mt-1 text-xs text-teal">{t.wizardProgressNote}</p>
@@ -1253,7 +1276,7 @@ export default function App() {
               {t.qualifyItems.map((item) => (
                 <Reveal
                   key={item.title}
-                  className="rounded-2xl border border-navy/10 bg-white/85 p-4 shadow-card"
+                  className="rounded-2xl border border-navy/10 bg-white/85 p-4 shadow-card min-h-[104px]"
                 >
                   <p className="text-sm font-semibold">{item.title}</p>
                   <p className="mt-1 text-xs text-navy/60">{item.text}</p>
@@ -1270,7 +1293,7 @@ export default function App() {
             </Reveal>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
               {t.howSteps.map((step, index) => (
-                <Reveal key={step.title} className="rounded-2xl border border-navy/10 bg-white p-5 shadow-card">
+                <Reveal key={step.title} className="rounded-2xl border border-navy/10 bg-white p-5 shadow-card min-h-[128px]">
                   <div className="flex items-center gap-3">
                     <span className="flex h-9 w-9 items-center justify-center rounded-full border border-navy/10 bg-tealSoft/60 text-sm">
                       {index + 1}
@@ -1292,7 +1315,7 @@ export default function App() {
               <p className="mt-2 text-sm text-navy/60">{t.servicesFreeLine}</p>
             </Reveal>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
-              <Reveal className="rounded-3xl border border-navy/10 p-6 shadow-card bg-white">
+              <Reveal className="rounded-3xl border border-navy/10 p-6 shadow-card bg-white min-h-[260px]">
                 <p className="text-xs uppercase tracking-[0.2em] text-navy/60">{t.baseTitle}</p>
                 <p className="mt-3 text-sm text-navy/70">{t.baseOutcome}</p>
                 <p className="mt-2 text-xs text-navy/60">{t.baseWhen}</p>
@@ -1307,7 +1330,7 @@ export default function App() {
                   ))}
                 </div>
               </Reveal>
-              <Reveal className="relative rounded-3xl border border-navy/10 p-6 shadow-card bg-cream/40">
+              <Reveal className="relative rounded-3xl border border-navy/10 p-6 shadow-card bg-cream/40 min-h-[260px]">
                 <span className="absolute right-5 top-5 rounded-full bg-navy text-white px-3 py-1 text-xs">
                   {t.premiumBadge}
                 </span>
@@ -1339,13 +1362,14 @@ export default function App() {
               {t.trustCards.map((card) => (
                 <Reveal
                   key={card.title}
-                  className="rounded-2xl border border-navy/10 bg-white/85 p-5 shadow-card"
+                  className="rounded-2xl border border-navy/10 bg-white/85 p-5 shadow-card min-h-[128px]"
                 >
                   <p className="text-sm font-semibold">{card.title}</p>
                   <p className="mt-2 text-xs text-navy/60">{card.text}</p>
                 </Reveal>
               ))}
             </div>
+            <p className="mt-3 text-sm text-navy/60">{t.trustLine}</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               {[travel1, travel2, travel3].map((img, index) => (
                 <Reveal
@@ -1373,6 +1397,19 @@ export default function App() {
               <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
               <div className="mt-6 rounded-3xl border border-navy/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
                 <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} />
+              </div>
+              <div className="mt-4 rounded-2xl border border-navy/10 bg-white/80 p-4">
+                <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {t.wizardReceiveItems.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-navy/10 bg-cream/60 px-3 py-1 text-xs text-navy/70"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
             </Reveal>
 
