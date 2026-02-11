@@ -70,9 +70,8 @@ const copy = {
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
     formHint: 'Demora 2–3 minutos. Resposta humana. Sem compromisso.',
-    wizardIntroTitle: 'Diagnóstico em família, na vida real',
-    wizardIntroBody:
-      'Ajuda-nos a perceber o que funciona para a vossa família. Primeiro respondem ao questionário e depois recebem uma proposta.',
+    wizardIntroTitle: 'Diagnóstico para famílias reais',
+    wizardIntroBody: 'Conta-nos o essencial. Respondes ao questionário e nós tratamos do resto.',
     wizardPricingLines: [
       'Orçamento e marcação de viagem (gratuito)',
       'Organização Base — 60€',
