@@ -34,8 +34,9 @@ const copy = {
     ],
     servicesTitle: 'Serviços TravelBuddies',
     servicesBody: 'Escolha simples, com calma.',
-    baseTitle: 'BASE a partir de 50€',
-    premiumTitle: 'PREMIUM a partir de 100€',
+    servicesFreeLine: 'Orçamento e marcação de viagem (gratuito)',
+    baseTitle: 'Organização Base — 60€',
+    premiumTitle: 'Premium — 130€',
     premiumBadge: 'Menos decisões',
     baseOutcome: 'Para ganhar clareza e seguir em frente.',
     premiumOutcome: 'Para reduzir ao máximo o peso mental.',
@@ -246,8 +247,9 @@ const copy = {
     ],
     servicesTitle: 'TravelBuddies Services',
     servicesBody: 'A simple, calm choice.',
-    baseTitle: 'BASE from €50',
-    premiumTitle: 'PREMIUM from €100',
+    servicesFreeLine: 'Orçamento e marcação de viagem (gratuito)',
+    baseTitle: 'Organização Base — 60€',
+    premiumTitle: 'Premium — 130€',
     premiumBadge: 'Less decisions',
     baseOutcome: 'For clarity and to move forward.',
     premiumOutcome: 'To reduce mental load as much as possible.',
@@ -1257,6 +1259,7 @@ export default function App() {
             <Reveal>
               <h2 className="text-2xl font-display">{t.servicesTitle}</h2>
               <p className="mt-2 text-navy/70">{t.servicesBody}</p>
+              <p className="mt-2 text-sm text-navy/60">{t.servicesFreeLine}</p>
             </Reveal>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <Reveal className="rounded-3xl border border-navy/10 p-6 shadow-card bg-white">
