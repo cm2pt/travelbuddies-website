@@ -1323,16 +1323,6 @@ export default function App() {
               <h2 className="text-3xl font-display">{t.formTitle}</h2>
               <p className="mt-3 text-navy/70">{t.formBody}</p>
               <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
-              <div className="mt-4 rounded-2xl border border-navy/10 bg-white/70 p-4">
-                <p className="text-sm font-semibold">{t.wizardIntroTitle}</p>
-                <p className="mt-2 text-xs text-navy/60">{t.wizardIntroBody}</p>
-                <ul className="mt-3 space-y-1 text-xs text-navy/70">
-                  {t.wizardPricingLines.map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
-                <p className="mt-2 text-xs text-navy/50">{t.wizardPricingNote}</p>
-              </div>
               <div className="mt-6">
                 <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} />
               </div>
