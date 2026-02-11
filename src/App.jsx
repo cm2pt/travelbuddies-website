@@ -32,9 +32,14 @@ const copy = {
       { title: 'Isto não é para ti', text: 'Se queres viagens maratona.' },
     ],
     servicesTitle: 'Serviços TravelBuddies',
-    servicesBody: 'Dois níveis, o mesmo cuidado.',
-    baseTitle: 'BASE desde 50€',
-    premiumTitle: 'PREMIUM desde 100€',
+    servicesBody: 'Escolha simples, com calma.',
+    baseTitle: 'BASE a partir de 50€',
+    premiumTitle: 'PREMIUM a partir de 100€',
+    premiumBadge: 'Menos decisões',
+    baseOutcome: 'Para ganhar clareza e seguir em frente.',
+    premiumOutcome: 'Para reduzir ao máximo o peso mental.',
+    baseBenefits: ['Roteiro leve', 'Comparações claras', 'Decisão com apoio'],
+    premiumBenefits: ['Planeamento por dias', 'Experiências alinhadas', 'Apoio antes e durante'],
     pricingNote: 'Valores variam consoante duração e complexidade.',
     baseIncludes: [
       'Diagnóstico TravelBuddies da família',
@@ -112,9 +117,14 @@ const copy = {
       { title: 'This is not for you', text: 'If you want marathon trips.' },
     ],
     servicesTitle: 'TravelBuddies Services',
-    servicesBody: 'Two levels, same care.',
+    servicesBody: 'A simple, calm choice.',
     baseTitle: 'BASE from €50',
     premiumTitle: 'PREMIUM from €100',
+    premiumBadge: 'Less decisions',
+    baseOutcome: 'For clarity and to move forward.',
+    premiumOutcome: 'To reduce mental load as much as possible.',
+    baseBenefits: ['Light itinerary', 'Clear comparisons', 'Decision support'],
+    premiumBenefits: ['Day-by-day plan', 'Aligned experiences', 'Support before and during'],
     pricingNote: 'Prices vary by duration and complexity.',
     baseIncludes: [
       'TravelBuddies family diagnosis',
@@ -423,31 +433,34 @@ export default function App() {
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <Reveal className="rounded-3xl border border-navy/10 p-6 shadow-card bg-white">
                 <p className="text-xs uppercase tracking-[0.2em] text-navy/60">{t.baseTitle}</p>
-                <ul className="mt-4 space-y-2 text-sm text-navy/70">
-                  {t.baseIncludes.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-teal" />
-                      <span>{item}</span>
-                    </li>
+                <p className="mt-3 text-sm text-navy/70">{t.baseOutcome}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {t.baseBenefits.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-navy/10 bg-tealSoft/60 px-3 py-1 text-xs text-navy/70"
+                    >
+                      {item}
+                    </span>
                   ))}
-                </ul>
+                </div>
               </Reveal>
-              <Reveal className="rounded-3xl border border-navy/10 p-6 shadow-card bg-cream/40">
+              <Reveal className="relative rounded-3xl border border-navy/10 p-6 shadow-card bg-cream/40">
+                <span className="absolute right-5 top-5 rounded-full bg-navy text-white px-3 py-1 text-xs">
+                  {t.premiumBadge}
+                </span>
                 <p className="text-xs uppercase tracking-[0.2em] text-navy/60">{t.premiumTitle}</p>
-                <ul className="mt-4 space-y-2 text-sm text-navy/70">
-                  {t.baseIncludes.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-blush" />
-                      <span>{item}</span>
-                    </li>
+                <p className="mt-3 text-sm text-navy/70">{t.premiumOutcome}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {t.premiumBenefits.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-navy/10 bg-white/70 px-3 py-1 text-xs text-navy/70"
+                    >
+                      {item}
+                    </span>
                   ))}
-                  {t.premiumIncludes.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-blush" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                </div>
               </Reveal>
             </div>
             <p className="mt-4 text-sm text-navy/60">{t.pricingNote}</p>
