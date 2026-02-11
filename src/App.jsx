@@ -23,9 +23,8 @@ const copy = {
       { href: '#diagnostico', label: 'Diagnóstico' },
     ],
     heroTag: 'TravelBuddies | Viagens em Família',
-    heroTitle: 'Viagens em família com crianças/bebés para a vida real (não perfeita).',
+    heroTitle: 'Viagens em família com crianças/bebés — vida real.',
     heroBody: 'Planeamento leve para pais cansados.',
-    heroWhy: 'Planeamos como pais: com pausas, sestas e pouca complicação.',
     heroCtaNote: 'Sem compromisso. Resposta humana.',
     primaryCta: 'Começar diagnóstico',
     heroCtaPrompt: 'Se estás cansada(o) de decidir, começa aqui.',
@@ -103,6 +102,7 @@ const copy = {
     wizardRequiredNote: 'Precisamos disto para avançar.',
     wizardReceiveTitle: 'O que vais receber',
     wizardReceiveItems: ['Roteiro leve', 'Opções claras', 'Checklist útil'],
+    wizardReceiveIcons: ['🗺️', '✅', '🧾'],
     wizardQuestions: {
       email: 'Email',
       destination: 'Qual é o destino da viagem? Tens algum destino em mente? Se sim, qual?',
@@ -250,9 +250,8 @@ const copy = {
       { href: '#diagnosis', label: 'Diagnosis' },
     ],
     heroTag: 'TravelBuddies | Family Trip Design',
-    heroTitle: 'Family travel with kids/babies for real life (not perfect).',
+    heroTitle: 'Family travel with kids/babies — real life.',
     heroBody: 'Light planning for busy parents.',
-    heroWhy: 'We plan like parents: breaks, naps, and less complexity.',
     heroCtaNote: 'No commitment. Human response.',
     primaryCta: 'Começar diagnóstico',
     heroCtaPrompt: 'If you are tired of deciding, start here.',
@@ -330,6 +329,7 @@ const copy = {
     wizardRequiredNote: 'We need this to move forward.',
     wizardReceiveTitle: 'What you will receive',
     wizardReceiveItems: ['Light itinerary', 'Clear options', 'Helpful checklist'],
+    wizardReceiveIcons: ['🗺️', '✅', '🧾'],
     wizardQuestions: {
       email: 'Email',
       destination: 'What is the trip destination? Do you have one in mind? If yes, which?',
@@ -539,7 +539,7 @@ const buildMessage = (lang, form) => {
   return [t.messageTitle, '', ...lines].join('\n')
 }
 
-const DiagnosisWizard = ({ t, onSubmit, onAutosave }) => {
+const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
   const initialState = {
     email: '',
     destination: '',
@@ -608,6 +608,10 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave }) => {
 
   const next = () => setStep((prev) => Math.min(prev + 1, 5))
   const back = () => setStep((prev) => Math.max(prev - 1, 0))
+
+  useEffect(() => {
+    onStepChange?.()
+  }, [step, onStepChange])
 
   const canAdvance = [
     data.email.trim(),
@@ -1163,6 +1167,7 @@ export default function App() {
   const [message, setMessage] = useState('')
   const [copyStatus, setCopyStatus] = useState('')
   const [saveStatus, setSaveStatus] = useState('')
+  const [stepStatus, setStepStatus] = useState('')
 
   const t = copy[lang]
 
@@ -1190,6 +1195,11 @@ export default function App() {
   const handleAutosave = () => {
     setSaveStatus(lang === 'pt' ? 'Guardado ✅' : 'Saved ✅')
     setTimeout(() => setSaveStatus(''), 1200)
+  }
+
+  const handleStepChange = () => {
+    setStepStatus(lang === 'pt' ? 'Continuas depois — guardado ✅' : 'Continue later — saved ✅')
+    setTimeout(() => setStepStatus(''), 1600)
   }
 
   const links = useMemo(() => {
@@ -1263,7 +1273,6 @@ export default function App() {
                 {t.heroTitle}
               </h1>
               <p className="mt-3 text-base text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
-              <p className="mt-3 text-sm text-navy/60 max-w-xl">{t.heroWhy}</p>
               <div className="mt-5">
                 <p className="mb-2 text-sm text-navy/70">{t.heroCtaPrompt}</p>
                 <a
@@ -1411,6 +1420,13 @@ export default function App() {
           </div>
         </section>
 
+        <a
+          href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
+          className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 rounded-full bg-navy px-6 py-3 text-sm text-white shadow-soft sm:hidden"
+        >
+          {t.primaryCta}
+        </a>
+
         <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 border-t border-navy/10">
           <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
             <Reveal>
@@ -1418,22 +1434,29 @@ export default function App() {
               <p className="mt-3 text-navy/70">{t.formBody}</p>
               <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
               <div className="mt-6 rounded-3xl border border-navy/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
-                <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onAutosave={handleAutosave} />
+                <DiagnosisWizard
+                  t={t}
+                  onSubmit={handleWizardSubmit}
+                  onAutosave={handleAutosave}
+                  onStepChange={handleStepChange}
+                />
               </div>
               <div className="mt-4 rounded-2xl border border-navy/10 bg-white/80 p-4">
                 <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {t.wizardReceiveItems.map((item) => (
-                    <span
+                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                  {t.wizardReceiveItems.map((item, index) => (
+                    <div
                       key={item}
-                      className="rounded-full border border-navy/10 bg-cream/60 px-3 py-1 text-xs text-navy/70"
+                      className="flex items-center gap-2 rounded-xl border border-navy/10 bg-cream/60 px-3 py-2 text-xs text-navy/70"
                     >
-                      {item}
-                    </span>
+                      <span className="text-base">{t.wizardReceiveIcons[index]}</span>
+                      <span>{item}</span>
+                    </div>
                   ))}
                 </div>
               </div>
               {saveStatus && <p className="mt-2 text-xs text-teal">{saveStatus}</p>}
+              {stepStatus && <p className="mt-1 text-xs text-teal">{stepStatus}</p>}
             </Reveal>
 
             <Reveal>
