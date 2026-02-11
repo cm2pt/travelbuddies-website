@@ -126,6 +126,7 @@ const copy = {
     wizardProgress: 'Passo',
     wizardProgressNote: 'Falta pouco.',
     wizardProgressRemaining: 'Só faltam {count} passos.',
+    wizardProgressRemainingSingle: 'Só falta 1 passo.',
     wizardOptional: 'Adicionar detalhes (opcional)',
     wizardSummaryTitle: 'Resumo',
     wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
@@ -338,6 +339,7 @@ const copy = {
     wizardProgress: 'Step',
     wizardProgressNote: 'Almost there.',
     wizardProgressRemaining: 'Only {count} steps left.',
+    wizardProgressRemainingSingle: 'Only 1 step left.',
     wizardOptional: 'Add details (optional)',
     wizardSummaryTitle: 'Summary',
     wizardSummaryBody: 'Review and send via your preferred channel.',
@@ -589,7 +591,9 @@ const DiagnosisWizard = ({ t, onSubmit }) => {
   const remaining = stepsCount - (step + 1)
   const remainingText =
     remaining > 0 && remaining <= 2
-      ? t.wizardProgressRemaining.replace('{count}', String(remaining))
+      ? remaining === 1
+        ? t.wizardProgressRemainingSingle
+        : t.wizardProgressRemaining.replace('{count}', String(remaining))
       : ''
 
   const steps = [
