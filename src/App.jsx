@@ -1379,24 +1379,25 @@ export default function App() {
             <Reveal>
               <div className="rounded-3xl border border-navy/10 bg-white/90 p-6 shadow-card">
                 {message ? (
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     <div>
                       <p className="text-sm font-semibold">{t.formThankTitle}</p>
                       <p className="mt-2 text-xs text-navy/60">{t.formThankBody}</p>
-                      <p className="mt-2 text-xs text-navy/60">{t.formThankNote}</p>
                     </div>
                     <div>
                       <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
                       <p className="text-xs text-navy/60 mt-2">{t.wizardSummaryBody}</p>
-                      <p className="text-xs text-navy/60 mt-2">{t.formSuccessBody}</p>
-                      {copyStatus && <p className="mt-2 text-xs text-teal">{copyStatus}</p>}
-                      <div className="mt-4 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[140px] whitespace-pre-wrap text-sm text-navy/70">
+                      <p className="text-xs text-navy/60 mt-2">Copiado ✅</p>
+                      <div className="mt-3 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[140px] whitespace-pre-wrap text-sm text-navy/70">
                         {message}
                       </div>
                     </div>
+                    <p className="text-xs text-navy/60">
+                      Se preferires, manda só WhatsApp e nós pedimos o resto depois.
+                    </p>
                     {links && (
                       <div className="grid gap-3">
-                        <a href={links.whatsapp} className="rounded-full bg-teal text-navy px-4 py-3 text-center">
+                        <a href={links.whatsapp} className="rounded-full bg-navy text-white px-4 py-4 text-center text-sm shadow-soft">
                           {t.whatsapp}
                         </a>
                         <a
@@ -1407,7 +1408,7 @@ export default function App() {
                         </a>
                         <a
                           href={links.instagram}
-                          className="rounded-full border border-navy/20 px-4 py-3 text-center hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                          className="rounded-full border border-navy/10 px-4 py-3 text-center text-navy/70 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                           onClick={async (event) => {
                             if (!message) return
                             event.preventDefault()
