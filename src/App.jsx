@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
+import ProductsPage from './components/ProductsPage'
 import logoBrand from './assets/logo-brand.png'
 import heroImage from './assets/hero.jpg'
 import travel1 from './assets/travel-family-1.jpeg'
@@ -17,14 +18,16 @@ const REMOTE_IMAGES = {
 
 const LANG_STORAGE_KEY = 'travelbuddies_lang'
 const WIZARD_STORAGE_KEY = 'travelbuddies_wizard'
+const getCurrentRoute = () => (window.location.pathname.startsWith('/produtos') ? 'produtos' : 'home')
 
 const copy = {
   pt: {
     navLinks: [
-      { href: '#how', label: 'Como funciona' },
       { href: '#services', label: 'Base vs Premium' },
       { href: '#diagnostico', label: 'Diagnóstico' },
     ],
+    homeNav: 'Início',
+    productsNav: 'Produtos',
     heroTag: 'TravelBuddies | Viagens em Família',
     heroTitle: 'Viagens em família com crianças/bebés — vida real.',
     heroBody: 'Planeamento leve para pais cansados.',
@@ -247,10 +250,11 @@ const copy = {
   },
   en: {
     navLinks: [
-      { href: '#how', label: 'How it works' },
       { href: '#services', label: 'Base vs Premium' },
       { href: '#diagnosis', label: 'Diagnosis' },
     ],
+    homeNav: 'Home',
+    productsNav: 'Produtos',
     heroTag: 'TravelBuddies | Family Trip Design',
     heroTitle: 'Family travel with kids/babies — real life.',
     heroBody: 'Light planning for busy parents.',
@@ -1170,6 +1174,10 @@ export default function App() {
     return localStorage.getItem(LANG_STORAGE_KEY) || 'pt'
   })
 
+  const [route, setRoute] = useState(() => {
+    if (typeof window === 'undefined') return 'home'
+    return getCurrentRoute()
+  })
   const [message, setMessage] = useState('')
   const [copyStatus, setCopyStatus] = useState('')
   const [stepStatus, setStepStatus] = useState('')
@@ -1180,6 +1188,18 @@ export default function App() {
     localStorage.setItem(LANG_STORAGE_KEY, lang)
     document.documentElement.lang = lang
   }, [lang])
+
+  useEffect(() => {
+    const onPopState = () => setRoute(getCurrentRoute())
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
+  const navigate = (path) => {
+    window.history.pushState({}, '', path)
+    setRoute(getCurrentRoute())
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const copyToClipboard = async (text) => {
     try {
@@ -1220,28 +1240,58 @@ export default function App() {
       <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-primary/10">
         <div className={`${container} flex items-center justify-between py-4`}>
           <div className="flex items-center gap-3">
-            <div className="h-20 w-20 flex items-center justify-center">
+            <button type="button" onClick={() => navigate('/')} className="h-20 w-20 flex items-center justify-center">
               <img src={logoBrand} alt="TravelBuddies" className="h-20 w-20 object-contain" />
-            </div>
+            </button>
             <div>
               <p className="font-display text-xl">TravelBuddies</p>
               <p className="font-subtitle font-light text-sm text-primary">Organizamos Viagens em Família</p>
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            {t.navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="text-primary hover:text-primary/80">
-                {link.label}
-              </a>
-            ))}
+            <a
+              href="/"
+              onClick={(event) => {
+                event.preventDefault()
+                navigate('/')
+              }}
+              className={`hover:text-primary/80 ${route === 'home' ? 'text-primary font-semibold' : 'text-primary'}`}
+            >
+              {t.homeNav}
+            </a>
+            {route === 'home' &&
+              t.navLinks.map((link) => (
+                <a key={link.href} href={link.href} className="text-primary hover:text-primary/80">
+                  {link.label}
+                </a>
+              ))}
+            <a
+              href="/produtos"
+              onClick={(event) => {
+                event.preventDefault()
+                navigate('/produtos')
+              }}
+              className={`hover:text-primary/80 ${route === 'produtos' ? 'text-primary font-semibold' : 'text-primary'}`}
+            >
+              {t.productsNav}
+            </a>
           </nav>
           <div className="flex items-center gap-3">
-            <a
-              href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-              className="hidden sm:inline-flex items-center rounded-full border border-primary/20 px-4 py-2 text-xs text-primary/80 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            <button
+              type="button"
+              onClick={() => navigate(route === 'home' ? '/produtos' : '/')}
+              className="md:hidden px-3 py-1 rounded-full text-xs border border-primary/20 text-primary/80 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              {t.primaryCta}
-            </a>
+              {route === 'home' ? t.productsNav : 'Home'}
+            </button>
+            {route === 'home' && (
+              <a
+                href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
+                className="hidden sm:inline-flex items-center rounded-full border border-primary/20 px-4 py-2 text-xs text-primary/80 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              >
+                {t.primaryCta}
+              </a>
+            )}
             <button
               type="button"
               className={`px-3 py-1 rounded-full text-xs border ${
@@ -1265,259 +1315,203 @@ export default function App() {
       </header>
 
       <main>
-        <section className="pt-10 pb-10 sm:pt-16 sm:pb-14 lg:pt-20 lg:pb-16">
-          <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
-            <Reveal>
-              <p className="font-subtitle font-light text-sm uppercase tracking-[0.2em] text-primary">{t.heroTag}</p>
-              <h1 className="mt-4 text-[2.35rem] sm:text-4xl lg:text-6xl font-display leading-tight text-balance">
-                {t.heroTitle}
-              </h1>
-              <p className="font-subtitle font-light mt-3 text-base text-primary text-balance max-w-xl">{t.heroBody}</p>
-              <div className="mt-5">
-                <p className="font-subtitle font-light mb-2 text-sm text-primary">{t.heroCtaPrompt}</p>
-                <a
-                  href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-                  className="inline-flex px-7 py-3 rounded-full bg-primary text-white shadow-soft hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                >
-                  {t.primaryCta}
-                </a>
-                <p className="font-subtitle font-light mt-2 text-xs text-primary">{t.heroCtaNote}</p>
-              </div>
-            </Reveal>
-            <Reveal className="relative hidden sm:block">
-              <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
-              <div className="panel overflow-hidden">
-                <SmartImage
-                  src={REMOTE_IMAGES.hero}
-                  fallback={heroImage}
-                  alt="Family traveling"
-                  className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover"
-                />
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        <section id="qualify" className="py-12 border-t border-primary/10">
-          <div className={container}>
-            <Reveal>
-              <h2 className="text-2xl font-display">{t.qualifyTitle}</h2>
-            </Reveal>
-            <div className="mt-5 grid gap-3 md:grid-cols-2">
-              {t.qualifyItems.map((item) => (
-                <Reveal
-                  key={item.title}
-                  className="card p-4 min-h-[104px]"
-                >
-                  <p className="text-base font-semibold">{item.title}</p>
-                  <p className="mt-1 text-sm text-primary">{item.text}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="how" className="py-12 border-t border-primary/10">
-          <div className={container}>
-            <Reveal>
-              <h2 className="text-2xl font-display">{t.howTitle}</h2>
-            </Reveal>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {t.howSteps.map((step, index) => (
-                <Reveal key={step.title} className="card p-5 min-h-[128px]">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/10 bg-tealSoft/60 text-sm">
-                      {index + 1}
-                    </span>
-                    <p className="text-base font-semibold">{step.title}</p>
+        {route === 'home' ? (
+          <>
+            <section className="pt-10 pb-10 sm:pt-16 sm:pb-14 lg:pt-20 lg:pb-16">
+              <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
+                <Reveal>
+                  <p className="font-subtitle font-light text-sm uppercase tracking-[0.2em] text-primary">{t.heroTag}</p>
+                  <h1 className="mt-4 text-[2.35rem] sm:text-4xl lg:text-6xl font-display leading-tight text-balance">
+                    {t.heroTitle}
+                  </h1>
+                  <p className="font-subtitle font-light mt-3 text-base text-primary text-balance max-w-xl">{t.heroBody}</p>
+                  <div className="mt-5">
+                    <p className="font-subtitle font-light mb-2 text-sm text-primary">{t.heroCtaPrompt}</p>
+                    <a
+                      href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
+                      className="inline-flex px-7 py-3 rounded-full bg-primary text-white shadow-soft hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                    >
+                      {t.primaryCta}
+                    </a>
+                    <p className="font-subtitle font-light mt-2 text-xs text-primary">{t.heroCtaNote}</p>
                   </div>
-                  <p className="mt-2 text-sm text-primary">{step.text}</p>
                 </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="services" className="py-12 bg-white/70 border-t border-primary/10">
-          <div className={container}>
-            <Reveal>
-              <h2 className="text-2xl font-display">{t.servicesTitle}</h2>
-              <p className="font-subtitle font-light mt-2 text-primary">{t.servicesBody}</p>
-              <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.servicesFreeLine}</p>
-            </Reveal>
-            <div className="mt-6 grid gap-6 lg:grid-cols-2">
-              <Reveal className="card p-6 min-h-[260px]">
-                <h3 className="font-display text-3xl text-primary/85 leading-none">{t.baseTitle}</h3>
-                <p className="mt-3 text-sm text-primary">{t.baseOutcome}</p>
-                <p className="mt-2 text-sm text-primary">{t.baseWhen}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {t.baseBenefits.map((item) => (
-                    <span
-                      key={item}
-                      className="chip"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </Reveal>
-              <Reveal className="relative rounded-3xl border border-primary/10 p-6 shadow-card bg-cream/40 min-h-[260px]">
-                <span className="absolute right-5 top-5 rounded-full bg-primary text-white px-3 py-1 text-xs">
-                  {t.premiumBadge}
-                </span>
-                <h3 className="font-display text-3xl text-primary/85 leading-none">{t.premiumTitle}</h3>
-                <p className="mt-3 text-sm text-primary">{t.premiumOutcome}</p>
-                <p className="mt-2 text-sm text-primary">{t.premiumWhen}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {t.premiumBenefits.map((item) => (
-                    <span
-                      key={item}
-                      className="chip"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
-            <p className="font-subtitle font-light mt-4 text-sm text-primary">{t.pricingNote}</p>
-          </div>
-        </section>
-
-        <section id="trust" className="py-12 border-t border-primary/10">
-          <div className={container}>
-            <Reveal>
-              <h2 className="text-2xl font-display">{t.trustTitle}</h2>
-            </Reveal>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {t.trustCards.map((card) => (
-                <Reveal
-                  key={card.title}
-                  className="card p-5 min-h-[128px]"
-                >
-                  <p className="text-base font-semibold">{card.title}</p>
-                  <p className="mt-2 text-sm text-primary">{card.text}</p>
+                <Reveal className="relative hidden sm:block">
+                  <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
+                  <div className="panel overflow-hidden">
+                    <SmartImage
+                      src={REMOTE_IMAGES.hero}
+                      fallback={heroImage}
+                      alt="Family traveling"
+                      className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover"
+                    />
+                  </div>
                 </Reveal>
-              ))}
-            </div>
-            <p className="mt-3 text-sm text-primary">{t.trustLine}</p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-3">
-              {[travel1, travel2, travel3].map((img, index) => (
-                <Reveal
-                  key={img}
-                  className="overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-card"
-                >
-                  <img
-                    src={img}
-                    alt={`Viagem em família ${index + 1}`}
-                    className="h-40 w-full object-cover"
-                    loading="lazy"
-                  />
-                </Reveal>
-              ))}
-            </div>
-            <p className="mt-3 text-xs text-primary">Fotos reais da nossa família.</p>
-          </div>
-        </section>
-
-        <a
-          href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-          className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 rounded-full bg-primary px-6 py-3 text-sm text-white shadow-soft sm:hidden"
-        >
-          {t.primaryCta}
-        </a>
-
-        <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 border-t border-primary/10">
-          <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
-            <Reveal>
-              <h2 className="text-3xl font-display">{t.formTitle}</h2>
-              <p className="font-subtitle font-light mt-3 text-primary">{t.formBody}</p>
-              <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.formHint}</p>
-              <div className="mt-6 rounded-3xl border border-primary/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
-                <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} />
               </div>
-              <div className="mt-4 rounded-2xl border border-primary/10 bg-white/80 p-4">
-                <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
-                <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                  {t.wizardReceiveItems.map((item) => (
-                    <div
-                      key={item}
-                      className="rounded-xl border border-primary/10 bg-cream/60 px-3 py-3 text-xs text-primary/70 text-center"
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {stepStatus && <p className="mt-2 text-xs text-teal">{stepStatus}</p>}
-            </Reveal>
+            </section>
 
-            <Reveal>
-              <div className="panel p-6">
-                {message ? (
-                  <div className="space-y-6">
-                    <div>
-                      <p className="text-sm font-semibold">{t.formThankTitle}</p>
-                      <p className="mt-2 text-xs text-primary/60">{t.formThankBody}</p>
+            <section id="services" className="py-12 bg-white/70 border-t border-primary/10">
+              <div className={container}>
+                <Reveal>
+                  <h2 className="text-2xl font-display">{t.servicesTitle}</h2>
+                  <p className="font-subtitle font-light mt-2 text-primary">{t.servicesBody}</p>
+                  <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.servicesFreeLine}</p>
+                </Reveal>
+                <div className="mt-6 grid gap-6 lg:grid-cols-2">
+                  <Reveal className="card p-6 min-h-[260px]">
+                    <h3 className="font-display text-3xl text-primary/85 leading-none">{t.baseTitle}</h3>
+                    <p className="mt-3 text-sm text-primary">{t.baseOutcome}</p>
+                    <p className="mt-2 text-sm text-primary">{t.baseWhen}</p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {t.baseBenefits.map((item) => (
+                        <span key={item} className="chip">
+                          {item}
+                        </span>
+                      ))}
                     </div>
-                    <div>
-                      <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
-                      <p className="text-xs text-primary/60 mt-2">{t.wizardSummaryBody}</p>
-                      <p className="text-xs text-primary/60 mt-2">Copiado ✅</p>
-                      <div className="mt-3 rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-4 min-h-[160px] text-sm text-primary/70 whitespace-pre-wrap">
-                        {message}
+                  </Reveal>
+                  <Reveal className="relative rounded-3xl border border-primary/10 p-6 shadow-card bg-cream/40 min-h-[260px]">
+                    <span className="absolute right-5 top-5 rounded-full bg-primary text-white px-3 py-1 text-xs">
+                      {t.premiumBadge}
+                    </span>
+                    <h3 className="font-display text-3xl text-primary/85 leading-none">{t.premiumTitle}</h3>
+                    <p className="mt-3 text-sm text-primary">{t.premiumOutcome}</p>
+                    <p className="mt-2 text-sm text-primary">{t.premiumWhen}</p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {t.premiumBenefits.map((item) => (
+                        <span key={item} className="chip">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </Reveal>
+                </div>
+                <p className="font-subtitle font-light mt-4 text-sm text-primary">{t.pricingNote}</p>
+              </div>
+            </section>
+
+            <a
+              href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
+              className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 rounded-full bg-primary px-6 py-3 text-sm text-white shadow-soft sm:hidden"
+            >
+              {t.primaryCta}
+            </a>
+
+            <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 border-t border-primary/10">
+              <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
+                <Reveal>
+                  <h2 className="text-3xl font-display">{t.formTitle}</h2>
+                  <p className="font-subtitle font-light mt-3 text-primary">{t.formBody}</p>
+                  <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.formHint}</p>
+                  <div className="mt-6 rounded-3xl border border-primary/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
+                    <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} />
+                  </div>
+                  <div className="mt-4 rounded-2xl border border-primary/10 bg-white/80 p-4">
+                    <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
+                    <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                      {t.wizardReceiveItems.map((item) => (
+                        <div key={item} className="rounded-xl border border-primary/10 bg-cream/60 px-3 py-3 text-xs text-primary/70 text-center">
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {stepStatus && <p className="mt-2 text-xs text-teal">{stepStatus}</p>}
+                </Reveal>
+
+                <Reveal>
+                  <div className="panel p-6">
+                    {message ? (
+                      <div className="space-y-6">
+                        <div>
+                          <p className="text-sm font-semibold">{t.formThankTitle}</p>
+                          <p className="mt-2 text-xs text-primary/60">{t.formThankBody}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
+                          <p className="text-xs text-primary/60 mt-2">{t.wizardSummaryBody}</p>
+                          <p className="text-xs text-primary/60 mt-2">Copiado ✅</p>
+                          <div className="mt-3 rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-4 min-h-[160px] text-sm text-primary/70 whitespace-pre-wrap">
+                            {message}
+                          </div>
+                        </div>
+                        <p className="text-xs text-primary/60">Se preferires, manda só WhatsApp e nós pedimos o resto depois.</p>
+                        {links && (
+                          <div className="grid gap-3">
+                            <a href={links.whatsapp} className="rounded-full bg-primary text-white px-4 py-4 text-center text-sm shadow-soft">
+                              {t.whatsapp}
+                            </a>
+                            <p className="text-xs text-primary/60 text-center">Resposta humana em 24–48h úteis.</p>
+                            <button
+                              type="button"
+                              onClick={() => setMessage('')}
+                              className="rounded-full border border-primary/20 px-4 py-3 text-center text-sm text-primary/70 hover:border-primary"
+                            >
+                              {lang === 'pt' ? 'Editar respostas' : 'Edit answers'}
+                            </button>
+                            <a
+                              href={links.email}
+                              className="rounded-full border border-primary/20 px-4 py-3 text-center hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                            >
+                              {t.email}
+                            </a>
+                            <a
+                              href={links.instagram}
+                              className="rounded-full border border-primary/10 px-4 py-3 text-center text-primary/70 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                              onClick={async (event) => {
+                                if (!message) return
+                                event.preventDefault()
+                                await copyToClipboard(message)
+                                window.open(links.instagram, '_blank')
+                              }}
+                            >
+                              {t.instagram}
+                            </a>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                    <p className="text-xs text-primary/60">
-                      Se preferires, manda só WhatsApp e nós pedimos o resto depois.
-                    </p>
-                    {links && (
-                    <div className="grid gap-3">
-                      <a href={links.whatsapp} className="rounded-full bg-primary text-white px-4 py-4 text-center text-sm shadow-soft">
-                        {t.whatsapp}
-                      </a>
-                      <p className="text-xs text-primary/60 text-center">Resposta humana em 24–48h úteis.</p>
-                      <button
-                        type="button"
-                        onClick={() => setMessage('')}
-                        className="rounded-full border border-primary/20 px-4 py-3 text-center text-sm text-primary/70 hover:border-primary"
-                      >
-                        {lang === 'pt' ? 'Editar respostas' : 'Edit answers'}
-                      </button>
-                      <a
-                        href={links.email}
-                        className="rounded-full border border-primary/20 px-4 py-3 text-center hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                      >
-                        {t.email}
-                      </a>
-                        <a
-                          href={links.instagram}
-                          className="rounded-full border border-primary/10 px-4 py-3 text-center text-primary/70 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                          onClick={async (event) => {
-                            if (!message) return
-                            event.preventDefault()
-                            await copyToClipboard(message)
-                            window.open(links.instagram, '_blank')
-                          }}
-                        >
-                          {t.instagram}
-                        </a>
+                    ) : (
+                      <div>
+                        <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
+                        <p className="text-xs text-primary/60 mt-2">{t.wizardSummaryBody}</p>
+                        <div className="mt-4 rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-4 min-h-[160px] whitespace-pre-wrap text-sm text-primary/70">
+                          {lang === 'pt' ? 'Preenche o questionário para gerar a mensagem.' : 'Complete the questionnaire to generate the message.'}
+                        </div>
                       </div>
                     )}
                   </div>
-                ) : (
-                  <div>
-                    <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
-                    <p className="text-xs text-primary/60 mt-2">{t.wizardSummaryBody}</p>
-                    <div className="mt-4 rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-4 min-h-[160px] whitespace-pre-wrap text-sm text-primary/70">
-                      {lang === 'pt' ? 'Preenche o questionário para gerar a mensagem.' : 'Complete the questionnaire to generate the message.'}
-                    </div>
-                  </div>
-                )}
+                </Reveal>
               </div>
-            </Reveal>
-          </div>
-        </section>
+            </section>
+
+            <section id="trust" className="py-12 border-t border-primary/10">
+              <div className={container}>
+                <Reveal>
+                  <h2 className="text-2xl font-display">{t.trustTitle}</h2>
+                </Reveal>
+                <div className="mt-6 grid gap-4 md:grid-cols-3">
+                  {t.trustCards.map((card) => (
+                    <Reveal key={card.title} className="card p-5 min-h-[128px]">
+                      <p className="text-base font-semibold">{card.title}</p>
+                      <p className="mt-2 text-sm text-primary">{card.text}</p>
+                    </Reveal>
+                  ))}
+                </div>
+                <p className="mt-3 text-sm text-primary">{t.trustLine}</p>
+                <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                  {[travel1, travel2, travel3].map((img, index) => (
+                    <Reveal key={img} className="overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-card">
+                      <img src={img} alt={`Viagem em família ${index + 1}`} className="h-40 w-full object-cover" loading="lazy" />
+                    </Reveal>
+                  ))}
+                </div>
+                <p className="mt-3 text-xs text-primary">Fotos reais da nossa família.</p>
+              </div>
+            </section>
+          </>
+        ) : (
+          <ProductsPage lang={lang} />
+        )}
       </main>
 
       <footer className="py-12 border-t border-primary/10 bg-white/85">
