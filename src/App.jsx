@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
-import logoTransparent from './assets/logo-transparent.png'
+import logoBrand from './assets/logo-brand.png'
 import heroImage from './assets/hero.jpg'
 import travel1 from './assets/travel-family-1.jpeg'
 import travel2 from './assets/travel-family-2.jpeg'
@@ -1220,8 +1220,8 @@ export default function App() {
       <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-primary/10">
         <div className={`${container} flex items-center justify-between py-4`}>
           <div className="flex items-center gap-3">
-            <div className="logo-tight-wrap h-12 w-12 rounded-2xl border border-teal/30 bg-tealSoft/60 flex items-center justify-center">
-              <img src={logoTransparent} alt="TravelBuddies" className="logo-tight h-10 w-10 object-contain" />
+            <div className="h-14 w-14 rounded-2xl border border-teal/30 bg-white flex items-center justify-center shadow-card">
+              <img src={logoBrand} alt="TravelBuddies" className="h-12 w-12 object-contain" />
             </div>
             <div>
               <p className="font-display text-xl">TravelBuddies</p>
@@ -1523,8 +1523,8 @@ export default function App() {
       <footer className="py-12 border-t border-primary/10 bg-white/85">
         <div className={`${container} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}>
           <div className="space-y-2">
-            <div className="logo-tight-wrap h-16 w-44">
-              <img src={logoTransparent} alt={t.footerTitle} className="logo-tight h-16 w-full object-contain" />
+            <div className="h-24 w-52">
+              <img src={logoBrand} alt={t.footerTitle} className="h-24 w-full object-contain" />
             </div>
             <p className="text-sm text-primary">{t.footerBody}</p>
           </div>

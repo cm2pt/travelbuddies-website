@@ -62,12 +62,3 @@ html {
   font-size: 12px;
   color: rgba(2, 47, 89, 0.7);
 }
-
-.logo-tight-wrap {
-  overflow: hidden;
-}
-
-.logo-tight {
-  transform: scale(1.28);
-  transform-origin: center;
-}
