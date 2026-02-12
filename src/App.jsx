@@ -2,6 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 import ProductsPage from './components/ProductsPage'
+import Button from './components/ui/Button'
+import Card from './components/ui/Card'
+import Input from './components/ui/Input'
+import Badge from './components/ui/Badge'
 import logoBrand from './assets/logo-brand.png'
 import heroImage from './assets/hero.jpg'
 import travel1 from './assets/travel-family-1.jpeg'
@@ -29,9 +33,9 @@ const copy = {
     homeNav: 'Início',
     productsNav: 'Produtos',
     heroTag: 'TravelBuddies | Viagens em Família',
-    heroTitle: 'Viagens em família com crianças/bebés — vida real.',
+    heroTitle: 'Viagens com crianças e bebés que funcionam na vida real',
     heroBody: 'Planeamento leve para pais cansados.',
-    heroCtaNote: 'Sem compromisso. Resposta humana.',
+    heroCtaNote: '2–3 minutos · sem compromisso',
     primaryCta: 'Começar diagnóstico',
     heroCtaPrompt: 'Se estás cansada(o) de decidir, começa aqui.',
     qualifyTitle: 'Isto é para ti se…',
@@ -83,7 +87,7 @@ const copy = {
     trustLine: 'Somos uma família que viaja com crianças e conhece os desafios.',
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
-    formHint: 'Demora 2–3 minutos. Resposta humana. Sem compromisso.',
+    formHint: '2–3 minutos · sem compromisso',
     wizardStepTitles: [
       'Email',
       'Sobre a viagem',
@@ -243,6 +247,7 @@ const copy = {
     whatsapp: 'Enviar por WhatsApp',
     email: 'Enviar por Email',
     instagram: 'Falar no Instagram',
+    productsLink: 'Conhece também os nossos produtos →',
     footerTitle: 'TravelBuddies',
     footerBody: 'Estamos aqui para ajudar a tua família.',
     footerSmall: 'Com carinho, TravelBuddies.',
@@ -258,7 +263,7 @@ const copy = {
     heroTag: 'TravelBuddies | Family Trip Design',
     heroTitle: 'Family travel with kids/babies — real life.',
     heroBody: 'Light planning for busy parents.',
-    heroCtaNote: 'No commitment. Human response.',
+    heroCtaNote: '2–3 minutes · no commitment',
     primaryCta: 'Começar diagnóstico',
     heroCtaPrompt: 'If you are tired of deciding, start here.',
     qualifyTitle: 'This is for you if…',
@@ -310,7 +315,7 @@ const copy = {
     trustLine: 'We are a family that travels with kids and knows the challenges.',
     formTitle: 'TravelBuddies Diagnosis',
     formBody: 'Share the essentials. We simplify.',
-    formHint: 'Takes 2–3 minutes. Human response. No commitment.',
+    formHint: '2–3 minutes · no commitment',
     wizardStepTitles: [
       'Email',
       'About the trip',
@@ -470,6 +475,7 @@ const copy = {
     whatsapp: 'Send via WhatsApp',
     email: 'Send via Email',
     instagram: 'Chat on Instagram',
+    productsLink: 'Check out our products →',
     footerTitle: 'TravelBuddies',
     footerBody: 'We are here to help your family.',
     footerSmall: 'With care, TravelBuddies.',
@@ -651,7 +657,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
           <label className="text-xs text-primary/60" htmlFor="email">
             {t.wizardQuestions.email}
           </label>
-          <input
+          <Input
             id="email"
             name="email"
             type="email"
@@ -692,13 +698,13 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.motivation && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
+          {!data.motivation && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
           <div className="flex flex-col gap-2">
             <label className="text-xs text-primary/60" htmlFor="dates">
               {t.wizardQuestions.dates}
             </label>
-          <input
+          <Input
             id="dates"
             name="dates"
             required
@@ -706,13 +712,13 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             onChange={handleChange}
             className="rounded-xl border border-primary/10 px-3 py-3"
           />
-          {!data.dates.trim() && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
+          {!data.dates.trim() && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
           <div className="flex flex-col gap-2">
             <label className="text-xs text-primary/60" htmlFor="people">
               {t.wizardQuestions.people}
             </label>
-          <input
+          <Input
             id="people"
             name="people"
             required
@@ -720,15 +726,17 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             onChange={handleChange}
             className="rounded-xl border border-primary/10 px-3 py-3"
           />
-          {!data.people.trim() && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
+          {!data.people.trim() && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
-          <button
+          <Button
             type="button"
+            variant="link"
+            size="sm"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, trip: !prev.trip }))}
-            className="text-left text-sm text-primary/70 hover:text-primary focus-visible:outline-none focus-visible:underline"
+            className="justify-start text-left"
           >
             {t.wizardOptional}
-          </button>
+          </Button>
           <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
           {optionalOpen.trip && (
             <div className="grid gap-3 rounded-2xl border border-dashed border-primary/10 p-4">
@@ -736,7 +744,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 <label className="text-xs text-primary/60" htmlFor="destination">
                   {t.wizardQuestions.destination}
                 </label>
-                <input
+                <Input
                   id="destination"
                   name="destination"
                   value={data.destination}
@@ -794,7 +802,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.meal && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
+          {!data.meal && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
           <div className="flex flex-col gap-2">
             <label className="text-xs text-primary/60" htmlFor="lodging">
@@ -817,15 +825,17 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.lodging && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
+          {!data.lodging && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
-          <button
+          <Button
             type="button"
+            variant="link"
+            size="sm"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, lodging: !prev.lodging }))}
-            className="text-left text-sm text-primary/70 hover:text-primary focus-visible:outline-none focus-visible:underline"
+            className="justify-start text-left"
           >
             {t.wizardOptional}
-          </button>
+          </Button>
           <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
           {optionalOpen.lodging && (
             <div className="grid gap-4 rounded-2xl border border-dashed border-primary/10 p-4">
@@ -852,7 +862,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 <label className="text-xs text-primary/60" htmlFor="budget">
                   {t.wizardQuestions.budget}
                 </label>
-                <input
+                <Input
                   id="budget"
                   name="budget"
                   value={data.budget}
@@ -891,7 +901,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             ))}
           </select>
           <p className="text-xs text-primary/50">Orçamento e marcação de viagem (gratuito)</p>
-          {!data.service && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
+          {!data.service && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
       ),
     },
@@ -921,15 +931,17 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.motherProfile && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
+          {!data.motherProfile && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
-          <button
+          <Button
             type="button"
+            variant="link"
+            size="sm"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, profiles: !prev.profiles }))}
-            className="text-left text-sm text-primary/70 hover:text-primary focus-visible:outline-none focus-visible:underline"
+            className="justify-start text-left"
           >
             {t.wizardOptional}
-          </button>
+          </Button>
           <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
           {optionalOpen.profiles && (
             <div className="grid gap-4 rounded-2xl border border-dashed border-primary/10 p-4">
@@ -1042,15 +1054,17 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.familyTraveled && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
+          {!data.familyTraveled && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
-          <button
+          <Button
             type="button"
+            variant="link"
+            size="sm"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, experiences: !prev.experiences }))}
-            className="text-left text-sm text-primary/70 hover:text-primary focus-visible:outline-none focus-visible:underline"
+            className="justify-start text-left"
           >
             {t.wizardOptional}
-          </button>
+          </Button>
           <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
           {optionalOpen.experiences && (
             <div className="grid gap-4 rounded-2xl border border-dashed border-primary/10 p-4">
@@ -1058,7 +1072,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 <label className="text-xs text-primary/60" htmlFor="previousTrips">
                   {t.wizardQuestions.previousTrips}
                 </label>
-                <textarea
+                <Input as="textarea"
                   id="previousTrips"
                   name="previousTrips"
                   rows="3"
@@ -1071,7 +1085,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 <label className="text-xs text-primary/60" htmlFor="hardest">
                   {t.wizardQuestions.hardest}
                 </label>
-                <textarea
+                <Input as="textarea"
                   id="hardest"
                   name="hardest"
                   rows="3"
@@ -1084,7 +1098,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 <label className="text-xs text-primary/60" htmlFor="success">
                   {t.wizardQuestions.success}
                 </label>
-                <textarea
+                <Input as="textarea"
                   id="success"
                   name="success"
                   rows="3"
@@ -1097,7 +1111,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 <label className="text-xs text-primary/60" htmlFor="moreInfo">
                   {t.wizardQuestions.moreInfo}
                 </label>
-                <textarea
+                <Input as="textarea"
                   id="moreInfo"
                   name="moreInfo"
                   rows="3"
@@ -1114,57 +1128,44 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
   ]
 
   return (
-    <div className="rounded-3xl border border-primary/10 p-6 bg-white/80 shadow-card">
+    <Card variant="elevated" className="p-6">
       <div className="flex items-center justify-between text-xs text-primary/60">
-        <span>
-          {t.wizardProgress} {step + 1}/{stepsCount}
-        </span>
         <span className="text-sm text-primary/70">{steps[step].title}</span>
       </div>
       <p className="mt-2 text-sm text-primary/70">{t.wizardStepHelpers[step]}</p>
       <p className="mt-1 text-xs text-primary/50">{t.wizardTimeNote}</p>
-      {remainingText && <p className="mt-1 text-xs text-teal">{remainingText}</p>}
       {step === steps.length - 1 && (
         <p className="mt-1 text-xs text-teal">{t.wizardProgressNote}</p>
       )}
+      <div className="mt-3 flex items-center justify-between">
+        <Badge>
+          {t.wizardProgress} {step + 1} / {stepsCount}
+        </Badge>
+        {remainingText && <span className="text-xs text-primary/70">{remainingText}</span>}
+      </div>
       <div className="mt-3 h-2 w-full rounded-full bg-cream/60">
-        <div className="h-2 rounded-full bg-teal" style={{ width: `${progress}%` }} />
+        <div className="h-2 rounded-full bg-teal transition-all duration-200" style={{ width: `${progress}%` }} />
       </div>
       <div className="mt-6">{steps[step].content}</div>
       <div className="mt-6 flex items-center justify-between gap-3">
-        <button
-          type="button"
-          onClick={back}
-          disabled={step === 0}
-          className="rounded-full border border-primary/20 px-4 py-2 text-sm text-primary/70 disabled:opacity-40"
-        >
+        <Button type="button" variant="secondary" size="sm" onClick={back} disabled={step === 0}>
           {t.wizardBack}
-        </button>
+        </Button>
         {step < steps.length - 1 ? (
-          <button
-            type="button"
-            onClick={next}
-            disabled={!canAdvance}
-            className="rounded-full bg-primary text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
-          >
+          <Button type="button" variant="primary" size="md" onClick={next} disabled={!canAdvance}>
             {t.wizardNext}
-          </button>
+          </Button>
         ) : (
           <div className="flex flex-col items-end gap-2">
-            <button
-              type="button"
-              onClick={() => onSubmit(data)}
-              disabled={!canAdvance}
-              className="rounded-full bg-primary text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
-            >
+            <Button type="button" variant="primary" size="md" onClick={() => onSubmit(data)} disabled={!canAdvance}>
               {t.wizardSubmit}
-            </button>
+            </Button>
             <p className="text-xs text-primary/60">{t.wizardNextStepNote}</p>
           </div>
         )}
       </div>
       <p className="mt-3 text-xs text-primary/50">{t.wizardAutosaveNote}</p>
-    </div>
+    </Card>
   )
 }
 
@@ -1233,7 +1234,7 @@ export default function App() {
     }
   }, [message, t.messageTitle])
 
-  const container = 'mx-auto w-full max-w-5xl px-6'
+  const container = 'mx-auto w-full max-w-[1120px] px-5 sm:px-6'
 
   return (
     <div className="font-body text-primary">
@@ -1277,39 +1278,36 @@ export default function App() {
             </a>
           </nav>
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => navigate(route === 'home' ? '/produtos' : '/')}
-              className="md:hidden px-3 py-1 rounded-full text-xs border border-primary/20 text-primary/80 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-            >
+            <Button type="button" variant="ghost" size="sm" onClick={() => navigate(route === 'home' ? '/produtos' : '/')} className="md:hidden">
               {route === 'home' ? t.productsNav : 'Home'}
-            </button>
+            </Button>
             {route === 'home' && (
-              <a
-                href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-                className="hidden sm:inline-flex items-center rounded-full border border-primary/20 px-4 py-2 text-xs text-primary/80 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-              >
+              <Button as="a" href={lang === 'pt' ? '#diagnostico' : '#diagnosis'} variant="secondary" size="sm" className="hidden sm:inline-flex">
                 {t.primaryCta}
-              </a>
+              </Button>
             )}
-            <button
+            <Button
               type="button"
-              className={`px-3 py-1 rounded-full text-xs border ${
+              size="sm"
+              variant={lang === 'pt' ? 'primary' : 'ghost'}
+              className={`min-h-[40px] ${
                 lang === 'pt' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
               }`}
               onClick={() => setLang('pt')}
             >
               PT
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
-              className={`px-3 py-1 rounded-full text-xs border ${
+              size="sm"
+              variant={lang === 'en' ? 'primary' : 'ghost'}
+              className={`min-h-[40px] ${
                 lang === 'en' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
               }`}
               onClick={() => setLang('en')}
             >
               EN
-            </button>
+            </Button>
           </div>
         </div>
       </header>
@@ -1317,48 +1315,45 @@ export default function App() {
       <main>
         {route === 'home' ? (
           <>
-            <section className="pt-10 pb-10 sm:pt-16 sm:pb-14 lg:pt-20 lg:pb-16">
+            <section className="pt-8 pb-10 sm:pt-12 sm:pb-12 md:py-16">
               <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
                 <Reveal>
                   <p className="font-subtitle font-light text-sm uppercase tracking-[0.2em] text-primary">{t.heroTag}</p>
-                  <h1 className="mt-4 text-[2.35rem] sm:text-4xl lg:text-6xl font-display leading-tight text-balance">
+                  <h1 className="mt-4 text-[2.1rem] sm:text-4xl lg:text-5xl font-display leading-[1.08] text-balance">
                     {t.heroTitle}
                   </h1>
                   <p className="font-subtitle font-light mt-3 text-base text-primary text-balance max-w-xl">{t.heroBody}</p>
                   <div className="mt-5">
                     <p className="font-subtitle font-light mb-2 text-sm text-primary">{t.heroCtaPrompt}</p>
-                    <a
-                      href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-                      className="inline-flex px-7 py-3 rounded-full bg-primary text-white shadow-soft hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                    >
-                      {t.primaryCta}
-                    </a>
-                    <p className="font-subtitle font-light mt-2 text-xs text-primary">{t.heroCtaNote}</p>
-                  </div>
-                </Reveal>
+                <Button as="a" href={lang === 'pt' ? '#diagnostico' : '#diagnosis'} variant="primary" size="lg">
+                  {t.primaryCta}
+                </Button>
+                <p className="font-subtitle font-light mt-2 btn-helper">{t.heroCtaNote}</p>
+              </div>
+            </Reveal>
                 <Reveal className="relative hidden sm:block">
                   <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
-                  <div className="panel overflow-hidden">
-                    <SmartImage
-                      src={REMOTE_IMAGES.hero}
-                      fallback={heroImage}
+                  <Card variant="surface" className="overflow-hidden p-0">
+                    <img
+                      src={travel3}
                       alt="Family traveling"
-                      className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover"
+                      className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover object-center"
+                      loading="lazy"
                     />
-                  </div>
+                  </Card>
                 </Reveal>
               </div>
             </section>
 
-            <section id="services" className="py-12 bg-white/70 border-t border-primary/10">
+            <section id="services" className="py-12 md:py-16 bg-white/70 border-t border-primary/10">
               <div className={container}>
                 <Reveal>
-                  <h2 className="text-2xl font-display">{t.servicesTitle}</h2>
+                  <h2 className="text-[1.95rem] font-display leading-[1.12]">{t.servicesTitle}</h2>
                   <p className="font-subtitle font-light mt-2 text-primary">{t.servicesBody}</p>
                   <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.servicesFreeLine}</p>
                 </Reveal>
                 <div className="mt-6 grid gap-6 lg:grid-cols-2">
-                  <Reveal className="card p-6 min-h-[260px]">
+                  <Reveal><Card className="p-5 md:p-6 min-h-[260px]">
                     <h3 className="font-display text-3xl text-primary/85 leading-none">{t.baseTitle}</h3>
                     <p className="mt-3 text-sm text-primary">{t.baseOutcome}</p>
                     <p className="mt-2 text-sm text-primary">{t.baseWhen}</p>
@@ -1369,8 +1364,9 @@ export default function App() {
                         </span>
                       ))}
                     </div>
+                  </Card>
                   </Reveal>
-                  <Reveal className="relative rounded-3xl border border-primary/10 p-6 shadow-card bg-cream/40 min-h-[260px]">
+                  <Reveal><Card variant="elevated" className="relative p-5 md:p-6 bg-cream/40 min-h-[260px]">
                     <span className="absolute right-5 top-5 rounded-full bg-primary text-white px-3 py-1 text-xs">
                       {t.premiumBadge}
                     </span>
@@ -1384,29 +1380,27 @@ export default function App() {
                         </span>
                       ))}
                     </div>
+                  </Card>
                   </Reveal>
                 </div>
                 <p className="font-subtitle font-light mt-4 text-sm text-primary">{t.pricingNote}</p>
               </div>
             </section>
 
-            <a
-              href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-              className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 rounded-full bg-primary px-6 py-3 text-sm text-white shadow-soft sm:hidden"
-            >
+            <Button as="a" href={lang === 'pt' ? '#diagnostico' : '#diagnosis'} variant="primary" size="lg" className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 sm:hidden">
               {t.primaryCta}
-            </a>
+            </Button>
 
-            <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 border-t border-primary/10">
+            <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 md:py-16 border-t border-primary/10">
               <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
                 <Reveal>
-                  <h2 className="text-3xl font-display">{t.formTitle}</h2>
+                  <h2 className="text-[1.95rem] font-display leading-[1.12]">{t.formTitle}</h2>
                   <p className="font-subtitle font-light mt-3 text-primary">{t.formBody}</p>
                   <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.formHint}</p>
-                  <div className="mt-6 rounded-3xl border border-primary/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
+                  <Card variant="surface" className="mt-6 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-5 md:p-6">
                     <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} />
-                  </div>
-                  <div className="mt-4 rounded-2xl border border-primary/10 bg-white/80 p-4">
+                  </Card>
+                  <Card className="mt-4 p-5 md:p-6">
                     <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
                     <div className="mt-3 grid gap-2 sm:grid-cols-3">
                       {t.wizardReceiveItems.map((item) => (
@@ -1415,12 +1409,12 @@ export default function App() {
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </Card>
                   {stepStatus && <p className="mt-2 text-xs text-teal">{stepStatus}</p>}
                 </Reveal>
 
                 <Reveal>
-                  <div className="panel p-6">
+                  <Card variant="elevated" className="p-6">
                     {message ? (
                       <div className="space-y-6">
                         <div>
@@ -1430,7 +1424,7 @@ export default function App() {
                         <div>
                           <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
                           <p className="text-xs text-primary/60 mt-2">{t.wizardSummaryBody}</p>
-                          <p className="text-xs text-primary/60 mt-2">Copiado ✅</p>
+                          <p className="text-xs text-primary/60 mt-2">Copiado</p>
                           <div className="mt-3 rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-4 min-h-[160px] text-sm text-primary/70 whitespace-pre-wrap">
                             {message}
                           </div>
@@ -1438,26 +1432,18 @@ export default function App() {
                         <p className="text-xs text-primary/60">Se preferires, manda só WhatsApp e nós pedimos o resto depois.</p>
                         {links && (
                           <div className="grid gap-3">
-                            <a href={links.whatsapp} className="rounded-full bg-primary text-white px-4 py-4 text-center text-sm shadow-soft">
+                            <Button as="a" href={links.whatsapp} variant="primary" size="lg" className="w-full">
                               {t.whatsapp}
-                            </a>
-                            <p className="text-xs text-primary/60 text-center">Resposta humana em 24–48h úteis.</p>
-                            <button
-                              type="button"
-                              onClick={() => setMessage('')}
-                              className="rounded-full border border-primary/20 px-4 py-3 text-center text-sm text-primary/70 hover:border-primary"
-                            >
-                              {lang === 'pt' ? 'Editar respostas' : 'Edit answers'}
-                            </button>
-                            <a
-                              href={links.email}
-                              className="rounded-full border border-primary/20 px-4 py-3 text-center hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                            >
+                            </Button>
+                            <p className="btn-helper text-center">Resposta humana em 24–48h úteis.</p>
+                            <Button as="a" href={links.email} variant="secondary">
                               {t.email}
-                            </a>
-                            <a
+                            </Button>
+                            <Button
+                              as="a"
                               href={links.instagram}
-                              className="rounded-full border border-primary/10 px-4 py-3 text-center text-primary/70 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                              variant="link"
+                              className="text-center"
                               onClick={async (event) => {
                                 if (!message) return
                                 event.preventDefault()
@@ -1466,7 +1452,7 @@ export default function App() {
                               }}
                             >
                               {t.instagram}
-                            </a>
+                            </Button>
                           </div>
                         )}
                       </div>
@@ -1479,29 +1465,32 @@ export default function App() {
                         </div>
                       </div>
                     )}
-                  </div>
+                  </Card>
                 </Reveal>
               </div>
             </section>
 
-            <section id="trust" className="py-12 border-t border-primary/10">
+            <section id="trust" className="py-12 md:py-16 border-t border-primary/10">
               <div className={container}>
                 <Reveal>
-                  <h2 className="text-2xl font-display">{t.trustTitle}</h2>
+                  <h2 className="text-[1.95rem] font-display leading-[1.12]">{t.trustTitle}</h2>
                 </Reveal>
                 <div className="mt-6 grid gap-4 md:grid-cols-3">
                   {t.trustCards.map((card) => (
-                    <Reveal key={card.title} className="card p-5 min-h-[128px]">
+                    <Reveal key={card.title}><Card className="p-5 md:p-6 min-h-[128px]">
                       <p className="text-base font-semibold">{card.title}</p>
                       <p className="mt-2 text-sm text-primary">{card.text}</p>
+                    </Card>
                     </Reveal>
                   ))}
                 </div>
                 <p className="mt-3 text-sm text-primary">{t.trustLine}</p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-3">
                   {[travel1, travel2, travel3].map((img, index) => (
-                    <Reveal key={img} className="overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-card">
-                      <img src={img} alt={`Viagem em família ${index + 1}`} className="h-40 w-full object-cover" loading="lazy" />
+                    <Reveal key={img}>
+                      <Card className="overflow-hidden rounded-2xl p-0">
+                        <img src={img} alt={`Viagem em família ${index + 1}`} className="h-40 w-full object-cover" loading="lazy" />
+                      </Card>
                     </Reveal>
                   ))}
                 </div>
@@ -1514,7 +1503,27 @@ export default function App() {
         )}
       </main>
 
-      <footer className="py-12 border-t border-primary/10 bg-white/85">
+      {route === 'home' && (
+        <div className="pb-4">
+          <div className={`${container} text-center`}>
+            <Button
+              as="a"
+              href="/produtos"
+              variant="link"
+              size="sm"
+              onClick={(event) => {
+                event.preventDefault()
+                navigate('/produtos')
+              }}
+              className="text-sm"
+            >
+              {t.productsLink}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <footer className="py-12 md:py-16 border-t border-primary/10 bg-white/85">
         <div className={`${container} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}>
           <div className="space-y-2">
             <div className="h-24 w-52">
