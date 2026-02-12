@@ -6,13 +6,25 @@
   color-scheme: light;
 }
 
+@font-face {
+  font-family: 'More Sugar';
+  src:
+    local('More Sugar'),
+    local('MoreSugar'),
+    local('Baloo 2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  /* TODO: add src/assets/fonts/MoreSugar.otf (or .ttf) and include it in src when available. */
+}
+
 body {
-  font-family: theme('fontFamily.sans');
+  font-family: theme('fontFamily.body');
   background: radial-gradient(circle at 15% 0%, rgba(207, 232, 228, 0.45), transparent 45%),
     radial-gradient(circle at 85% 5%, rgba(239, 231, 207, 0.45), transparent 45%),
     radial-gradient(circle at 20% 80%, rgba(231, 176, 164, 0.25), transparent 50%),
     #ffffff;
-  color: #1e2d3c;
+  color: #022f59;
   min-height: 100vh;
 }
 
@@ -30,23 +42,32 @@ html {
 
 .card {
   border-radius: 24px;
-  border: 1px solid rgba(30, 45, 60, 0.1);
+  border: 1px solid rgba(2, 47, 89, 0.1);
   background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 10px 30px rgba(30, 45, 60, 0.08);
+  box-shadow: 0 10px 30px rgba(2, 47, 89, 0.08);
 }
 
 .panel {
   border-radius: 28px;
-  border: 1px solid rgba(30, 45, 60, 0.12);
+  border: 1px solid rgba(2, 47, 89, 0.12);
   background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 16px 40px rgba(30, 45, 60, 0.1);
+  box-shadow: 0 16px 40px rgba(2, 47, 89, 0.1);
 }
 
 .chip {
   border-radius: 999px;
-  border: 1px solid rgba(30, 45, 60, 0.12);
+  border: 1px solid rgba(2, 47, 89, 0.12);
   background: rgba(239, 231, 207, 0.6);
   padding: 6px 12px;
   font-size: 12px;
-  color: rgba(30, 45, 60, 0.7);
+  color: rgba(2, 47, 89, 0.7);
+}
+
+.logo-tight-wrap {
+  overflow: hidden;
+}
+
+.logo-tight {
+  transform: scale(1.28);
+  transform-origin: center;
 }

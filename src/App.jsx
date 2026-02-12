@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
-import logo from './assets/logo.png'
+import logoTransparent from './assets/logo-transparent.png'
 import heroImage from './assets/hero.jpg'
 import travel1 from './assets/travel-family-1.jpeg'
 import travel2 from './assets/travel-family-2.jpeg'
@@ -644,7 +644,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
       title: t.wizardStepTitles[0],
       content: (
         <div className="flex flex-col gap-2">
-          <label className="text-xs text-navy/60" htmlFor="email">
+          <label className="text-xs text-primary/60" htmlFor="email">
             {t.wizardQuestions.email}
           </label>
           <input
@@ -654,11 +654,11 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.email}
             onChange={handleChange}
-            className="rounded-xl border border-navy/10 px-3 py-3"
+            className="rounded-xl border border-primary/10 px-3 py-3"
           />
-          <p className="text-xs text-navy/50">{t.wizardReassureEmail}</p>
-          <p className="text-xs text-navy/50">{t.wizardReassurePrivacy}</p>
-          <p className="text-xs text-navy/50">{t.wizardTimeNote}</p>
+          <p className="text-xs text-primary/50">{t.wizardReassureEmail}</p>
+          <p className="text-xs text-primary/50">{t.wizardReassurePrivacy}</p>
+          <p className="text-xs text-primary/50">{t.wizardTimeNote}</p>
         </div>
       ),
     },
@@ -668,7 +668,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
       content: (
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="motivation">
+            <label className="text-xs text-primary/60" htmlFor="motivation">
               {t.wizardQuestions.motivation}
             </label>
           <select
@@ -677,7 +677,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.motivation}
             onChange={handleChange}
-            className="rounded-xl border border-navy/10 px-3 py-3"
+            className="rounded-xl border border-primary/10 px-3 py-3"
           >
             <option value="" disabled>
               —
@@ -688,10 +688,10 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.motivation && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+          {!data.motivation && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
         </div>
           <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="dates">
+            <label className="text-xs text-primary/60" htmlFor="dates">
               {t.wizardQuestions.dates}
             </label>
           <input
@@ -700,12 +700,12 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.dates}
             onChange={handleChange}
-            className="rounded-xl border border-navy/10 px-3 py-3"
+            className="rounded-xl border border-primary/10 px-3 py-3"
           />
-          {!data.dates.trim() && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+          {!data.dates.trim() && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
         </div>
           <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="people">
+            <label className="text-xs text-primary/60" htmlFor="people">
               {t.wizardQuestions.people}
             </label>
           <input
@@ -714,22 +714,22 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.people}
             onChange={handleChange}
-            className="rounded-xl border border-navy/10 px-3 py-3"
+            className="rounded-xl border border-primary/10 px-3 py-3"
           />
-          {!data.people.trim() && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+          {!data.people.trim() && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
         </div>
           <button
             type="button"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, trip: !prev.trip }))}
-            className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+            className="text-left text-sm text-primary/70 hover:text-primary focus-visible:outline-none focus-visible:underline"
           >
             {t.wizardOptional}
           </button>
-          <p className="text-xs text-navy/50">{t.wizardOptionalNote}</p>
+          <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
           {optionalOpen.trip && (
-            <div className="grid gap-3 rounded-2xl border border-dashed border-navy/10 p-4">
+            <div className="grid gap-3 rounded-2xl border border-dashed border-primary/10 p-4">
               <div className="flex flex-col gap-2">
-                <label className="text-xs text-navy/60" htmlFor="destination">
+                <label className="text-xs text-primary/60" htmlFor="destination">
                   {t.wizardQuestions.destination}
                 </label>
                 <input
@@ -737,11 +737,11 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   name="destination"
                   value={data.destination}
                   onChange={handleChange}
-                  className="rounded-xl border border-navy/10 px-3 py-3"
+                  className="rounded-xl border border-primary/10 px-3 py-3"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs text-navy/60" htmlFor="attraction">
+                <label className="text-xs text-primary/60" htmlFor="attraction">
                   {t.wizardQuestions.attraction}
                 </label>
                 <select
@@ -749,7 +749,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   name="attraction"
                   value={data.attraction}
                   onChange={handleChange}
-                  className="rounded-xl border border-navy/10 px-3 py-3"
+                  className="rounded-xl border border-primary/10 px-3 py-3"
                 >
                   <option value="">—</option>
                   {t.wizardOptions.attraction.map((option) => (
@@ -770,7 +770,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
       content: (
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="meal">
+            <label className="text-xs text-primary/60" htmlFor="meal">
               {t.wizardQuestions.meal}
             </label>
           <select
@@ -779,7 +779,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.meal}
             onChange={handleChange}
-            className="rounded-xl border border-navy/10 px-3 py-3"
+            className="rounded-xl border border-primary/10 px-3 py-3"
           >
             <option value="" disabled>
               —
@@ -790,10 +790,10 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.meal && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+          {!data.meal && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
         </div>
           <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="lodging">
+            <label className="text-xs text-primary/60" htmlFor="lodging">
               {t.wizardQuestions.lodging}
             </label>
           <select
@@ -802,7 +802,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.lodging}
             onChange={handleChange}
-            className="rounded-xl border border-navy/10 px-3 py-3"
+            className="rounded-xl border border-primary/10 px-3 py-3"
           >
             <option value="" disabled>
               —
@@ -813,31 +813,31 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.lodging && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+          {!data.lodging && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
         </div>
           <button
             type="button"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, lodging: !prev.lodging }))}
-            className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+            className="text-left text-sm text-primary/70 hover:text-primary focus-visible:outline-none focus-visible:underline"
           >
             {t.wizardOptional}
           </button>
-          <p className="text-xs text-navy/50">{t.wizardOptionalNote}</p>
+          <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
           {optionalOpen.lodging && (
-            <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
+            <div className="grid gap-4 rounded-2xl border border-dashed border-primary/10 p-4">
               <div className="space-y-2">
-                <p className="text-xs text-navy/60">{t.wizardQuestions.lodgingValues}</p>
+                <p className="text-xs text-primary/60">{t.wizardQuestions.lodgingValues}</p>
                 <div className="grid gap-2 sm:grid-cols-2">
                   {t.wizardOptions.lodgingValues.map((option) => (
                     <label
                       key={option}
-                      className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-navy/70 hover:bg-cream/40"
+                      className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-primary/70 hover:bg-cream/40"
                     >
                       <input
                         type="checkbox"
                         checked={data.lodgingValues.includes(option)}
                         onChange={() => toggleMulti(option)}
-                        className="h-4 w-4 rounded border-navy/30 text-teal focus:ring-teal/60"
+                        className="h-4 w-4 rounded border-primary/30 text-teal focus:ring-teal/60"
                       />
                       {option}
                     </label>
@@ -845,7 +845,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs text-navy/60" htmlFor="budget">
+                <label className="text-xs text-primary/60" htmlFor="budget">
                   {t.wizardQuestions.budget}
                 </label>
                 <input
@@ -853,7 +853,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   name="budget"
                   value={data.budget}
                   onChange={handleChange}
-                  className="rounded-xl border border-navy/10 px-3 py-3"
+                  className="rounded-xl border border-primary/10 px-3 py-3"
                 />
               </div>
             </div>
@@ -866,7 +866,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
       title: t.wizardStepTitles[3],
       content: (
         <div className="flex flex-col gap-2">
-          <label className="text-xs text-navy/60" htmlFor="service">
+          <label className="text-xs text-primary/60" htmlFor="service">
             {t.wizardQuestions.service}
           </label>
           <select
@@ -875,7 +875,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.service}
             onChange={handleChange}
-            className="rounded-xl border border-navy/10 px-3 py-3"
+            className="rounded-xl border border-primary/10 px-3 py-3"
           >
             <option value="" disabled>
               —
@@ -886,8 +886,8 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          <p className="text-xs text-navy/50">Orçamento e marcação de viagem (gratuito)</p>
-          {!data.service && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+          <p className="text-xs text-primary/50">Orçamento e marcação de viagem (gratuito)</p>
+          {!data.service && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
         </div>
       ),
     },
@@ -897,7 +897,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
       content: (
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="motherProfile">
+            <label className="text-xs text-primary/60" htmlFor="motherProfile">
               {t.wizardQuestions.motherProfile}
             </label>
           <select
@@ -906,7 +906,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.motherProfile}
             onChange={handleChange}
-            className="rounded-xl border border-navy/10 px-3 py-3"
+            className="rounded-xl border border-primary/10 px-3 py-3"
           >
             <option value="" disabled>
               —
@@ -917,20 +917,20 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.motherProfile && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+          {!data.motherProfile && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
         </div>
           <button
             type="button"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, profiles: !prev.profiles }))}
-            className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+            className="text-left text-sm text-primary/70 hover:text-primary focus-visible:outline-none focus-visible:underline"
           >
             {t.wizardOptional}
           </button>
-          <p className="text-xs text-navy/50">{t.wizardOptionalNote}</p>
+          <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
           {optionalOpen.profiles && (
-            <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
+            <div className="grid gap-4 rounded-2xl border border-dashed border-primary/10 p-4">
               <div className="flex flex-col gap-2">
-                <label className="text-xs text-navy/60" htmlFor="fatherProfile">
+                <label className="text-xs text-primary/60" htmlFor="fatherProfile">
                   {t.wizardQuestions.fatherProfile}
                 </label>
                 <select
@@ -938,7 +938,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   name="fatherProfile"
                   value={data.fatherProfile}
                   onChange={handleChange}
-                  className="rounded-xl border border-navy/10 px-3 py-3"
+                  className="rounded-xl border border-primary/10 px-3 py-3"
                 >
                   <option value="">—</option>
                   {t.wizardOptions.parentProfileFather.map((option) => (
@@ -950,7 +950,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs text-navy/60" htmlFor="child1">
+                  <label className="text-xs text-primary/60" htmlFor="child1">
                     {t.wizardQuestions.child1}
                   </label>
                   <select
@@ -958,7 +958,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                     name="child1"
                     value={data.child1}
                     onChange={handleChange}
-                    className="rounded-xl border border-navy/10 px-3 py-3"
+                    className="rounded-xl border border-primary/10 px-3 py-3"
                   >
                     <option value="">—</option>
                     {t.wizardOptions.childProfile.map((option) => (
@@ -969,7 +969,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   </select>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs text-navy/60" htmlFor="child2">
+                  <label className="text-xs text-primary/60" htmlFor="child2">
                     {t.wizardQuestions.child2}
                   </label>
                   <select
@@ -977,7 +977,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                     name="child2"
                     value={data.child2}
                     onChange={handleChange}
-                    className="rounded-xl border border-navy/10 px-3 py-3"
+                    className="rounded-xl border border-primary/10 px-3 py-3"
                   >
                     <option value="">—</option>
                     {t.wizardOptions.childProfile.map((option) => (
@@ -989,7 +989,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs text-navy/60" htmlFor="child3">
+                <label className="text-xs text-primary/60" htmlFor="child3">
                   {t.wizardQuestions.child3}
                 </label>
                 <select
@@ -997,7 +997,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   name="child3"
                   value={data.child3}
                   onChange={handleChange}
-                  className="rounded-xl border border-navy/10 px-3 py-3"
+                  className="rounded-xl border border-primary/10 px-3 py-3"
                 >
                   <option value="">—</option>
                   {t.wizardOptions.childProfile.map((option) => (
@@ -1018,7 +1018,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
       content: (
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
-            <label className="text-xs text-navy/60" htmlFor="familyTraveled">
+            <label className="text-xs text-primary/60" htmlFor="familyTraveled">
               {t.wizardQuestions.familyTraveled}
             </label>
           <select
@@ -1027,7 +1027,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.familyTraveled}
             onChange={handleChange}
-            className="rounded-xl border border-navy/10 px-3 py-3"
+            className="rounded-xl border border-primary/10 px-3 py-3"
           >
             <option value="" disabled>
               —
@@ -1038,20 +1038,20 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               </option>
             ))}
           </select>
-          {!data.familyTraveled && <p className="text-xs text-navy/50">{t.wizardRequiredNote}</p>}
+          {!data.familyTraveled && <p className="text-xs text-primary/50">{t.wizardRequiredNote}</p>}
         </div>
           <button
             type="button"
             onClick={() => setOptionalOpen((prev) => ({ ...prev, experiences: !prev.experiences }))}
-            className="text-left text-sm text-navy/70 hover:text-navy focus-visible:outline-none focus-visible:underline"
+            className="text-left text-sm text-primary/70 hover:text-primary focus-visible:outline-none focus-visible:underline"
           >
             {t.wizardOptional}
           </button>
-          <p className="text-xs text-navy/50">{t.wizardOptionalNote}</p>
+          <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
           {optionalOpen.experiences && (
-            <div className="grid gap-4 rounded-2xl border border-dashed border-navy/10 p-4">
+            <div className="grid gap-4 rounded-2xl border border-dashed border-primary/10 p-4">
               <div className="flex flex-col gap-2">
-                <label className="text-xs text-navy/60" htmlFor="previousTrips">
+                <label className="text-xs text-primary/60" htmlFor="previousTrips">
                   {t.wizardQuestions.previousTrips}
                 </label>
                 <textarea
@@ -1060,11 +1060,11 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   rows="3"
                   value={data.previousTrips}
                   onChange={handleChange}
-                  className="rounded-xl border border-navy/10 px-3 py-3"
+                  className="rounded-xl border border-primary/10 px-3 py-3"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs text-navy/60" htmlFor="hardest">
+                <label className="text-xs text-primary/60" htmlFor="hardest">
                   {t.wizardQuestions.hardest}
                 </label>
                 <textarea
@@ -1073,11 +1073,11 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   rows="3"
                   value={data.hardest}
                   onChange={handleChange}
-                  className="rounded-xl border border-navy/10 px-3 py-3"
+                  className="rounded-xl border border-primary/10 px-3 py-3"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs text-navy/60" htmlFor="success">
+                <label className="text-xs text-primary/60" htmlFor="success">
                   {t.wizardQuestions.success}
                 </label>
                 <textarea
@@ -1086,11 +1086,11 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   rows="3"
                   value={data.success}
                   onChange={handleChange}
-                  className="rounded-xl border border-navy/10 px-3 py-3"
+                  className="rounded-xl border border-primary/10 px-3 py-3"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs text-navy/60" htmlFor="moreInfo">
+                <label className="text-xs text-primary/60" htmlFor="moreInfo">
                   {t.wizardQuestions.moreInfo}
                 </label>
                 <textarea
@@ -1099,7 +1099,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   rows="3"
                   value={data.moreInfo}
                   onChange={handleChange}
-                  className="rounded-xl border border-navy/10 px-3 py-3"
+                  className="rounded-xl border border-primary/10 px-3 py-3"
                 />
               </div>
             </div>
@@ -1110,15 +1110,15 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
   ]
 
   return (
-    <div className="rounded-3xl border border-navy/10 p-6 bg-white/80 shadow-card">
-      <div className="flex items-center justify-between text-xs text-navy/60">
+    <div className="rounded-3xl border border-primary/10 p-6 bg-white/80 shadow-card">
+      <div className="flex items-center justify-between text-xs text-primary/60">
         <span>
           {t.wizardProgress} {step + 1}/{stepsCount}
         </span>
-        <span className="text-sm text-navy/70">{steps[step].title}</span>
+        <span className="text-sm text-primary/70">{steps[step].title}</span>
       </div>
-      <p className="mt-2 text-sm text-navy/70">{t.wizardStepHelpers[step]}</p>
-      <p className="mt-1 text-xs text-navy/50">{t.wizardTimeNote}</p>
+      <p className="mt-2 text-sm text-primary/70">{t.wizardStepHelpers[step]}</p>
+      <p className="mt-1 text-xs text-primary/50">{t.wizardTimeNote}</p>
       {remainingText && <p className="mt-1 text-xs text-teal">{remainingText}</p>}
       {step === steps.length - 1 && (
         <p className="mt-1 text-xs text-teal">{t.wizardProgressNote}</p>
@@ -1132,7 +1132,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
           type="button"
           onClick={back}
           disabled={step === 0}
-          className="rounded-full border border-navy/20 px-4 py-2 text-sm text-navy/70 disabled:opacity-40"
+          className="rounded-full border border-primary/20 px-4 py-2 text-sm text-primary/70 disabled:opacity-40"
         >
           {t.wizardBack}
         </button>
@@ -1141,7 +1141,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             type="button"
             onClick={next}
             disabled={!canAdvance}
-            className="rounded-full bg-navy text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
+            className="rounded-full bg-primary text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
           >
             {t.wizardNext}
           </button>
@@ -1151,15 +1151,15 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
               type="button"
               onClick={() => onSubmit(data)}
               disabled={!canAdvance}
-              className="rounded-full bg-navy text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
+              className="rounded-full bg-primary text-white px-6 py-2 text-sm shadow-soft disabled:opacity-50"
             >
               {t.wizardSubmit}
             </button>
-            <p className="text-xs text-navy/60">{t.wizardNextStepNote}</p>
+            <p className="text-xs text-primary/60">{t.wizardNextStepNote}</p>
           </div>
         )}
       </div>
-      <p className="mt-3 text-xs text-navy/50">{t.wizardAutosaveNote}</p>
+      <p className="mt-3 text-xs text-primary/50">{t.wizardAutosaveNote}</p>
     </div>
   )
 }
@@ -1216,21 +1216,21 @@ export default function App() {
   const container = 'mx-auto w-full max-w-5xl px-6'
 
   return (
-    <div className="text-navy">
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-navy/10">
+    <div className="font-body text-primary">
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-primary/10">
         <div className={`${container} flex items-center justify-between py-4`}>
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-tealSoft/80 border border-teal/30 flex items-center justify-center">
-              <img src={logo} alt="TravelBuddies" className="h-6 w-6" />
+            <div className="logo-tight-wrap h-12 w-12 rounded-2xl border border-teal/30 bg-tealSoft/60 flex items-center justify-center">
+              <img src={logoTransparent} alt="TravelBuddies" className="logo-tight h-10 w-10 object-contain" />
             </div>
             <div>
-              <p className="font-display text-lg">TravelBuddies</p>
-              <p className="text-xs text-navy/60">Organizamos Viagens em Família</p>
+              <p className="font-display text-xl">TravelBuddies</p>
+              <p className="text-sm text-primary">Organizamos Viagens em Família</p>
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             {t.navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="text-navy/70 hover:text-navy">
+              <a key={link.href} href={link.href} className="text-primary hover:text-primary/80">
                 {link.label}
               </a>
             ))}
@@ -1238,14 +1238,14 @@ export default function App() {
           <div className="flex items-center gap-3">
             <a
               href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-              className="hidden sm:inline-flex items-center rounded-full border border-navy/20 px-4 py-2 text-xs text-navy/80 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="hidden sm:inline-flex items-center rounded-full border border-primary/20 px-4 py-2 text-xs text-primary/80 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
               {t.primaryCta}
             </a>
             <button
               type="button"
               className={`px-3 py-1 rounded-full text-xs border ${
-                lang === 'pt' ? 'bg-navy text-white border-navy' : 'border-navy/20 text-navy/70'
+                lang === 'pt' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
               }`}
               onClick={() => setLang('pt')}
             >
@@ -1254,7 +1254,7 @@ export default function App() {
             <button
               type="button"
               className={`px-3 py-1 rounded-full text-xs border ${
-                lang === 'en' ? 'bg-navy text-white border-navy' : 'border-navy/20 text-navy/70'
+                lang === 'en' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
               }`}
               onClick={() => setLang('en')}
             >
@@ -1268,20 +1268,20 @@ export default function App() {
         <section className="pt-10 pb-10 sm:pt-16 sm:pb-14 lg:pt-20 lg:pb-16">
           <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
             <Reveal>
-              <p className="text-sm uppercase tracking-[0.2em] text-navy/50">{t.heroTag}</p>
+              <p className="text-sm uppercase tracking-[0.2em] text-primary">{t.heroTag}</p>
               <h1 className="mt-4 text-[2.35rem] sm:text-4xl lg:text-6xl font-display leading-tight text-balance">
                 {t.heroTitle}
               </h1>
-              <p className="mt-3 text-base text-navy/70 text-balance max-w-xl">{t.heroBody}</p>
+              <p className="mt-3 text-base text-primary text-balance max-w-xl">{t.heroBody}</p>
               <div className="mt-5">
-                <p className="mb-2 text-sm text-navy/70">{t.heroCtaPrompt}</p>
+                <p className="mb-2 text-sm text-primary">{t.heroCtaPrompt}</p>
                 <a
                   href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-                  className="inline-flex px-7 py-3 rounded-full bg-navy text-white shadow-soft hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex px-7 py-3 rounded-full bg-primary text-white shadow-soft hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   {t.primaryCta}
                 </a>
-                <p className="mt-2 text-xs text-navy/60">{t.heroCtaNote}</p>
+                <p className="mt-2 text-xs text-primary">{t.heroCtaNote}</p>
               </div>
             </Reveal>
             <Reveal className="relative hidden sm:block">
@@ -1298,7 +1298,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="qualify" className="py-12 border-t border-navy/10">
+        <section id="qualify" className="py-12 border-t border-primary/10">
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.qualifyTitle}</h2>
@@ -1309,15 +1309,15 @@ export default function App() {
                   key={item.title}
                   className="card p-4 min-h-[104px]"
                 >
-                  <p className="text-sm font-semibold">{item.title}</p>
-                  <p className="mt-1 text-xs text-navy/60">{item.text}</p>
+                  <p className="text-base font-semibold">{item.title}</p>
+                  <p className="mt-1 text-sm text-primary">{item.text}</p>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="how" className="py-12 border-t border-navy/10">
+        <section id="how" className="py-12 border-t border-primary/10">
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.howTitle}</h2>
@@ -1326,30 +1326,30 @@ export default function App() {
               {t.howSteps.map((step, index) => (
                 <Reveal key={step.title} className="card p-5 min-h-[128px]">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-navy/10 bg-tealSoft/60 text-sm">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/10 bg-tealSoft/60 text-sm">
                       {index + 1}
                     </span>
-                    <p className="text-sm font-semibold">{step.title}</p>
+                    <p className="text-base font-semibold">{step.title}</p>
                   </div>
-                  <p className="mt-2 text-xs text-navy/60">{step.text}</p>
+                  <p className="mt-2 text-sm text-primary">{step.text}</p>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="services" className="py-12 bg-white/70 border-t border-navy/10">
+        <section id="services" className="py-12 bg-white/70 border-t border-primary/10">
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.servicesTitle}</h2>
-              <p className="mt-2 text-navy/70">{t.servicesBody}</p>
-              <p className="mt-2 text-sm text-navy/60">{t.servicesFreeLine}</p>
+              <p className="mt-2 text-primary">{t.servicesBody}</p>
+              <p className="mt-2 text-sm text-primary">{t.servicesFreeLine}</p>
             </Reveal>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <Reveal className="card p-6 min-h-[260px]">
-                <p className="text-xs uppercase tracking-[0.2em] text-navy/60">{t.baseTitle}</p>
-                <p className="mt-3 text-sm text-navy/70">{t.baseOutcome}</p>
-                <p className="mt-2 text-xs text-navy/60">{t.baseWhen}</p>
+                <h3 className="font-display text-3xl text-primary/85 leading-none">{t.baseTitle}</h3>
+                <p className="mt-3 text-sm text-primary">{t.baseOutcome}</p>
+                <p className="mt-2 text-sm text-primary">{t.baseWhen}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {t.baseBenefits.map((item) => (
                     <span
@@ -1361,13 +1361,13 @@ export default function App() {
                   ))}
                 </div>
               </Reveal>
-              <Reveal className="relative rounded-3xl border border-navy/10 p-6 shadow-card bg-cream/40 min-h-[260px]">
-                <span className="absolute right-5 top-5 rounded-full bg-navy text-white px-3 py-1 text-xs">
+              <Reveal className="relative rounded-3xl border border-primary/10 p-6 shadow-card bg-cream/40 min-h-[260px]">
+                <span className="absolute right-5 top-5 rounded-full bg-primary text-white px-3 py-1 text-xs">
                   {t.premiumBadge}
                 </span>
-                <p className="text-xs uppercase tracking-[0.2em] text-navy/60">{t.premiumTitle}</p>
-                <p className="mt-3 text-sm text-navy/70">{t.premiumOutcome}</p>
-                <p className="mt-2 text-xs text-navy/60">{t.premiumWhen}</p>
+                <h3 className="font-display text-3xl text-primary/85 leading-none">{t.premiumTitle}</h3>
+                <p className="mt-3 text-sm text-primary">{t.premiumOutcome}</p>
+                <p className="mt-2 text-sm text-primary">{t.premiumWhen}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {t.premiumBenefits.map((item) => (
                     <span
@@ -1380,11 +1380,11 @@ export default function App() {
                 </div>
               </Reveal>
             </div>
-            <p className="mt-4 text-sm text-navy/60">{t.pricingNote}</p>
+            <p className="mt-4 text-sm text-primary">{t.pricingNote}</p>
           </div>
         </section>
 
-        <section id="trust" className="py-12 border-t border-navy/10">
+        <section id="trust" className="py-12 border-t border-primary/10">
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.trustTitle}</h2>
@@ -1395,17 +1395,17 @@ export default function App() {
                   key={card.title}
                   className="card p-5 min-h-[128px]"
                 >
-                  <p className="text-sm font-semibold">{card.title}</p>
-                  <p className="mt-2 text-xs text-navy/60">{card.text}</p>
+                  <p className="text-base font-semibold">{card.title}</p>
+                  <p className="mt-2 text-sm text-primary">{card.text}</p>
                 </Reveal>
               ))}
             </div>
-            <p className="mt-3 text-sm text-navy/60">{t.trustLine}</p>
+            <p className="mt-3 text-sm text-primary">{t.trustLine}</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               {[travel1, travel2, travel3].map((img, index) => (
                 <Reveal
                   key={img}
-                  className="overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-card"
+                  className="overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-card"
                 >
                   <img
                     src={img}
@@ -1416,33 +1416,33 @@ export default function App() {
                 </Reveal>
               ))}
             </div>
-            <p className="mt-3 text-xs text-navy/60">Fotos reais da nossa família.</p>
+            <p className="mt-3 text-xs text-primary">Fotos reais da nossa família.</p>
           </div>
         </section>
 
         <a
           href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
-          className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 rounded-full bg-navy px-6 py-3 text-sm text-white shadow-soft sm:hidden"
+          className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 rounded-full bg-primary px-6 py-3 text-sm text-white shadow-soft sm:hidden"
         >
           {t.primaryCta}
         </a>
 
-        <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 border-t border-navy/10">
+        <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 border-t border-primary/10">
           <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
             <Reveal>
               <h2 className="text-3xl font-display">{t.formTitle}</h2>
-              <p className="mt-3 text-navy/70">{t.formBody}</p>
-              <p className="mt-2 text-xs text-navy/50">{t.formHint}</p>
-              <div className="mt-6 rounded-3xl border border-navy/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
+              <p className="mt-3 text-primary">{t.formBody}</p>
+              <p className="mt-2 text-sm text-primary">{t.formHint}</p>
+              <div className="mt-6 rounded-3xl border border-primary/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
                 <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} />
               </div>
-              <div className="mt-4 rounded-2xl border border-navy/10 bg-white/80 p-4">
+              <div className="mt-4 rounded-2xl border border-primary/10 bg-white/80 p-4">
                 <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
                 <div className="mt-3 grid gap-2 sm:grid-cols-3">
                   {t.wizardReceiveItems.map((item) => (
                     <div
                       key={item}
-                      className="rounded-xl border border-navy/10 bg-cream/60 px-3 py-3 text-xs text-navy/70 text-center"
+                      className="rounded-xl border border-primary/10 bg-cream/60 px-3 py-3 text-xs text-primary/70 text-center"
                     >
                       {item}
                     </div>
@@ -1458,41 +1458,41 @@ export default function App() {
                   <div className="space-y-6">
                     <div>
                       <p className="text-sm font-semibold">{t.formThankTitle}</p>
-                      <p className="mt-2 text-xs text-navy/60">{t.formThankBody}</p>
+                      <p className="mt-2 text-xs text-primary/60">{t.formThankBody}</p>
                     </div>
                     <div>
                       <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
-                      <p className="text-xs text-navy/60 mt-2">{t.wizardSummaryBody}</p>
-                      <p className="text-xs text-navy/60 mt-2">Copiado ✅</p>
-                      <div className="mt-3 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[160px] text-sm text-navy/70 whitespace-pre-wrap">
+                      <p className="text-xs text-primary/60 mt-2">{t.wizardSummaryBody}</p>
+                      <p className="text-xs text-primary/60 mt-2">Copiado ✅</p>
+                      <div className="mt-3 rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-4 min-h-[160px] text-sm text-primary/70 whitespace-pre-wrap">
                         {message}
                       </div>
                     </div>
-                    <p className="text-xs text-navy/60">
+                    <p className="text-xs text-primary/60">
                       Se preferires, manda só WhatsApp e nós pedimos o resto depois.
                     </p>
                     {links && (
                     <div className="grid gap-3">
-                      <a href={links.whatsapp} className="rounded-full bg-navy text-white px-4 py-4 text-center text-sm shadow-soft">
+                      <a href={links.whatsapp} className="rounded-full bg-primary text-white px-4 py-4 text-center text-sm shadow-soft">
                         {t.whatsapp}
                       </a>
-                      <p className="text-xs text-navy/60 text-center">Resposta humana em 24–48h úteis.</p>
+                      <p className="text-xs text-primary/60 text-center">Resposta humana em 24–48h úteis.</p>
                       <button
                         type="button"
                         onClick={() => setMessage('')}
-                        className="rounded-full border border-navy/20 px-4 py-3 text-center text-sm text-navy/70 hover:border-navy"
+                        className="rounded-full border border-primary/20 px-4 py-3 text-center text-sm text-primary/70 hover:border-primary"
                       >
                         {lang === 'pt' ? 'Editar respostas' : 'Edit answers'}
                       </button>
                       <a
                         href={links.email}
-                        className="rounded-full border border-navy/20 px-4 py-3 text-center hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                        className="rounded-full border border-primary/20 px-4 py-3 text-center hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                       >
                         {t.email}
                       </a>
                         <a
                           href={links.instagram}
-                          className="rounded-full border border-navy/10 px-4 py-3 text-center text-navy/70 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                          className="rounded-full border border-primary/10 px-4 py-3 text-center text-primary/70 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                           onClick={async (event) => {
                             if (!message) return
                             event.preventDefault()
@@ -1508,8 +1508,8 @@ export default function App() {
                 ) : (
                   <div>
                     <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
-                    <p className="text-xs text-navy/60 mt-2">{t.wizardSummaryBody}</p>
-                    <div className="mt-4 rounded-2xl border border-dashed border-navy/20 bg-cream/40 p-4 min-h-[160px] whitespace-pre-wrap text-sm text-navy/70">
+                    <p className="text-xs text-primary/60 mt-2">{t.wizardSummaryBody}</p>
+                    <div className="mt-4 rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-4 min-h-[160px] whitespace-pre-wrap text-sm text-primary/70">
                       {lang === 'pt' ? 'Preenche o questionário para gerar a mensagem.' : 'Complete the questionnaire to generate the message.'}
                     </div>
                   </div>
@@ -1520,13 +1520,15 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="py-12 border-t border-navy/10 bg-white/85">
+      <footer className="py-12 border-t border-primary/10 bg-white/85">
         <div className={`${container} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}>
           <div className="space-y-2">
-            <p className="font-display text-lg">{t.footerTitle}</p>
-            <p className="text-sm text-navy/60">{t.footerBody}</p>
+            <div className="logo-tight-wrap h-16 w-44">
+              <img src={logoTransparent} alt={t.footerTitle} className="logo-tight h-16 w-full object-contain" />
+            </div>
+            <p className="text-sm text-primary">{t.footerBody}</p>
           </div>
-          <div className="flex flex-wrap gap-3 text-sm text-navy/70">
+          <div className="flex flex-wrap gap-3 text-sm text-primary/70">
             <a
               href="https://wa.me/351919676329"
               aria-label="WhatsApp"
@@ -1549,7 +1551,7 @@ export default function App() {
               <img src={btnInstagram} alt="Instagram" className="h-12 w-auto block mx-auto" />
             </a>
           </div>
-          <p className="text-xs text-navy/50">{t.footerSmall}</p>
+          <p className="text-xs text-primary">{t.footerSmall}</p>
         </div>
       </footer>
       <Analytics />

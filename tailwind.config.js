@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        primary: "#022f59",
         navy: "#1e2d3c",
         teal: "#7fb9b7",
         tealSoft: "#cfe8e4",
@@ -14,12 +15,13 @@ export default {
         cream: "#efe7cf",
       },
       fontFamily: {
-        display: ["Playfair Display", "serif"],
-        sans: ["Manrope", "sans-serif"],
+        display: ["More Sugar", "Baloo 2", "cursive"],
+        body: ["Josefin Sans", "sans-serif"],
+        sans: ["Josefin Sans", "sans-serif"],
       },
       boxShadow: {
-        soft: "0 20px 60px rgba(30, 45, 60, 0.12)",
-        card: "0 10px 30px rgba(30, 45, 60, 0.08)",
+        soft: "0 20px 60px rgba(2, 47, 89, 0.12)",
+        card: "0 10px 30px rgba(2, 47, 89, 0.08)",
       },
     },
   },
