@@ -1220,12 +1220,12 @@ export default function App() {
       <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-primary/10">
         <div className={`${container} flex items-center justify-between py-4`}>
           <div className="flex items-center gap-3">
-            <div className="h-14 w-14 rounded-2xl border border-teal/30 bg-white flex items-center justify-center shadow-card">
-              <img src={logoBrand} alt="TravelBuddies" className="h-12 w-12 object-contain" />
+            <div className="h-20 w-20 flex items-center justify-center">
+              <img src={logoBrand} alt="TravelBuddies" className="h-20 w-20 object-contain" />
             </div>
             <div>
               <p className="font-display text-xl">TravelBuddies</p>
-              <p className="text-sm text-primary">Organizamos Viagens em Família</p>
+              <p className="font-subtitle font-light text-sm text-primary">Organizamos Viagens em Família</p>
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -1268,20 +1268,20 @@ export default function App() {
         <section className="pt-10 pb-10 sm:pt-16 sm:pb-14 lg:pt-20 lg:pb-16">
           <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
             <Reveal>
-              <p className="text-sm uppercase tracking-[0.2em] text-primary">{t.heroTag}</p>
+              <p className="font-subtitle font-light text-sm uppercase tracking-[0.2em] text-primary">{t.heroTag}</p>
               <h1 className="mt-4 text-[2.35rem] sm:text-4xl lg:text-6xl font-display leading-tight text-balance">
                 {t.heroTitle}
               </h1>
-              <p className="mt-3 text-base text-primary text-balance max-w-xl">{t.heroBody}</p>
+              <p className="font-subtitle font-light mt-3 text-base text-primary text-balance max-w-xl">{t.heroBody}</p>
               <div className="mt-5">
-                <p className="mb-2 text-sm text-primary">{t.heroCtaPrompt}</p>
+                <p className="font-subtitle font-light mb-2 text-sm text-primary">{t.heroCtaPrompt}</p>
                 <a
                   href={lang === 'pt' ? '#diagnostico' : '#diagnosis'}
                   className="inline-flex px-7 py-3 rounded-full bg-primary text-white shadow-soft hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   {t.primaryCta}
                 </a>
-                <p className="mt-2 text-xs text-primary">{t.heroCtaNote}</p>
+                <p className="font-subtitle font-light mt-2 text-xs text-primary">{t.heroCtaNote}</p>
               </div>
             </Reveal>
             <Reveal className="relative hidden sm:block">
@@ -1342,8 +1342,8 @@ export default function App() {
           <div className={container}>
             <Reveal>
               <h2 className="text-2xl font-display">{t.servicesTitle}</h2>
-              <p className="mt-2 text-primary">{t.servicesBody}</p>
-              <p className="mt-2 text-sm text-primary">{t.servicesFreeLine}</p>
+              <p className="font-subtitle font-light mt-2 text-primary">{t.servicesBody}</p>
+              <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.servicesFreeLine}</p>
             </Reveal>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <Reveal className="card p-6 min-h-[260px]">
@@ -1380,7 +1380,7 @@ export default function App() {
                 </div>
               </Reveal>
             </div>
-            <p className="mt-4 text-sm text-primary">{t.pricingNote}</p>
+            <p className="font-subtitle font-light mt-4 text-sm text-primary">{t.pricingNote}</p>
           </div>
         </section>
 
@@ -1431,8 +1431,8 @@ export default function App() {
           <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
             <Reveal>
               <h2 className="text-3xl font-display">{t.formTitle}</h2>
-              <p className="mt-3 text-primary">{t.formBody}</p>
-              <p className="mt-2 text-sm text-primary">{t.formHint}</p>
+              <p className="font-subtitle font-light mt-3 text-primary">{t.formBody}</p>
+              <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.formHint}</p>
               <div className="mt-6 rounded-3xl border border-primary/10 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-4 sm:p-6">
                 <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} />
               </div>
@@ -1526,7 +1526,7 @@ export default function App() {
             <div className="h-24 w-52">
               <img src={logoBrand} alt={t.footerTitle} className="h-24 w-full object-contain" />
             </div>
-            <p className="text-sm text-primary">{t.footerBody}</p>
+            <p className="font-subtitle font-light text-sm text-primary">{t.footerBody}</p>
           </div>
           <div className="flex flex-wrap gap-3 text-sm text-primary/70">
             <a
@@ -1551,7 +1551,7 @@ export default function App() {
               <img src={btnInstagram} alt="Instagram" className="h-12 w-auto block mx-auto" />
             </a>
           </div>
-          <p className="text-xs text-primary">{t.footerSmall}</p>
+          <p className="font-subtitle font-light text-xs text-primary">{t.footerSmall}</p>
         </div>
       </footer>
       <Analytics />

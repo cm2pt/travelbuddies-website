@@ -15,7 +15,8 @@ export default {
         cream: "#efe7cf",
       },
       fontFamily: {
-        display: ["More Sugar", "Baloo 2", "cursive"],
+        display: ["More Sugar", "cursive"],
+        subtitle: ["More Sugar", "cursive"],
         body: ["Josefin Sans", "sans-serif"],
         sans: ["Josefin Sans", "sans-serif"],
       },

@@ -8,14 +8,20 @@
 
 @font-face {
   font-family: 'More Sugar';
-  src:
-    local('More Sugar'),
-    local('MoreSugar'),
-    local('Baloo 2');
+  src: url('./assets/fonts/MoreSugar-Regular.otf') format('opentype'),
+    url('./assets/fonts/MoreSugar-Regular.ttf') format('truetype');
   font-display: swap;
   font-style: normal;
   font-weight: 400;
-  /* TODO: add src/assets/fonts/MoreSugar.otf (or .ttf) and include it in src when available. */
+}
+
+@font-face {
+  font-family: 'More Sugar';
+  src: url('./assets/fonts/MoreSugar-Thin.otf') format('opentype'),
+    url('./assets/fonts/MoreSugar-Thin.ttf') format('truetype');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300;
 }
 
 body {
