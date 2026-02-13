@@ -80,7 +80,7 @@ export default function ProductsPage({ lang = 'pt' }) {
     <section id="produtos" className="py-12 md:py-16 bg-white">
       <div className="mx-auto w-full max-w-[1120px] px-5 sm:px-6">
         <Reveal>
-          <h1 className="font-display text-[2.1rem] leading-[1.08] text-primary sm:text-5xl">{t.title}</h1>
+          <h1 className="font-display text-[1.78rem] leading-[1.08] text-primary sm:text-5xl">{t.title}</h1>
           <p className="font-body mt-3 max-w-2xl text-base text-primary/85">{t.intro}</p>
         </Reveal>
 
@@ -106,7 +106,7 @@ export default function ProductsPage({ lang = 'pt' }) {
               <img src={item.image} alt={getTitle(item)} className="h-52 w-full object-cover" loading="lazy" />
               <div className="p-5 md:p-6">
                 <div className="flex items-start justify-between gap-3">
-                  <h2 className="font-display text-3xl leading-none text-primary">{getTitle(item)}</h2>
+                  <h2 className="font-display text-[1.72rem] sm:text-3xl leading-none text-primary">{getTitle(item)}</h2>
                   <span className="font-semibold text-primary text-sm">{item.price}</span>
                 </div>
                 <p className="font-body mt-3 text-sm text-primary/85">{getShort(item)}</p>
@@ -123,7 +123,7 @@ export default function ProductsPage({ lang = 'pt' }) {
 
         <Reveal>
           <Card variant="muted" className="mt-10 p-6">
-          <h3 className="font-display text-3xl text-primary">{t.shippingTitle}</h3>
+          <h3 className="font-display text-[1.72rem] sm:text-3xl text-primary">{t.shippingTitle}</h3>
           <p className="font-body mt-2 text-sm text-primary/85">{t.shippingBody}</p>
           </Card>
         </Reveal>

@@ -54,13 +54,13 @@ export default function ProductModal({ lang = 'pt', product, onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/35 p-4">
       <Card variant="surface" className="w-full max-w-lg p-5 md:p-6">
         <div className="flex items-center justify-between gap-4">
-          <h3 className="font-display text-3xl text-primary">{isPt ? 'Comprar produto' : 'Buy product'}</h3>
+          <h3 className="font-display text-[1.72rem] sm:text-3xl text-primary">{isPt ? 'Comprar produto' : 'Buy product'}</h3>
           <Button type="button" variant="secondary" size="sm" onClick={onClose}>
             {isPt ? 'Fechar' : 'Close'}
           </Button>
         </div>
         <img src={product.image} alt={title} className="mt-4 h-44 w-full rounded-2xl object-cover" />
-        <p className="font-display mt-4 text-3xl text-primary">{title}</p>
+        <p className="font-display mt-4 text-[1.72rem] sm:text-3xl text-primary">{title}</p>
         <p className="font-body mt-2 text-sm text-primary/85">{description}</p>
         <p className="mt-3 text-sm text-primary">
           <span className="font-body">{isPt ? 'Preço final:' : 'Final price:'}</span> <span className="font-semibold">{product.price}</span>

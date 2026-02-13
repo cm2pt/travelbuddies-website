@@ -1319,7 +1319,7 @@ export default function App() {
               <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
                 <Reveal>
                   <p className="font-subtitle font-light text-sm uppercase tracking-[0.2em] text-primary">{t.heroTag}</p>
-                  <h1 className="mt-4 text-[2.1rem] sm:text-4xl lg:text-5xl font-display leading-[1.08] text-balance">
+                  <h1 className="mt-4 text-[1.78rem] sm:text-4xl lg:text-5xl font-display leading-[1.08] text-balance">
                     {t.heroTitle}
                   </h1>
                   <p className="font-subtitle font-light mt-3 text-base text-primary text-balance max-w-xl">{t.heroBody}</p>
@@ -1335,9 +1335,9 @@ export default function App() {
                   <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
                   <Card variant="surface" className="overflow-hidden p-0">
                     <img
-                      src={travel3}
+                      src={travel2}
                       alt="Family traveling"
-                      className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover object-center"
+                      className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover object-[50%_42%] scale-[1.06]"
                       loading="lazy"
                     />
                   </Card>
@@ -1348,13 +1348,13 @@ export default function App() {
             <section id="services" className="py-12 md:py-16 bg-white/70 border-t border-primary/10">
               <div className={container}>
                 <Reveal>
-                  <h2 className="text-[1.95rem] font-display leading-[1.12]">{t.servicesTitle}</h2>
+                  <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.servicesTitle}</h2>
                   <p className="font-subtitle font-light mt-2 text-primary">{t.servicesBody}</p>
                   <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.servicesFreeLine}</p>
                 </Reveal>
                 <div className="mt-6 grid gap-6 lg:grid-cols-2">
                   <Reveal><Card className="p-5 md:p-6 min-h-[260px]">
-                    <h3 className="font-display text-3xl text-primary/85 leading-none">{t.baseTitle}</h3>
+                    <h3 className="font-display text-[1.85rem] sm:text-3xl text-primary/85 leading-none">{t.baseTitle}</h3>
                     <p className="mt-3 text-sm text-primary">{t.baseOutcome}</p>
                     <p className="mt-2 text-sm text-primary">{t.baseWhen}</p>
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -1370,7 +1370,7 @@ export default function App() {
                     <span className="absolute right-5 top-5 rounded-full bg-primary text-white px-3 py-1 text-xs">
                       {t.premiumBadge}
                     </span>
-                    <h3 className="font-display text-3xl text-primary/85 leading-none">{t.premiumTitle}</h3>
+                    <h3 className="font-display text-[1.85rem] sm:text-3xl text-primary/85 leading-none">{t.premiumTitle}</h3>
                     <p className="mt-3 text-sm text-primary">{t.premiumOutcome}</p>
                     <p className="mt-2 text-sm text-primary">{t.premiumWhen}</p>
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -1394,7 +1394,7 @@ export default function App() {
             <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 md:py-16 border-t border-primary/10">
               <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
                 <Reveal>
-                  <h2 className="text-[1.95rem] font-display leading-[1.12]">{t.formTitle}</h2>
+                  <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.formTitle}</h2>
                   <p className="font-subtitle font-light mt-3 text-primary">{t.formBody}</p>
                   <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.formHint}</p>
                   <Card variant="surface" className="mt-6 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-5 md:p-6">
@@ -1473,7 +1473,7 @@ export default function App() {
             <section id="trust" className="py-12 md:py-16 border-t border-primary/10">
               <div className={container}>
                 <Reveal>
-                  <h2 className="text-[1.95rem] font-display leading-[1.12]">{t.trustTitle}</h2>
+                  <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.trustTitle}</h2>
                 </Reveal>
                 <div className="mt-6 grid gap-4 md:grid-cols-3">
                   {t.trustCards.map((card) => (
