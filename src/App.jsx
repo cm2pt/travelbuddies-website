@@ -52,10 +52,28 @@ const copy = {
     baseTitle: 'Organização Base — 60€',
     premiumTitle: 'Premium — 130€',
     premiumBadge: 'Menos decisões',
-    baseOutcome: 'Para ganhar clareza e seguir em frente.',
-    premiumOutcome: 'Para reduzir ao máximo o peso mental.',
-    baseWhen: 'Escolhe Base se queres alinhar e decidir rápido.',
-    premiumWhen: 'Escolhe Premium se queres o mínimo de carga mental.',
+    baseOutcome:
+      'Para famílias que querem orientação clara e roteiro alinhado com o perfil da família (com possibilidade de compra connosco ou orientação para fazerem de forma autónoma).',
+    premiumOutcome:
+      'Para famílias que querem menos decisões, mais acompanhamento e tudo alinhado desde o início.',
+    baseWhen: '👉 Ideal para quem quer orientação clara, sem complicar.',
+    premiumWhen:
+      '👉 Ideal para viagens mais longas, destinos complexos ou famílias que querem ter tudo planeado com segurança.',
+    baseDetailedList: [
+      'Diagnóstico dos perfis da família (na TravelBuddies identificamos 4 tipos de perfis)',
+      'Roteiro adaptado aos perfis da família (destino, ritmo, tipo de viagem)',
+      'Sugestão de voos e alojamento adequados a crianças (com opção de marcação)',
+      'Ajuda na preparação das malas',
+      'Saber exatamente o que tratar antes de viajar',
+      'Suporte durante o processo de decisão',
+      'Mini guia sobre o destino',
+    ],
+    premiumDetailedList: [
+      'Roteiro detalhado com planeamento por dias (ritmo realista para a família)',
+      'Sugestão e opção de marcação de experiências',
+      'Suporte durante a viagem',
+    ],
+    premiumIncludesBase: 'Inclui tudo do Base +',
     baseBenefits: ['Roteiro leve', 'Comparações claras', 'Decisão com apoio'],
     premiumBenefits: ['Planeamento por dias', 'Experiências alinhadas', 'Apoio antes e durante'],
     pricingNote: 'Valores variam consoante duração e complexidade.',
@@ -280,10 +298,26 @@ const copy = {
     baseTitle: 'Organização Base — 60€',
     premiumTitle: 'Premium — 130€',
     premiumBadge: 'Less decisions',
-    baseOutcome: 'For clarity and to move forward.',
-    premiumOutcome: 'To reduce mental load as much as possible.',
-    baseWhen: 'Choose Base if you want alignment and quick decisions.',
-    premiumWhen: 'Choose Premium if you want minimal mental load.',
+    baseOutcome:
+      'For families who want clear guidance and an itinerary aligned with their profile (with booking support or autonomous guidance).',
+    premiumOutcome: 'For families who want fewer decisions, more support, and everything aligned from the start.',
+    baseWhen: '👉 Ideal if you want clear direction without extra complexity.',
+    premiumWhen: '👉 Ideal for longer trips, complex destinations, or families that want full planning confidence.',
+    baseDetailedList: [
+      'Family profile diagnosis (TravelBuddies maps 4 profile types)',
+      'Itinerary adapted to family profiles (destination, pace, trip style)',
+      'Flight and child-friendly lodging suggestions (with booking option)',
+      'Packing support',
+      'Clear pre-travel preparation checklist',
+      'Support during decision-making',
+      'Mini destination guide',
+    ],
+    premiumDetailedList: [
+      'Detailed day-by-day plan (realistic family pace)',
+      'Experience suggestions with optional booking',
+      'Support during the trip',
+    ],
+    premiumIncludesBase: 'Includes everything from Base +',
     baseBenefits: ['Light itinerary', 'Clear comparisons', 'Decision support'],
     premiumBenefits: ['Day-by-day plan', 'Aligned experiences', 'Support before and during'],
     pricingNote: 'Prices vary by duration and complexity.',
@@ -664,7 +698,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.email}
             onChange={handleChange}
-            className="rounded-xl border border-primary/10 px-3 py-3"
+            className="font-body text-sm"
           />
           <p className="text-xs text-primary/50">{t.wizardReassureEmail}</p>
           <p className="text-xs text-primary/50">{t.wizardReassurePrivacy}</p>
@@ -681,13 +715,13 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             <label className="text-xs text-primary/60" htmlFor="motivation">
               {t.wizardQuestions.motivation}
             </label>
-          <select
+          <Input as="select"
             id="motivation"
             name="motivation"
             required
             value={data.motivation}
             onChange={handleChange}
-            className="rounded-xl border border-primary/10 px-3 py-3"
+            className="font-body text-sm"
           >
             <option value="" disabled>
               —
@@ -697,7 +731,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 {option}
               </option>
             ))}
-          </select>
+          </Input>
           {!data.motivation && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
           <div className="flex flex-col gap-2">
@@ -710,7 +744,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.dates}
             onChange={handleChange}
-            className="rounded-xl border border-primary/10 px-3 py-3"
+            className="font-body text-sm"
           />
           {!data.dates.trim() && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
@@ -724,7 +758,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             required
             value={data.people}
             onChange={handleChange}
-            className="rounded-xl border border-primary/10 px-3 py-3"
+            className="font-body text-sm"
           />
           {!data.people.trim() && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
@@ -749,19 +783,19 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   name="destination"
                   value={data.destination}
                   onChange={handleChange}
-                  className="rounded-xl border border-primary/10 px-3 py-3"
+                  className="font-body text-sm"
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-xs text-primary/60" htmlFor="attraction">
                   {t.wizardQuestions.attraction}
                 </label>
-                <select
+                <Input as="select"
                   id="attraction"
                   name="attraction"
                   value={data.attraction}
                   onChange={handleChange}
-                  className="rounded-xl border border-primary/10 px-3 py-3"
+                  className="font-body text-sm"
                 >
                   <option value="">—</option>
                   {t.wizardOptions.attraction.map((option) => (
@@ -769,7 +803,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                       {option}
                     </option>
                   ))}
-                </select>
+                </Input>
               </div>
             </div>
           )}
@@ -785,13 +819,13 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             <label className="text-xs text-primary/60" htmlFor="meal">
               {t.wizardQuestions.meal}
             </label>
-          <select
+          <Input as="select"
             id="meal"
             name="meal"
             required
             value={data.meal}
             onChange={handleChange}
-            className="rounded-xl border border-primary/10 px-3 py-3"
+            className="font-body text-sm"
           >
             <option value="" disabled>
               —
@@ -801,20 +835,20 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 {option}
               </option>
             ))}
-          </select>
+          </Input>
           {!data.meal && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
           <div className="flex flex-col gap-2">
             <label className="text-xs text-primary/60" htmlFor="lodging">
               {t.wizardQuestions.lodging}
             </label>
-          <select
+          <Input as="select"
             id="lodging"
             name="lodging"
             required
             value={data.lodging}
             onChange={handleChange}
-            className="rounded-xl border border-primary/10 px-3 py-3"
+            className="font-body text-sm"
           >
             <option value="" disabled>
               —
@@ -824,7 +858,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 {option}
               </option>
             ))}
-          </select>
+          </Input>
           {!data.lodging && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
           <Button
@@ -867,7 +901,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   name="budget"
                   value={data.budget}
                   onChange={handleChange}
-                  className="rounded-xl border border-primary/10 px-3 py-3"
+                  className="font-body text-sm"
                 />
               </div>
             </div>
@@ -883,13 +917,13 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
           <label className="text-xs text-primary/60" htmlFor="service">
             {t.wizardQuestions.service}
           </label>
-          <select
+          <Input as="select"
             id="service"
             name="service"
             required
             value={data.service}
             onChange={handleChange}
-            className="rounded-xl border border-primary/10 px-3 py-3"
+            className="font-body text-sm"
           >
             <option value="" disabled>
               —
@@ -899,7 +933,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 {option}
               </option>
             ))}
-          </select>
+          </Input>
           <p className="text-xs text-primary/50">Orçamento e marcação de viagem (gratuito)</p>
           {!data.service && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
@@ -914,13 +948,13 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             <label className="text-xs text-primary/60" htmlFor="motherProfile">
               {t.wizardQuestions.motherProfile}
             </label>
-          <select
+          <Input as="select"
             id="motherProfile"
             name="motherProfile"
             required
             value={data.motherProfile}
             onChange={handleChange}
-            className="rounded-xl border border-primary/10 px-3 py-3"
+            className="font-body text-sm"
           >
             <option value="" disabled>
               —
@@ -930,7 +964,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 {option}
               </option>
             ))}
-          </select>
+          </Input>
           {!data.motherProfile && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
           <Button
@@ -949,12 +983,12 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 <label className="text-xs text-primary/60" htmlFor="fatherProfile">
                   {t.wizardQuestions.fatherProfile}
                 </label>
-                <select
+                <Input as="select"
                   id="fatherProfile"
                   name="fatherProfile"
                   value={data.fatherProfile}
                   onChange={handleChange}
-                  className="rounded-xl border border-primary/10 px-3 py-3"
+                  className="font-body text-sm"
                 >
                   <option value="">—</option>
                   {t.wizardOptions.parentProfileFather.map((option) => (
@@ -962,19 +996,19 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                       {option}
                     </option>
                   ))}
-                </select>
+                </Input>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
                   <label className="text-xs text-primary/60" htmlFor="child1">
                     {t.wizardQuestions.child1}
                   </label>
-                  <select
+                  <Input as="select"
                     id="child1"
                     name="child1"
                     value={data.child1}
                     onChange={handleChange}
-                    className="rounded-xl border border-primary/10 px-3 py-3"
+                    className="font-body text-sm"
                   >
                     <option value="">—</option>
                     {t.wizardOptions.childProfile.map((option) => (
@@ -982,18 +1016,18 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                         {option}
                       </option>
                     ))}
-                  </select>
+                  </Input>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-xs text-primary/60" htmlFor="child2">
                     {t.wizardQuestions.child2}
                   </label>
-                  <select
+                  <Input as="select"
                     id="child2"
                     name="child2"
                     value={data.child2}
                     onChange={handleChange}
-                    className="rounded-xl border border-primary/10 px-3 py-3"
+                    className="font-body text-sm"
                   >
                     <option value="">—</option>
                     {t.wizardOptions.childProfile.map((option) => (
@@ -1001,19 +1035,19 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                         {option}
                       </option>
                     ))}
-                  </select>
+                  </Input>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-xs text-primary/60" htmlFor="child3">
                   {t.wizardQuestions.child3}
                 </label>
-                <select
+                <Input as="select"
                   id="child3"
                   name="child3"
                   value={data.child3}
                   onChange={handleChange}
-                  className="rounded-xl border border-primary/10 px-3 py-3"
+                  className="font-body text-sm"
                 >
                   <option value="">—</option>
                   {t.wizardOptions.childProfile.map((option) => (
@@ -1021,7 +1055,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                       {option}
                     </option>
                   ))}
-                </select>
+                </Input>
               </div>
             </div>
           )}
@@ -1037,13 +1071,13 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
             <label className="text-xs text-primary/60" htmlFor="familyTraveled">
               {t.wizardQuestions.familyTraveled}
             </label>
-          <select
+          <Input as="select"
             id="familyTraveled"
             name="familyTraveled"
             required
             value={data.familyTraveled}
             onChange={handleChange}
-            className="rounded-xl border border-primary/10 px-3 py-3"
+            className="font-body text-sm"
           >
             <option value="" disabled>
               —
@@ -1053,7 +1087,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                 {option}
               </option>
             ))}
-          </select>
+          </Input>
           {!data.familyTraveled && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
         </div>
           <Button
@@ -1078,7 +1112,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   rows="3"
                   value={data.previousTrips}
                   onChange={handleChange}
-                  className="rounded-xl border border-primary/10 px-3 py-3"
+                  className="font-body text-sm"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -1091,7 +1125,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   rows="3"
                   value={data.hardest}
                   onChange={handleChange}
-                  className="rounded-xl border border-primary/10 px-3 py-3"
+                  className="font-body text-sm"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -1104,7 +1138,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   rows="3"
                   value={data.success}
                   onChange={handleChange}
-                  className="rounded-xl border border-primary/10 px-3 py-3"
+                  className="font-body text-sm"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -1117,7 +1151,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
                   rows="3"
                   value={data.moreInfo}
                   onChange={handleChange}
-                  className="rounded-xl border border-primary/10 px-3 py-3"
+                  className="font-body text-sm"
                 />
               </div>
             </div>
@@ -1356,14 +1390,16 @@ export default function App() {
                   <Reveal><Card className="p-5 md:p-6 min-h-[260px]">
                     <h3 className="font-display text-[1.85rem] sm:text-3xl text-primary/85 leading-none">{t.baseTitle}</h3>
                     <p className="mt-3 text-sm text-primary">{t.baseOutcome}</p>
-                    <p className="mt-2 text-sm text-primary">{t.baseWhen}</p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {t.baseBenefits.map((item) => (
-                        <span key={item} className="chip">
+                    <div className="mt-4 grid gap-2">
+                      {t.baseDetailedList.map((item) => (
+                        <div key={item} className="rounded-[14px] border border-primary/10 bg-white/80 px-3 py-2 text-sm text-primary/85">
                           {item}
-                        </span>
+                        </div>
                       ))}
                     </div>
+                    <Card variant="muted" className="mt-4 p-3">
+                      <p className="text-sm text-primary">{t.baseWhen}</p>
+                    </Card>
                   </Card>
                   </Reveal>
                   <Reveal><Card variant="elevated" className="relative p-5 md:p-6 bg-cream/40 min-h-[260px]">
@@ -1372,14 +1408,17 @@ export default function App() {
                     </span>
                     <h3 className="font-display text-[1.85rem] sm:text-3xl text-primary/85 leading-none">{t.premiumTitle}</h3>
                     <p className="mt-3 text-sm text-primary">{t.premiumOutcome}</p>
-                    <p className="mt-2 text-sm text-primary">{t.premiumWhen}</p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {t.premiumBenefits.map((item) => (
-                        <span key={item} className="chip">
+                    <Badge className="mt-3">{t.premiumIncludesBase}</Badge>
+                    <div className="mt-4 grid gap-2">
+                      {t.premiumDetailedList.map((item) => (
+                        <div key={item} className="rounded-[14px] border border-primary/10 bg-white/85 px-3 py-2 text-sm text-primary/85">
                           {item}
-                        </span>
+                        </div>
                       ))}
                     </div>
+                    <Card variant="muted" className="mt-4 p-3">
+                      <p className="text-sm text-primary">{t.premiumWhen}</p>
+                    </Card>
                   </Card>
                   </Reveal>
                 </div>

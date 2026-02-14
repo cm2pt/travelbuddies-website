@@ -38,6 +38,12 @@ html {
   scroll-behavior: smooth;
 }
 
+select,
+option {
+  font-family: theme('fontFamily.body');
+  font-size: 14px;
+}
+
 .section-glow {
   background: linear-gradient(135deg, rgba(207, 232, 228, 0.5), rgba(231, 176, 164, 0.25));
 }
