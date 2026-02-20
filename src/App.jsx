@@ -1922,9 +1922,9 @@ export default function App() {
                     <p className="mt-6 text-xs text-primary/50 mb-3">{t.wizardSuccessCta}</p>
                     {links && (
                       <div className="grid gap-2 max-w-xs mx-auto">
-                        <Button as="a" href={links.whatsapp} variant="primary" size="md" className="w-full">{t.whatsapp}</Button>
-                        <Button as="a" href={links.email} variant="secondary" size="sm" className="w-full">{t.email}</Button>
-                        <Button as="a" href={links.instagram} variant="link" className="text-center text-xs"
+                        <Button as="a" href={links.whatsapp} target="_blank" rel="noopener noreferrer" variant="primary" size="md" className="w-full">{t.whatsapp}</Button>
+                        <Button as="a" href={links.email} target="_blank" rel="noopener noreferrer" variant="secondary" size="sm" className="w-full">{t.email}</Button>
+                        <Button as="a" href={links.instagram} target="_blank" rel="noopener noreferrer" variant="link" className="text-center text-xs"
                           onClick={async (event) => { if (!message) return; event.preventDefault(); await copyToClipboard(message); window.open(links.instagram, '_blank'); }}>
                           {t.instagram}
                         </Button>
@@ -2073,8 +2073,8 @@ export default function App() {
                             </div>
                             {links && (
                               <div className="grid gap-2">
-                                <Button as="a" href={links.whatsapp} variant="primary" size="md" className="w-full">{t.whatsapp}</Button>
-                                <Button as="a" href={links.email} variant="secondary" size="sm">{t.email}</Button>
+                                <Button as="a" href={links.whatsapp} target="_blank" rel="noopener noreferrer" variant="primary" size="md" className="w-full">{t.whatsapp}</Button>
+                                <Button as="a" href={links.email} target="_blank" rel="noopener noreferrer" variant="secondary" size="sm">{t.email}</Button>
                               </div>
                             )}
                           </div>
@@ -2155,9 +2155,9 @@ export default function App() {
           <div className="space-y-2">
             <p className="text-xs font-semibold text-primary/40 uppercase tracking-wider">{lang === 'pt' ? 'Contacto' : 'Contact'}</p>
             <div className="flex gap-3">
-              <a href="https://wa.me/351919676329" aria-label="WhatsApp"><img src={btnWhatsapp} alt="WhatsApp" className="h-10 w-auto" /></a>
-              <a href="mailto:joana_krisna@hotmail.com" aria-label="Email"><img src={btnEmail} alt="Email" className="h-10 w-auto" /></a>
-              <a href="https://www.instagram.com/family_in_trouble/" aria-label="Instagram"><img src={btnInstagram} alt="Instagram" className="h-10 w-auto" /></a>
+              <a href="https://wa.me/351919676329" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><img src={btnWhatsapp} alt="WhatsApp" className="h-10 w-auto" /></a>
+              <a href="mailto:joana_krisna@hotmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email"><img src={btnEmail} alt="Email" className="h-10 w-auto" /></a>
+              <a href="https://www.instagram.com/family_in_trouble/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src={btnInstagram} alt="Instagram" className="h-10 w-auto" /></a>
             </div>
           </div>
         </div>
