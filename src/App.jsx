@@ -27,7 +27,8 @@ const getCurrentRoute = () => (window.location.pathname.startsWith('/produtos') 
 const copy = {
   pt: {
     navLinks: [
-      { href: '#services', label: 'Base vs Premium' },
+      { href: '#como-funciona', label: 'Como funciona' },
+      { href: '#services', label: 'Serviços' },
       { href: '#diagnostico', label: 'Diagnóstico' },
     ],
     homeNav: 'Início',
@@ -49,16 +50,16 @@ const copy = {
     servicesTitle: 'Serviços TravelBuddies',
     servicesBody: 'Escolha simples, com calma.',
     servicesFreeLine: 'Orçamento e marcação de viagem (gratuito)',
-    baseTitle: 'Organização Base — 60€',
-    premiumTitle: 'Premium — 130€',
+    baseTitle: 'Organização Base',
+    premiumTitle: 'Premium',
     premiumBadge: 'Menos decisões',
     baseOutcome:
-      'Para famílias que querem orientação clara e roteiro alinhado com o perfil da família (com possibilidade de compra connosco ou orientação para fazerem de forma autónoma).',
+      'Orientação clara e roteiro alinhado com o perfil da família — com opção de marcação ou orientação para fazerem de forma autónoma.',
     premiumOutcome:
-      'Para famílias que querem menos decisões, mais acompanhamento e tudo alinhado desde o início.',
-    baseWhen: '👉 Ideal para quem quer orientação clara, sem complicar.',
+      'Menos decisões, mais acompanhamento. Tudo alinhado desde o início.',
+    baseWhen: '👉 Ideal quando tens destino mas não sabes por onde começar a organizar.',
     premiumWhen:
-      '👉 Ideal para viagens mais longas, destinos complexos ou famílias que querem ter tudo planeado com segurança.',
+      '👉 Ideal para viagens longas, destinos complexos ou quando queres zero stress.',
     baseDetailedList: [
       'Diagnóstico dos perfis da família (na TravelBuddies identificamos 4 tipos de perfis)',
       'Roteiro adaptado aos perfis da família (destino, ritmo, tipo de viagem)',
@@ -96,6 +97,38 @@ const copy = {
       { title: 'Desenhamos e alinhamos', text: 'Ajustamos juntos, com calma.' },
       { title: 'Viajas com confiança', text: 'Estamos por perto.' },
     ],
+    freeTitle: 'Orçamento gratuito',
+    freeOutcome: 'Para famílias que já sabem o que querem e só precisam de ajuda na marcação — sem custo de serviço.',
+    freeWhen: '👉 Ideal para quem já tem destino e datas definidas.',
+    freeDetailedList: [
+      'Pesquisa de voos e alojamento',
+      'Comparação de opções',
+      'Marcação sem custo de serviço',
+    ],
+    freeTag: 'Gratuito',
+    baseBadge: 'Mais pedido',
+    serviceCta: 'Escolher este plano',
+    serviceCtaFree: 'Pedir orçamento',
+    basePrice: 'A partir de 60€',
+    premiumPrice: 'A partir de 130€',
+    faqTitle: 'Dúvidas frequentes',
+    faqItems: [
+      { q: 'Quanto tempo demora a receber a proposta?', a: 'Normalmente 2–3 dias úteis após o diagnóstico.' },
+      { q: 'Posso alterar o plano depois de contratar?', a: 'Sim, ajustamos juntos até estar perfeito.' },
+      { q: 'O orçamento gratuito tem algum compromisso?', a: 'Nenhum. É totalmente gratuito e sem obrigação.' },
+      { q: 'Viajam convosco?', a: 'Não viajamos fisicamente, mas estamos sempre disponíveis durante a viagem.' },
+      { q: 'Que destinos cobrem?', a: 'Qualquer destino no mundo. Especializamo-nos em viagens com crianças.' },
+    ],
+    dividerQualify: '~ para famílias reais ~',
+    dividerHow: '~ simples e humano ~',
+    dividerServices: '~ escolhe o teu plano ~',
+    footerNav: [
+      { href: '#services', label: 'Serviços' },
+      { href: '#diagnostico', label: 'Diagnóstico' },
+    ],
+    footerTagline: 'Planeamento leve para pais cansados.',
+    footerCopyright: '© 2025 TravelBuddies. Todos os direitos reservados.',
+    trustCaptions: ['Praia com os miúdos', 'Explorar juntos', 'Momentos reais'],
     trustTitle: 'Confiança e calma',
     trustCards: [
       { title: 'Não somos agência tradicional', text: 'Planeamos como pais, com cuidado.' },
@@ -323,7 +356,8 @@ const copy = {
   },
   en: {
     navLinks: [
-      { href: '#services', label: 'Base vs Premium' },
+      { href: '#como-funciona', label: 'How it works' },
+      { href: '#services', label: 'Services' },
       { href: '#diagnosis', label: 'Diagnosis' },
     ],
     homeNav: 'Home',
@@ -345,14 +379,14 @@ const copy = {
     servicesTitle: 'TravelBuddies Services',
     servicesBody: 'A simple, calm choice.',
     servicesFreeLine: 'Orçamento e marcação de viagem (gratuito)',
-    baseTitle: 'Organização Base — 60€',
-    premiumTitle: 'Premium — 130€',
+    baseTitle: 'Base Plan',
+    premiumTitle: 'Premium',
     premiumBadge: 'Less decisions',
     baseOutcome:
-      'For families who want clear guidance and an itinerary aligned with their profile (with booking support or autonomous guidance).',
-    premiumOutcome: 'For families who want fewer decisions, more support, and everything aligned from the start.',
-    baseWhen: '👉 Ideal if you want clear direction without extra complexity.',
-    premiumWhen: '👉 Ideal for longer trips, complex destinations, or families that want full planning confidence.',
+      'Clear guidance and an itinerary aligned with your family — with booking support or guidance to do it yourself.',
+    premiumOutcome: 'Fewer decisions, more support. Everything aligned from the start.',
+    baseWhen: '👉 Ideal when you have a destination but don\'t know where to start planning.',
+    premiumWhen: '👉 Ideal for longer trips, complex destinations, or when you want zero stress.',
     baseDetailedList: [
       'Family profile diagnosis (TravelBuddies maps 4 profile types)',
       'Itinerary adapted to family profiles (destination, pace, trip style)',
@@ -390,6 +424,38 @@ const copy = {
       { title: 'Design and align', text: 'We adjust together, calmly.' },
       { title: 'Travel with confidence', text: 'We stay close.' },
     ],
+    freeTitle: 'Free quote',
+    freeOutcome: 'For families who already know what they want and just need help booking — no service fee.',
+    freeWhen: '👉 Ideal when you already have a destination and dates set.',
+    freeDetailedList: [
+      'Flight and accommodation search',
+      'Option comparison',
+      'Booking with no service fee',
+    ],
+    freeTag: 'Free',
+    baseBadge: 'Most popular',
+    serviceCta: 'Choose this plan',
+    serviceCtaFree: 'Get a quote',
+    basePrice: 'From 60€',
+    premiumPrice: 'From 130€',
+    faqTitle: 'Frequently asked questions',
+    faqItems: [
+      { q: 'How long until I receive a proposal?', a: 'Usually 2–3 business days after the diagnosis.' },
+      { q: 'Can I change the plan after hiring?', a: 'Yes, we adjust together until it\'s perfect.' },
+      { q: 'Does the free quote involve any commitment?', a: 'None at all. It\'s completely free and non-binding.' },
+      { q: 'Do you travel with us?', a: 'We don\'t travel physically, but we\'re always available during the trip.' },
+      { q: 'What destinations do you cover?', a: 'Any destination in the world. We specialize in travel with kids.' },
+    ],
+    dividerQualify: '~ for real families ~',
+    dividerHow: '~ simple and human ~',
+    dividerServices: '~ choose your plan ~',
+    footerNav: [
+      { href: '#services', label: 'Services' },
+      { href: '#diagnosis', label: 'Diagnosis' },
+    ],
+    footerTagline: 'Light planning for busy parents.',
+    footerCopyright: '© 2025 TravelBuddies. All rights reserved.',
+    trustCaptions: ['Beach with the kids', 'Exploring together', 'Real moments'],
     trustTitle: 'Trust and calm',
     trustCards: [
       { title: 'Not a traditional agency', text: 'We plan like parents.' },
@@ -826,6 +892,54 @@ const ServiceCard = ({ card, selected, onSelect, popularLabel, isSecondary }) =>
   </button>
 )
 
+const FAQItem = ({ q, a }) => {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="border-b border-primary/10">
+      <button type="button" onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-4 text-left text-sm font-medium text-primary hover:text-primary/80 transition">
+        <span>{q}</span>
+        <motion.span animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.2 }} className="text-primary/40 text-lg shrink-0 ml-3">+</motion.span>
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }} className="overflow-hidden">
+            <p className="pb-4 text-sm text-primary/70">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+const SectionDivider = ({ text }) => (
+  <div className="flex items-center gap-4 py-2">
+    <div className="flex-1 h-px bg-primary/8" />
+    <span className="text-xs text-primary/30 font-subtitle font-light tracking-wider">{text}</span>
+    <div className="flex-1 h-px bg-primary/8" />
+  </div>
+)
+
+const ExpandableList = ({ items, t }) => {
+  const [expanded, setExpanded] = useState(false)
+  const visible = expanded ? items : items.slice(0, 3)
+  return (
+    <div className="mt-3 grid gap-1.5">
+      {visible.map((item) => (
+        <div key={item} className="rounded-xl border border-primary/10 bg-white/80 px-3 py-2 text-xs text-primary/80">
+          {item}
+        </div>
+      ))}
+      {items.length > 3 && (
+        <button type="button" onClick={() => setExpanded(!expanded)} className="text-xs text-teal hover:underline mt-1 text-left">
+          {expanded ? (t?.lang === 'en' ? 'Show less' : 'Ver menos') : `Ver todos (${items.length})`}
+        </button>
+      )}
+    </div>
+  )
+}
+
 const NumberStepper = ({ value, onChange, min = 0, max = 6, label }) => {
   const handleChange = (newVal) => { haptic(); onChange(newVal) }
   return (
@@ -877,7 +991,7 @@ const StepCelebration = ({ show }) => (
   </AnimatePresence>
 )
 
-const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange }) => {
+const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, preselectedService }) => {
   const initialState = {
     email: '',
     destination: '',
@@ -931,6 +1045,12 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange }
     onAutosave?.()
     onDataChange?.(data)
   }, [data, onAutosave, onDataChange])
+
+  useEffect(() => {
+    if (preselectedService && preselectedService !== data.service) {
+      setData((prev) => ({ ...prev, service: preselectedService }))
+    }
+  }, [preselectedService])
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -1474,8 +1594,16 @@ export default function App() {
   const [wizardData, setWizardData] = useState(null)
   const [wizardStep, setWizardStep] = useState({ current: 0, total: 5 })
   const [resumoOpen, setResumoOpen] = useState(false)
+  const [preselectedService, setPreselectedService] = useState('')
 
   const t = copy[lang]
+
+  const handleServiceSelect = (serviceId) => {
+    setPreselectedService(serviceId)
+    setTimeout(() => {
+      document.getElementById(lang === 'pt' ? 'diagnostico' : 'diagnosis')?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+  }
 
   useEffect(() => {
     localStorage.setItem(LANG_STORAGE_KEY, lang)
@@ -1608,8 +1736,9 @@ export default function App() {
       <main>
         {route === 'home' ? (
           <>
+            {/* HERO */}
             <section className="pt-8 pb-10 sm:pt-12 sm:pb-12 md:py-16">
-              <div className={`${container} grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
+              <div className={`${container} grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
                 <Reveal>
                   <p className="font-subtitle font-light text-sm uppercase tracking-[0.2em] text-primary">{t.heroTag}</p>
                   <h1 className="mt-4 text-[1.78rem] sm:text-4xl lg:text-5xl font-display leading-[1.08] text-balance">
@@ -1618,73 +1747,153 @@ export default function App() {
                   <p className="font-subtitle font-light mt-3 text-base text-primary text-balance max-w-xl">{t.heroBody}</p>
                   <div className="mt-5">
                     <p className="font-subtitle font-light mb-2 text-sm text-primary">{t.heroCtaPrompt}</p>
-                <Button as="a" href={lang === 'pt' ? '#diagnostico' : '#diagnosis'} variant="primary" size="lg">
-                  {t.primaryCta}
-                </Button>
-                <p className="font-subtitle font-light mt-2 btn-helper">{t.heroCtaNote}</p>
-              </div>
-            </Reveal>
-                <Reveal className="relative hidden sm:block">
+                    <Button as="a" href={lang === 'pt' ? '#diagnostico' : '#diagnosis'} variant="primary" size="lg">
+                      {t.primaryCta}
+                    </Button>
+                    <p className="font-subtitle font-light mt-2 btn-helper">{t.heroCtaNote}</p>
+                  </div>
+                </Reveal>
+                {/* #14 Hero image visible on mobile */}
+                <Reveal className="relative">
                   <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
                   <Card variant="surface" className="overflow-hidden p-0">
-                    <img
-                      src={travel2}
-                      alt="Family traveling"
-                      className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover object-[50%_42%] scale-[1.06]"
-                      loading="lazy"
-                    />
+                    <img src={travel2} alt="Family traveling"
+                      className="h-[180px] sm:h-[280px] lg:h-[340px] w-full object-cover object-[50%_42%] scale-[1.06]" loading="lazy" />
                   </Card>
                 </Reveal>
               </div>
             </section>
 
+            {/* #3 QUALIFY — "Isto é para ti se…" */}
+            <section className="py-10 md:py-14 border-t border-primary/10">
+              <div className={container}>
+                <SectionDivider text={t.dividerQualify} />
+                <Reveal>
+                  <h2 className="mt-6 text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.qualifyTitle}</h2>
+                </Reveal>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {t.qualifyItems.map((item, i) => (
+                    <Reveal key={item.title}>
+                      <Card className={`p-4 min-h-[80px] ${i === t.qualifyItems.length - 1 ? 'border-blush/30 bg-blush/5' : ''}`}>
+                        <p className="text-sm font-semibold text-primary">{item.title}</p>
+                        <p className="mt-1 text-xs text-primary/60">{item.text}</p>
+                      </Card>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* #2 HOW IT WORKS — "Como funciona" */}
+            <section id="como-funciona" className="py-10 md:py-14 border-t border-primary/10 bg-cream/20">
+              <div className={container}>
+                <SectionDivider text={t.dividerHow} />
+                <Reveal>
+                  <h2 className="mt-6 text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.howTitle}</h2>
+                </Reveal>
+                <div className="mt-8 grid gap-6 sm:grid-cols-3">
+                  {t.howSteps.map((s, i) => (
+                    <Reveal key={s.title}>
+                      <div className="text-center sm:text-left">
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-teal text-white text-lg font-semibold">{i + 1}</span>
+                        <h3 className="mt-3 font-display text-lg text-primary">{s.title}</h3>
+                        <p className="mt-1 text-sm text-primary/60">{s.text}</p>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* #1 SERVICES — 3 cards: Base (popular), Premium (elevated), Free */}
             <section id="services" className="py-12 md:py-16 bg-white/70 border-t border-primary/10">
               <div className={container}>
+                <SectionDivider text={t.dividerServices} />
                 <Reveal>
-                  <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.servicesTitle}</h2>
+                  <h2 className="mt-6 text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.servicesTitle}</h2>
                   <p className="font-subtitle font-light mt-2 text-primary">{t.servicesBody}</p>
-                  <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.servicesFreeLine}</p>
                 </Reveal>
-                <div className="mt-6 grid gap-6 lg:grid-cols-2">
-                  <Reveal><Card className="p-5 md:p-6 min-h-[260px]">
-                    <h3 className="font-display text-[1.85rem] sm:text-3xl text-primary/85 leading-none">{t.baseTitle}</h3>
-                    <p className="mt-3 text-sm text-primary">{t.baseOutcome}</p>
-                    <div className="mt-4 grid gap-2">
-                      {t.baseDetailedList.map((item) => (
-                        <div key={item} className="rounded-[14px] border border-primary/10 bg-white/80 px-3 py-2 text-sm text-primary/85">
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                    <Card variant="muted" className="mt-4 p-3">
-                      <p className="text-sm text-primary">{t.baseWhen}</p>
+                <div className="mt-8 grid gap-5 lg:grid-cols-3">
+                  {/* BASE card — "Mais pedido" */}
+                  <Reveal>
+                    <Card className="relative p-5 md:p-6 flex flex-col h-full">
+                      <span className="absolute -top-2.5 right-4 rounded-full bg-teal text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.baseBadge}</span>
+                      <h3 className="font-display text-2xl text-primary/85 leading-none">{t.baseTitle}</h3>
+                      <p className="mt-2 text-lg font-display text-teal">{t.basePrice}</p>
+                      <p className="mt-3 text-sm text-primary/70">{t.baseOutcome}</p>
+                      <ExpandableList items={t.baseDetailedList} />
+                      <Card variant="muted" className="mt-4 p-3">
+                        <p className="text-xs text-primary/70">{t.baseWhen}</p>
+                      </Card>
+                      <div className="mt-auto pt-4">
+                        <Button type="button" variant="primary" size="md" className="w-full"
+                          onClick={() => handleServiceSelect('Organização de Viagem em família (Plano Base)')}>
+                          {t.serviceCta}
+                        </Button>
+                      </div>
                     </Card>
-                  </Card>
                   </Reveal>
-                  <Reveal><Card variant="elevated" className="relative p-5 md:p-6 bg-cream/40 min-h-[260px]">
-                    <span className="absolute right-5 top-5 rounded-full bg-primary text-white px-3 py-1 text-xs">
-                      {t.premiumBadge}
-                    </span>
-                    <h3 className="font-display text-[1.85rem] sm:text-3xl text-primary/85 leading-none">{t.premiumTitle}</h3>
-                    <p className="mt-3 text-sm text-primary">{t.premiumOutcome}</p>
-                    <Badge className="mt-3">{t.premiumIncludesBase}</Badge>
-                    <div className="mt-4 grid gap-2">
-                      {t.premiumDetailedList.map((item) => (
-                        <div key={item} className="rounded-[14px] border border-primary/10 bg-white/85 px-3 py-2 text-sm text-primary/85">
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                    <Card variant="muted" className="mt-4 p-3">
-                      <p className="text-sm text-primary">{t.premiumWhen}</p>
+                  {/* PREMIUM card — gradient + elevated */}
+                  <Reveal>
+                    <Card variant="elevated" className="relative p-5 md:p-6 bg-gradient-to-br from-cream/60 to-tealSoft/20 ring-2 ring-teal/15 flex flex-col h-full">
+                      <span className="absolute -top-2.5 right-4 rounded-full bg-primary text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.premiumBadge}</span>
+                      <h3 className="font-display text-2xl text-primary/85 leading-none">{t.premiumTitle}</h3>
+                      <p className="mt-2 text-lg font-display text-teal">{t.premiumPrice}</p>
+                      <p className="mt-3 text-sm text-primary/70">{t.premiumOutcome}</p>
+                      <Badge className="mt-3">{t.premiumIncludesBase}</Badge>
+                      <ExpandableList items={t.premiumDetailedList} />
+                      <Card variant="muted" className="mt-4 p-3">
+                        <p className="text-xs text-primary/70">{t.premiumWhen}</p>
+                      </Card>
+                      <div className="mt-auto pt-4">
+                        <Button type="button" variant="primary" size="md" className="w-full"
+                          onClick={() => handleServiceSelect('Organização de Viagem em família (Premium)')}>
+                          {t.serviceCta}
+                        </Button>
+                      </div>
                     </Card>
-                  </Card>
+                  </Reveal>
+                  {/* FREE card */}
+                  <Reveal>
+                    <Card className="relative p-5 md:p-6 bg-tealSoft/10 flex flex-col h-full">
+                      <span className="absolute -top-2.5 right-4 rounded-full bg-teal/80 text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.freeTag}</span>
+                      <h3 className="font-display text-2xl text-primary/85 leading-none">{t.freeTitle}</h3>
+                      <p className="mt-2 text-lg font-display text-teal">0€</p>
+                      <p className="mt-3 text-sm text-primary/70">{t.freeOutcome}</p>
+                      <div className="mt-3 grid gap-1.5">
+                        {t.freeDetailedList.map((item) => (
+                          <div key={item} className="rounded-xl border border-primary/10 bg-white/80 px-3 py-2 text-xs text-primary/80">{item}</div>
+                        ))}
+                      </div>
+                      <Card variant="muted" className="mt-4 p-3">
+                        <p className="text-xs text-primary/70">{t.freeWhen}</p>
+                      </Card>
+                      <div className="mt-auto pt-4">
+                        <Button type="button" variant="secondary" size="md" className="w-full"
+                          onClick={() => handleServiceSelect('Orçamento e marcação de viagem')}>
+                          {t.serviceCtaFree}
+                        </Button>
+                      </div>
+                    </Card>
                   </Reveal>
                 </div>
-                <p className="font-subtitle font-light mt-4 text-sm text-primary">{t.pricingNote}</p>
+                <p className="font-subtitle font-light mt-4 text-xs text-primary/50">{t.pricingNote}</p>
               </div>
             </section>
 
+            {/* #13 FAQ */}
+            <section className="py-10 md:py-14 border-t border-primary/10">
+              <div className={`${container} max-w-[720px]`}>
+                <Reveal>
+                  <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.faqTitle}</h2>
+                </Reveal>
+                <div className="mt-6">
+                  {t.faqItems.map((item) => <FAQItem key={item.q} q={item.q} a={item.a} />)}
+                </div>
+              </div>
+            </section>
+
+            {/* #17 Sticky mobile CTA */}
             <Button as="a" href={lang === 'pt' ? '#diagnostico' : '#diagnosis'} variant="primary" size="lg" className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 sm:hidden">
               {t.primaryCta}
             </Button>
@@ -1734,7 +1943,7 @@ export default function App() {
                   </div>
                   {/* #3 On mobile, wizard card gets extra emphasis */}
                   <Card variant="surface" className="mt-6 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-5 md:p-6 overflow-hidden -mx-5 sm:mx-0 rounded-none sm:rounded-[24px] min-h-[60vh] sm:min-h-0">
-                    <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} onDataChange={setWizardData} onAutosave={() => {}} />
+                    <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} onDataChange={setWizardData} onAutosave={() => {}} preselectedService={preselectedService} />
                   </Card>
                   <div className="mt-4 grid gap-2 grid-cols-3">
                     {t.wizardReceiveItems.map((item) => (
@@ -1913,12 +2122,13 @@ export default function App() {
                   {[travel1, travel2, travel3].map((img, index) => (
                     <Reveal key={img}>
                       <Card className="overflow-hidden rounded-2xl p-0">
-                        <img src={img} alt={`Viagem em família ${index + 1}`} className="h-40 w-full object-cover" loading="lazy" />
+                        <img src={img} alt={t.trustCaptions?.[index] || `Viagem em família ${index + 1}`} className="h-40 w-full object-cover" loading="lazy" />
+                        <p className="px-3 py-2 text-xs text-primary/50 text-center">{t.trustCaptions?.[index]}</p>
                       </Card>
                     </Reveal>
                   ))}
                 </div>
-                <p className="mt-3 text-xs text-primary">Fotos reais da nossa família.</p>
+                <p className="mt-3 text-xs text-primary/50">{lang === 'pt' ? 'Fotos reais da nossa família.' : 'Real photos of our family.'}</p>
               </div>
             </section>
           </>
@@ -1927,58 +2137,32 @@ export default function App() {
         )}
       </main>
 
-      {route === 'home' && (
-        <div className="pb-4">
-          <div className={`${container} text-center`}>
-            <Button
-              as="a"
-              href="/produtos"
-              variant="link"
-              size="sm"
-              onClick={(event) => {
-                event.preventDefault()
-                navigate('/produtos')
-              }}
-              className="text-sm"
-            >
-              {t.productsLink}
-            </Button>
+      {/* #13/#15 Enhanced footer with navigation, social, copyright */}
+      <footer className="py-12 md:py-16 border-t border-primary/10 bg-primary/[0.03]">
+        <div className={`${container} grid gap-8 sm:grid-cols-[1fr_auto_auto]`}>
+          <div className="space-y-3">
+            <img src={logoBrand} alt={t.footerTitle} className="h-20 w-auto object-contain" />
+            <p className="font-subtitle font-light text-sm text-primary max-w-[260px]">{t.footerTagline || t.footerBody}</p>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-semibold text-primary/40 uppercase tracking-wider">{lang === 'pt' ? 'Navegação' : 'Navigation'}</p>
+            {(t.footerNav || t.navLinks).map((link) => (
+              <a key={link.href} href={link.href} className="block text-sm text-primary/70 hover:text-primary transition">{link.label}</a>
+            ))}
+            <a href="/produtos" onClick={(e) => { e.preventDefault(); navigate('/produtos') }}
+              className="block text-sm text-primary/70 hover:text-primary transition">{t.productsNav}</a>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-semibold text-primary/40 uppercase tracking-wider">{lang === 'pt' ? 'Contacto' : 'Contact'}</p>
+            <div className="flex gap-3">
+              <a href="https://wa.me/351919676329" aria-label="WhatsApp"><img src={btnWhatsapp} alt="WhatsApp" className="h-10 w-auto" /></a>
+              <a href="mailto:joana_krisna@hotmail.com" aria-label="Email"><img src={btnEmail} alt="Email" className="h-10 w-auto" /></a>
+              <a href="https://www.instagram.com/family_in_trouble/" aria-label="Instagram"><img src={btnInstagram} alt="Instagram" className="h-10 w-auto" /></a>
+            </div>
           </div>
         </div>
-      )}
-
-      <footer className="py-12 md:py-16 border-t border-primary/10 bg-white/85">
-        <div className={`${container} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}>
-          <div className="space-y-2">
-            <div className="h-24 w-52">
-              <img src={logoBrand} alt={t.footerTitle} className="h-24 w-full object-contain" />
-            </div>
-            <p className="font-subtitle font-light text-sm text-primary">{t.footerBody}</p>
-          </div>
-          <div className="flex flex-wrap gap-3 text-sm text-primary/70">
-            <a
-              href="https://wa.me/351919676329"
-              aria-label="WhatsApp"
-              className="flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-            >
-              <img src={btnWhatsapp} alt="WhatsApp" className="h-12 w-auto block mx-auto" />
-            </a>
-            <a
-              href="mailto:joana_krisna@hotmail.com"
-              aria-label="Email"
-              className="flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-            >
-              <img src={btnEmail} alt="Email" className="h-12 w-auto block mx-auto" />
-            </a>
-            <a
-              href="https://www.instagram.com/family_in_trouble/"
-              aria-label="Instagram"
-              className="flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-            >
-              <img src={btnInstagram} alt="Instagram" className="h-12 w-auto block mx-auto" />
-            </a>
-          </div>
-          <p className="font-subtitle font-light text-xs text-primary">{t.footerSmall}</p>
+        <div className={`${container} mt-8 pt-4 border-t border-primary/8`}>
+          <p className="text-xs text-primary/30 text-center">{t.footerCopyright || t.footerSmall}</p>
         </div>
       </footer>
       <Analytics />
