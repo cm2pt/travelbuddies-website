@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 import ProductsPage from './components/ProductsPage'
 import Button from './components/ui/Button'
@@ -106,16 +106,21 @@ const copy = {
     formTitle: 'Diagnóstico TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
     formHint: '2–3 minutos · sem compromisso',
+    wizardWelcomeTitle: 'Olá! 👋',
+    wizardWelcomeBody: 'Vamos desenhar a viagem perfeita para a tua família.',
+    wizardWelcomeNote: 'São só 5 passos rápidos.',
+    wizardWelcomeSocialProof: 'Já ajudámos 50+ famílias a viajar com menos stress.',
+    wizardWelcomeStart: 'Começar',
+    wizardWelcomeQuickStart: '⚡ Resposta rápida',
+    wizardWelcomeQuickNote: 'Preenche os essenciais e salta o resto.',
     wizardStepTitles: [
-      'Email',
-      'Sobre a viagem',
-      'Estilo de alojamento',
-      'Tipo de serviço',
-      'Perfil de viajantes',
-      'Experiências anteriores',
+      '✈️ Sobre a viagem',
+      '🏨 Alojamento e estilo',
+      '🎯 Tipo de serviço',
+      '👨‍👩‍👧‍👦 Perfil de viajantes',
+      '🗺️ Quase lá!',
     ],
     wizardStepHelpers: [
-      'Só para conseguirmos responder-te.',
       'Ajuda-nos a perceber o ritmo ideal.',
       'Para dormir bem e com pouco stress.',
       'Para alinharmos o nível de apoio.',
@@ -127,27 +132,79 @@ const copy = {
     wizardAutosaveNote: 'Podes parar a qualquer momento — guardamos automaticamente.',
     wizardNextStepNote: 'Depois enviamos uma proposta clara e humana.',
     wizardTimeNote: 'Menos de 1 minuto.',
-    wizardRequiredNote: 'Precisamos disto para avançar.',
+    wizardRequiredNote: 'Preenche aqui para continuar',
     wizardReceiveTitle: 'O que vais receber',
     wizardReceiveItems: ['Roteiro leve', 'Opções claras', 'Checklist útil'],
+    wizardOptionalTag: '(opcional)',
+    wizardSaveEmailPrompt: 'Queres guardar o progresso? Deixa o email e continuas quando quiseres.',
+    wizardSaveEmailBtn: 'Guardar progresso',
+    wizardOtherPlaceholder: 'Conta-nos mais...',
+    wizardRestart: 'Recomeçar',
+    wizardSuccessTitle: 'Tudo pronto! 🎉',
+    wizardSuccessBody: 'Recebemos as tuas respostas. Vamos analisar e enviamos uma proposta personalizada em breve.',
+    wizardSuccessNext: 'Próximos passos:',
+    wizardSuccessSteps: ['Analisamos o perfil da tua família', 'Desenhamos opções à medida', 'Enviamos a proposta por email'],
+    wizardSuccessCta: 'Ou envia-nos diretamente:',
+    wizardPopularTag: 'Mais popular',
+    wizardRestartConfirm: 'Tens a certeza? Todas as respostas serão apagadas.',
+    wizardWhyAsk: {
+      budget: 'Ajuda-nos a sugerir opções realistas — sem compromisso.',
+      lodgingValues: 'Para encontrar o alojamento perfeito para a família.',
+      adultProfile: 'Ajuda-nos a adaptar o ritmo e estilo da viagem.',
+    },
+    wizardContextHelpers: {
+      motivation: {
+        'Descanso': 'Boa escolha! Vamos encontrar o ritmo ideal para relaxar. 🏖️',
+        'Aventura': 'Fantástico! Vamos encontrar aventuras seguras para toda a família. 🧗',
+        'Tempo de qualidade em família': 'Perfeito! Momentos juntos são o melhor. 💛',
+        'Celebração (aniversário, lua de mel, etc.)': 'Vamos tornar esta celebração especial! 🎉',
+        'Conhecer outra cultura': 'Adoramos! Explorar o mundo com crianças é mágico. 🌍',
+      },
+      lodging: {
+        'Hotel': 'Hotel com tudo pensado para os mais pequenos. 👌',
+        'Apartamento': 'Mais espaço e flexibilidade para a família. 🏠',
+        'Resort': 'Tudo incluído, zero stress. ✨',
+        'Casa de Locais': 'Viver como local — experiência autêntica! 🏡',
+      },
+    },
+    wizardSeasons: ['Primavera', 'Verão', 'Outono', 'Inverno', 'Qualquer altura'],
+    wizardMotivationIcons: {
+      'Descanso': '🏖️',
+      'Aventura': '🧗',
+      'Tempo de qualidade em família': '👨‍👩‍👧',
+      'Celebração (aniversário, lua de mel, etc.)': '🎂',
+      'Conhecer outra cultura': '🌍',
+      'Other': '✏️',
+    },
+    wizardDynamicLodging: 'Escolheste {attraction} — que tipo de alojamento preferes?',
+    wizardDynamicMeal: 'Para a vossa viagem de {motivation} — que regime alimentar preferem?',
+    wizardExperiencePrompt: 'Conta-nos o que quiseres sobre viagens em família — o que correu bem, o que foi difícil, o que gostariam nesta viagem...',
+    wizardPersonalizedIntro: 'Viagem de {motivation} para {travelers} — quase pronto!',
+    wizardStepWatermarks: ['✈️', '🏨', '🎯', '👨‍👩‍👧‍👦', '🗺️'],
     wizardQuestions: {
       email: 'Email',
       destination: 'Qual é o destino da viagem? Tens algum destino em mente? Se sim, qual?',
       attraction: 'Quando vão de férias, o que vos atrai mais?',
       motivation: 'Qual é a principal motivação desta viagem?',
-      dates: 'Tens data definida para a Viagem? É flexível?',
-      people: 'Quantas pessoas vão viajar? Indica a idade das crianças, no caso de irem.',
+      whosTravelling: 'Quem vai viajar?',
+      adults: 'Adultos',
+      kids: 'Crianças (< 18 anos)',
+      childAge: 'Idade da criança {n}',
+      whenTravel: 'Quando querem viajar?',
+      haveDates: 'Tenho datas',
+      flexible: 'Sou flexível',
+      dateFrom: 'De',
+      dateTo: 'Até',
+      datePlaceholder: 'ex: 15 Jul – 30 Jul 2025',
+      flexibleNote: 'Alguma preferência? (ex: Julho, Verão...)',
       meal: 'Que tipo de regime alimentar preferem?',
       lodging: 'Que tipo de alojamento preferes?',
       lodgingValues: 'O que valorizam mais quando escolhem um alojamento?',
       budget:
         'Qual é o vosso orçamento aproximado? Esta pergunta vai nos permitir ver opções mais ajustadas à realidade',
       service: 'Que tipo de ajuda procuram?',
-      motherProfile: 'Vamos conhecer o perfil da Mãe',
-      fatherProfile: 'Vamos conhecer o perfil do Pai',
-      child1: 'E os filhos? Começando pelo mais velho',
-      child2: 'E o filho do meio?',
-      child3: 'Finalmente o mais novo (Caso tenham mais filhos, escreve nos comentários finais)',
+      adultProfile: 'Adulto {n}',
+      childProfile: 'Criança {n} — {age}',
       familyTraveled: 'Já viajaram em família antes?',
       previousTrips: 'Para onde foram e o que correu bem em viagens anteriores?',
       hardest: 'O que foi mais difícil ou stressante?',
@@ -161,8 +218,13 @@ const copy = {
     wizardProgressNote: 'Falta pouco.',
     wizardProgressRemaining: 'Só faltam {count} passos.',
     wizardProgressRemainingSingle: 'Só falta 1 passo.',
-    wizardOptional: 'Adicionar detalhes (opcional)',
-    wizardOptionalNote: 'Não tens de saber isto agora.',
+    wizardOptionalLabel: 'Se já souberes...',
+    serviceCards: [
+      { id: 'Organização de Viagem em família (Plano Base)', title: 'Base — 60€', desc: 'Roteiro, sugestões e apoio na decisão.', tag: 'Orientação clara' },
+      { id: 'Organização de Viagem em família (Premium)', title: 'Premium — 130€', desc: 'Planeamento por dias, experiências e suporte durante a viagem.', tag: 'Tudo planeado' },
+      { id: 'Orçamento e marcação de viagem', title: 'Orçamento gratuito', desc: 'Marcação de viagem sem custo de serviço.', tag: 'Gratuito' },
+      { id: 'Ainda não sei', title: 'Ainda não sei', desc: 'Sem problema — nós ajudamos a escolher.', tag: '' },
+    ],
     wizardSummaryTitle: 'Resumo',
     wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
     wizardSummarySections: {
@@ -207,33 +269,25 @@ const copy = {
         'Orçamento e marcação de viagem',
         'Ainda não sei',
       ],
-      parentProfileMother: [
+      adultProfile: [
         'Gosta de planear e ter tudo controlado',
         'Precisa de conforto e pausas',
         'Gosta de explorar e improvisar',
-        'Para ela o importante é estarem juntos e todos bem',
+        'O importante é estarem juntos e bem',
         'Viaja sobretudo para descansar',
-        'O mais importante para ela são as novas Experiências',
-      ],
-      parentProfileFather: [
-        'Gosta de planear e ter tudo controlado',
-        'Precisa de conforto e pausas',
-        'Gosta de explorar e improvisar',
-        'Para ele o importante é estarem juntos e bem',
-        'Viaja sobretudo para descansar',
-        'O mais importante para ele são as novas Experiências',
+        'O mais importante são as novas Experiências',
       ],
       childProfile: [
         'Sensível a mudanças de rotina',
         'Adaptável e tranquilo',
         'Ativo e curioso',
-        'Precisa de sestas e tranquilidade para as fazer',
         'Dá-se bem com novos ambientes',
-        'Gosta de saber tudo sobre os sítios para onde vão',
-        'O mais importante para ele é ir à frente',
+        'Gosta de saber tudo sobre os sítios',
+        'O mais importante é ir à frente',
         'Vibra com as novas experiências',
-        'Para ele está tudo bem desde que estejam juntos',
+        'Está tudo bem desde que estejam juntos',
       ],
+      childProfileNap: 'Precisa de sestas e tranquilidade',
       familyTraveled: ['Sim', 'Não'],
     },
     formSuccessBody: 'Copiada automaticamente.',
@@ -244,18 +298,14 @@ const copy = {
       destination: 'Destino',
       attraction: 'Atrai mais',
       motivation: 'Motivação',
+      travelers: 'Viajantes',
       dates: 'Datas',
-      people: 'Pessoas',
       meal: 'Regime alimentar',
       lodging: 'Alojamento',
       lodgingValues: 'Valorizam',
       budget: 'Orçamento',
       service: 'Tipo de ajuda',
-      motherProfile: 'Perfil da Mãe',
-      fatherProfile: 'Perfil do Pai',
-      child1: 'Filho mais velho',
-      child2: 'Filho do meio',
-      child3: 'Filho mais novo',
+      profiles: 'Perfis',
       familyTraveled: 'Já viajaram em família',
       previousTrips: 'Viagens anteriores',
       hardest: 'Mais difícil',
@@ -350,16 +400,21 @@ const copy = {
     formTitle: 'TravelBuddies Diagnosis',
     formBody: 'Share the essentials. We simplify.',
     formHint: '2–3 minutes · no commitment',
+    wizardWelcomeTitle: 'Hello! 👋',
+    wizardWelcomeBody: "Let's design the perfect trip for your family.",
+    wizardWelcomeNote: 'Just 5 quick steps.',
+    wizardWelcomeSocialProof: "We've helped 50+ families travel with less stress.",
+    wizardWelcomeStart: 'Start',
+    wizardWelcomeQuickStart: '⚡ Quick fill',
+    wizardWelcomeQuickNote: 'Fill the essentials, skip the rest.',
     wizardStepTitles: [
-      'Email',
-      'About the trip',
-      'Lodging style',
-      'Service type',
-      'Traveler profiles',
-      'Past experiences',
+      '✈️ About the trip',
+      '🏨 Accommodation & style',
+      '🎯 Service type',
+      '👨‍👩‍👧‍👦 Traveler profiles',
+      '🗺️ Almost there!',
     ],
     wizardStepHelpers: [
-      'So we can reply to you.',
       'Helps us understand the right pace.',
       'For better rest and less stress.',
       'So we align the level of support.',
@@ -371,27 +426,79 @@ const copy = {
     wizardAutosaveNote: 'You can pause anytime — we save automatically.',
     wizardNextStepNote: 'Then we send a clear, human proposal.',
     wizardTimeNote: 'Less than 1 minute.',
-    wizardRequiredNote: 'We need this to move forward.',
+    wizardRequiredNote: 'Fill this in to continue',
     wizardReceiveTitle: 'What you will receive',
     wizardReceiveItems: ['Light itinerary', 'Clear options', 'Helpful checklist'],
+    wizardOptionalTag: '(optional)',
+    wizardSaveEmailPrompt: 'Want to save your progress? Leave your email and continue anytime.',
+    wizardSaveEmailBtn: 'Save progress',
+    wizardOtherPlaceholder: 'Tell us more...',
+    wizardRestart: 'Restart',
+    wizardSuccessTitle: 'All done! 🎉',
+    wizardSuccessBody: "We received your answers. We'll analyze your family profile and send a personalized proposal soon.",
+    wizardSuccessNext: 'What happens next:',
+    wizardSuccessSteps: ['We analyze your family profile', 'Design tailored options', 'Send a proposal via email'],
+    wizardSuccessCta: 'Or reach out directly:',
+    wizardPopularTag: 'Most popular',
+    wizardRestartConfirm: 'Are you sure? All answers will be cleared.',
+    wizardWhyAsk: {
+      budget: 'Helps us suggest realistic options — no commitment.',
+      lodgingValues: 'To find the perfect accommodation for your family.',
+      adultProfile: 'Helps us adapt the pace and style of the trip.',
+    },
+    wizardContextHelpers: {
+      motivation: {
+        'Rest': 'Great choice! We will find the perfect pace to relax. 🏖️',
+        'Adventure': 'Fantastic! Safe adventures for the whole family. 🧗',
+        'Quality family time': 'Perfect! Time together is what matters most. 💛',
+        'Celebration (birthday, honeymoon, etc.)': "Let's make this celebration special! 🎉",
+        'Discover another culture': 'We love it! Exploring the world with kids is magical. 🌍',
+      },
+      lodging: {
+        'Hotel': 'Hotel with everything planned for the little ones. 👌',
+        'Apartment': 'More space and flexibility for the family. 🏠',
+        'Resort': 'All inclusive, zero stress. ✨',
+        'Local home': 'Live like a local — authentic experience! 🏡',
+      },
+    },
+    wizardSeasons: ['Spring', 'Summer', 'Autumn', 'Winter', 'Anytime'],
+    wizardMotivationIcons: {
+      'Rest': '🏖️',
+      'Adventure': '🧗',
+      'Quality family time': '👨‍👩‍👧',
+      'Celebration (birthday, honeymoon, etc.)': '🎂',
+      'Discover another culture': '🌍',
+      'Other': '✏️',
+    },
+    wizardDynamicLodging: 'You chose {attraction} — what type of lodging do you prefer?',
+    wizardDynamicMeal: 'For your {motivation} trip — which meal plan works best?',
+    wizardExperiencePrompt: 'Tell us anything about family travel — what went well, what was hard, what you hope for this trip...',
+    wizardPersonalizedIntro: '{motivation} trip for {travelers} — almost done!',
+    wizardStepWatermarks: ['✈️', '🏨', '🎯', '👨‍👩‍👧‍👦', '🗺️'],
     wizardQuestions: {
       email: 'Email',
       destination: 'What is the trip destination? Do you have one in mind? If yes, which?',
       attraction: 'When you go on holiday, what attracts you most?',
       motivation: 'What is the main motivation for this trip?',
-      dates: 'Do you have dates defined for the trip? Is it flexible?',
-      people: 'How many people will travel? Include children’s ages if any.',
+      whosTravelling: "Who's travelling?",
+      adults: 'Adults',
+      kids: 'Kids (under 18)',
+      childAge: 'Age of child {n}',
+      whenTravel: 'When do you want to travel?',
+      haveDates: 'I have dates',
+      flexible: "I'm flexible",
+      dateFrom: 'From',
+      dateTo: 'To',
+      datePlaceholder: 'e.g. Jul 15 – Jul 30, 2025',
+      flexibleNote: 'Any preference? (e.g. July, Summer...)',
       meal: 'Which meal plan do you prefer?',
       lodging: 'What type of lodging do you prefer?',
       lodgingValues: 'What do you value most when choosing lodging?',
       budget:
         'What is your approximate budget? This helps us see options closer to reality.',
       service: 'What kind of help are you looking for?',
-      motherProfile: 'Let’s get to know the mother’s profile',
-      fatherProfile: 'Let’s get to know the father’s profile',
-      child1: 'And the kids? Starting with the oldest',
-      child2: 'And the middle child?',
-      child3: 'Finally the youngest (if more, write in final comments)',
+      adultProfile: 'Adult {n}',
+      childProfile: 'Child {n} — {age}',
       familyTraveled: 'Have you traveled as a family before?',
       previousTrips: 'Where did you go and what went well?',
       hardest: 'What was the hardest or most stressful?',
@@ -405,8 +512,13 @@ const copy = {
     wizardProgressNote: 'Almost there.',
     wizardProgressRemaining: 'Only {count} steps left.',
     wizardProgressRemainingSingle: 'Only 1 step left.',
-    wizardOptional: 'Add details (optional)',
-    wizardOptionalNote: "You don't need to know this now.",
+    wizardOptionalLabel: 'If you already know...',
+    serviceCards: [
+      { id: 'Organização de Viagem em família (Plano Base)', title: 'Base — 60€', desc: 'Itinerary, suggestions and decision support.', tag: 'Clear guidance' },
+      { id: 'Organização de Viagem em família (Premium)', title: 'Premium — 130€', desc: 'Day-by-day plan, experiences and trip support.', tag: 'Fully planned' },
+      { id: 'Orçamento e marcação de viagem', title: 'Free quote', desc: 'Trip booking with no service fee.', tag: 'Free' },
+      { id: 'Ainda não sei', title: "Not sure yet", desc: "No problem — we'll help you choose.", tag: '' },
+    ],
     wizardSummaryTitle: 'Summary',
     wizardSummaryBody: 'Review and send via your preferred channel.',
     wizardSummarySections: {
@@ -451,33 +563,25 @@ const copy = {
         'Trip budgeting and booking',
         'Not sure',
       ],
-      parentProfileMother: [
+      adultProfile: [
         'Likes to plan and have everything controlled',
         'Needs comfort and breaks',
         'Likes to explore and improvise',
-        'For her, the most important is being together and well',
+        'The most important is being together and well',
         'Travels mainly to rest',
-        'For her, new experiences matter most',
-      ],
-      parentProfileFather: [
-        'Likes to plan and have everything controlled',
-        'Needs comfort and breaks',
-        'Likes to explore and improvise',
-        'For him, the most important is being together and well',
-        'Travels mainly to rest',
-        'For him, new experiences matter most',
+        'New experiences matter most',
       ],
       childProfile: [
         'Sensitive to routine changes',
         'Adaptable and calm',
         'Active and curious',
-        'Needs naps and calm to take them',
         'Does well in new environments',
-        'Likes to know everything about where they go',
-        'The most important for them is to be in front',
+        'Likes to know everything about the destination',
+        'Wants to lead the way',
         'Thrives on new experiences',
-        'For them it is fine as long as we are together',
+        'Fine as long as we are together',
       ],
+      childProfileNap: 'Needs naps and calm to take them',
       familyTraveled: ['Yes', 'No'],
     },
     formSuccessBody: 'Automatically copied.',
@@ -488,18 +592,14 @@ const copy = {
       destination: 'Destination',
       attraction: 'Attracted to',
       motivation: 'Motivation',
+      travelers: 'Travelers',
       dates: 'Dates',
-      people: 'People',
       meal: 'Meal plan',
       lodging: 'Lodging',
       lodgingValues: 'Priorities',
       budget: 'Budget',
       service: 'Type of help',
-      motherProfile: 'Mother profile',
-      fatherProfile: 'Father profile',
-      child1: 'Oldest child',
-      child2: 'Middle child',
-      child3: 'Youngest child',
+      profiles: 'Profiles',
       familyTraveled: 'Traveled as a family',
       previousTrips: 'Previous trips',
       hardest: 'Hardest part',
@@ -549,6 +649,31 @@ const SmartImage = ({ src, fallback, alt, className }) => {
   )
 }
 
+const formatTravelers = (lang, form) => {
+  const isPT = lang === 'pt'
+  const parts = []
+  parts.push(`${form.adults} ${isPT ? (form.adults === 1 ? 'adulto' : 'adultos') : (form.adults === 1 ? 'adult' : 'adults')}`)
+  if (form.kids?.length > 0) {
+    const ages = form.kids.filter(Boolean).map((a) => `${a} ${isPT ? 'anos' : 'yrs'}`).join(', ')
+    parts.push(`${form.kids.length} ${isPT ? (form.kids.length === 1 ? 'criança' : 'crianças') : (form.kids.length === 1 ? 'child' : 'children')}${ages ? ` (${ages})` : ''}`)
+  }
+  return parts.join(', ')
+}
+
+const formatDates = (lang, form) => {
+  if (form.dateMode === 'flexible') {
+    const parts = []
+    if (form.dateSeason) parts.push(form.dateSeason)
+    if (form.dateFlexNote?.trim()) parts.push(form.dateFlexNote.trim())
+    const detail = parts.length > 0 ? ` — ${parts.join(', ')}` : ''
+    return `${lang === 'pt' ? 'Flexível' : 'Flexible'}${detail}`
+  }
+  if (form.dateMode === 'range' && form.dateFrom?.trim()) {
+    return form.dateFrom.trim()
+  }
+  return '-'
+}
+
 const buildMessage = (lang, form) => {
   const t = copy[lang]
   const labels = t.messageLabels
@@ -560,8 +685,8 @@ const buildMessage = (lang, form) => {
     `${labels.destination}: ${form.destination || '-'}`,
     `${labels.attraction}: ${form.attraction || '-'}`,
     `${labels.motivation}: ${form.motivation || '-'}`,
-    `${labels.dates}: ${form.dates || '-'}`,
-    `${labels.people}: ${form.people || '-'}`,
+    `${labels.travelers}: ${formatTravelers(lang, form)}`,
+    `${labels.dates}: ${formatDates(lang, form)}`,
     '',
     `[${sections.lodging}]`,
     `${labels.meal}: ${form.meal || '-'}`,
@@ -572,105 +697,361 @@ const buildMessage = (lang, form) => {
     `${labels.service}: ${form.service || '-'}`,
     '',
     `[${sections.profiles}]`,
-    `${labels.motherProfile}: ${form.motherProfile || '-'}`,
-    `${labels.fatherProfile}: ${form.fatherProfile || '-'}`,
-    `${labels.child1}: ${form.child1 || '-'}`,
-    `${labels.child2}: ${form.child2 || '-'}`,
-    `${labels.child3}: ${form.child3 || '-'}`,
+    ...(form.travelerProfiles || []).map((p) => {
+      const isPT = lang === 'pt'
+      let label
+      if (p.role === 'adult') {
+        label = t.wizardQuestions.adultProfile.replace('{n}', String(p.index + 1))
+      } else {
+        const a = form.kids?.[p.index]
+        const ageLabel = a ? `${a} ${isPT ? 'anos' : 'yrs'}` : '?'
+        label = t.wizardQuestions.childProfile.replace('{n}', String(p.index + 1)).replace('{age}', ageLabel)
+      }
+      return `${label}: ${p.profile || '-'}`
+    }),
     '',
     `[${sections.experiences}]`,
     `${labels.familyTraveled}: ${form.familyTraveled || '-'}`,
-    `${labels.previousTrips}: ${form.previousTrips || '-'}`,
-    `${labels.hardest}: ${form.hardest || '-'}`,
-    `${labels.success}: ${form.success || '-'}`,
-    `${labels.moreInfo}: ${form.moreInfo || '-'}`,
+    ...(form.experienceNotes ? [`${lang === 'pt' ? 'Notas' : 'Notes'}: ${form.experienceNotes}`] : []),
+    ...(form.previousTrips ? [`${labels.previousTrips}: ${form.previousTrips}`] : []),
+    ...(form.hardest ? [`${labels.hardest}: ${form.hardest}`] : []),
+    ...(form.success ? [`${labels.success}: ${form.success}`] : []),
+    ...(form.moreInfo ? [`${labels.moreInfo}: ${form.moreInfo}`] : []),
   ].filter(Boolean)
 
   return [t.messageTitle, '', ...lines].join('\n')
 }
 
-const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
+const haptic = () => { try { navigator?.vibrate?.(10) } catch {} }
+
+const PillSelect = ({ options, value, onChange, multi = false, columns = 2, icons, onAutoAdvance, otherPlaceholder }) => {
+  const [otherText, setOtherText] = useState('')
+  const otherRef = useRef(null)
+  const isSelected = (opt) => multi ? (value || []).includes(opt) : value === opt
+  const isOther = (opt) => opt === 'Other' || opt === 'Outro'
+  const handleClick = (opt) => {
+    haptic()
+    if (multi) {
+      const set = new Set(value || [])
+      if (set.has(opt)) { set.delete(opt) } else { set.add(opt) }
+      onChange(Array.from(set))
+    } else {
+      const newVal = value === opt ? '' : opt
+      onChange(newVal)
+      if (isOther(opt) && newVal) {
+        setTimeout(() => otherRef.current?.focus(), 120)
+      } else if (newVal && !multi && onAutoAdvance) {
+        setTimeout(() => onAutoAdvance(), 350)
+      }
+    }
+  }
+  const gridClass = columns === 1 ? 'grid gap-2 grid-cols-1' : columns === 3 ? 'grid gap-2 grid-cols-3' : 'grid gap-2 grid-cols-1 sm:grid-cols-2'
+  /* #7 affordance icon: radio ○/● or checkbox ☐/☑ */
+  const indicator = (opt) => {
+    if (multi) return isSelected(opt) ? '☑' : '☐'
+    return isSelected(opt) ? '●' : '○'
+  }
+  return (
+    <div className="space-y-2">
+      <div className={gridClass}>
+        {options.map((opt) => (
+          <button key={opt} type="button" onClick={() => handleClick(opt)}
+            className={`rounded-xl border px-3 py-2.5 text-left text-sm transition-all duration-150 flex items-center gap-2 ${
+              isSelected(opt)
+                ? 'border-teal bg-teal/10 text-primary font-medium shadow-sm ring-1 ring-teal/30'
+                : 'border-primary/10 bg-white/80 text-primary/70 hover:border-primary/25 hover:bg-cream/40'
+            }`}
+          >
+            <span className={`text-[11px] shrink-0 ${isSelected(opt) ? 'text-teal' : 'text-primary/25'}`}>{indicator(opt)}</span>
+            {icons?.[opt] ? <span className="shrink-0">{icons[opt]}</span> : null}
+            <span>{opt}</span>
+          </button>
+        ))}
+      </div>
+      {/* #17 "Other" auto-expand text input */}
+      {(isSelected('Other') || isSelected('Outro')) && (
+        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ duration: 0.15 }}>
+          <input ref={otherRef} type="text" value={otherText} onChange={(e) => setOtherText(e.target.value)}
+            placeholder={otherPlaceholder || 'Tell us more...'}
+            className="w-full rounded-xl border border-teal/30 bg-teal/5 px-3 py-2.5 text-sm text-primary placeholder:text-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60" />
+        </motion.div>
+      )}
+    </div>
+  )
+}
+
+/* #12 WhyTooltip — tap-to-expand below label, mobile-friendly */
+const WhyTooltip = ({ text }) => {
+  const [open, setOpen] = useState(false)
+  return (
+    <span className="inline-flex flex-col">
+      <button type="button" onClick={() => setOpen(!open)}
+        className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-primary/8 px-2 py-0.5 text-[10px] text-primary/50 hover:bg-primary/15 transition">
+        {open ? '✕' : '?'} <span className="hidden sm:inline">{open ? '' : 'porquê'}</span>
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.span initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.15 }}
+            className="mt-1 block rounded-xl border border-teal/20 bg-teal/5 p-2.5 text-xs text-primary/70">
+            {text}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </span>
+  )
+}
+
+/* #11 ServiceCard with popular badge + dimmed "Ainda não sei" */
+const ServiceCard = ({ card, selected, onSelect, popularLabel, isSecondary }) => (
+  <button type="button" onClick={() => onSelect(card.id)}
+    className={`rounded-2xl border p-4 text-left transition-all duration-150 relative ${
+      selected
+        ? 'border-teal bg-teal/10 shadow-sm ring-1 ring-teal/30'
+        : isSecondary
+          ? 'border-primary/8 bg-white/60 hover:border-primary/15 hover:bg-cream/30 opacity-70'
+          : 'border-primary/10 bg-white/80 hover:border-primary/25 hover:bg-cream/40'
+    }`}
+  >
+    {popularLabel && (
+      <span className="absolute -top-2.5 right-3 rounded-full bg-teal text-white px-2.5 py-0.5 text-[10px] font-medium shadow-sm">{popularLabel}</span>
+    )}
+    <div className="flex items-start justify-between gap-2">
+      <div className="flex items-center gap-2">
+        <span className={`text-[11px] shrink-0 ${selected ? 'text-teal' : 'text-primary/25'}`}>{selected ? '●' : '○'}</span>
+        <p className="font-display text-base leading-tight text-primary">{card.title}</p>
+      </div>
+      {card.tag && <span className="shrink-0 rounded-full bg-primary/8 px-2 py-0.5 text-[10px] text-primary/70">{card.tag}</span>}
+    </div>
+    <p className="mt-1.5 ml-5 text-xs text-primary/60">{card.desc}</p>
+  </button>
+)
+
+const NumberStepper = ({ value, onChange, min = 0, max = 6, label }) => {
+  const handleChange = (newVal) => { haptic(); onChange(newVal) }
+  return (
+    <div className="flex items-center justify-between rounded-xl border border-primary/10 bg-white/80 px-4 py-2.5">
+      <span className="text-sm text-primary/80">{label}</span>
+      <div className="flex items-center gap-3">
+        <button type="button" onClick={() => handleChange(Math.max(min, value - 1))} disabled={value <= min}
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/15 text-primary/60 transition hover:bg-cream/40 disabled:opacity-30 disabled:cursor-not-allowed">
+          −
+        </button>
+        <motion.span key={value} initial={{ scale: 1.3, opacity: 0.5 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+          className="w-5 text-center text-sm font-medium text-primary">{value}</motion.span>
+        <button type="button" onClick={() => handleChange(Math.min(max, value + 1))} disabled={value >= max}
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/15 text-primary/60 transition hover:bg-cream/40 disabled:opacity-30 disabled:cursor-not-allowed">
+          +
+        </button>
+      </div>
+    </div>
+  )
+}
+
+const ContextHelper = ({ text }) => (
+  <motion.p initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-teal/80 mt-1">{text}</motion.p>
+)
+
+/* #2 Progressive disclosure — reveal questions one at a time */
+const QuestionReveal = ({ show, children, id }) => (
+  <AnimatePresence>
+    {show && (
+      <motion.div id={id} initial={{ opacity: 0, y: 12, height: 0 }} animate={{ opacity: 1, y: 0, height: 'auto' }} exit={{ opacity: 0, y: -8, height: 0 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}>
+        {children}
+      </motion.div>
+    )}
+  </AnimatePresence>
+)
+
+/* #8 Inline green check for completed questions */
+const QuestionCheck = ({ done }) => (
+  done ? <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 400, damping: 12 }} className="inline-flex ml-1.5 text-teal text-xs">✓</motion.span> : null
+)
+
+const StepCelebration = ({ show }) => (
+  <AnimatePresence>
+    {show && (
+      <motion.span initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 12 }} className="inline-block ml-2 text-sm">✨</motion.span>
+    )}
+  </AnimatePresence>
+)
+
+const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange }) => {
   const initialState = {
     email: '',
     destination: '',
     attraction: '',
     motivation: '',
-    dates: '',
-    people: '',
+    adults: 2,
+    kids: [],
+    dateMode: '',
+    dateFrom: '',
+    dateTo: '',
+    dateFlexNote: '',
+    dateSeason: '',
     meal: '',
     lodging: '',
     lodgingValues: [],
     budget: '',
     service: '',
-    motherProfile: '',
-    fatherProfile: '',
-    child1: '',
-    child2: '',
-    child3: '',
+    travelerProfiles: [],
     familyTraveled: '',
+    experienceNotes: '',
     previousTrips: '',
     hardest: '',
     success: '',
     moreInfo: '',
   }
 
+  const [showWelcome, setShowWelcome] = useState(true)
   const [step, setStep] = useState(0)
+  const [tried, setTried] = useState({})
+  const [celebrateStep, setCelebrateStep] = useState(-1)
+  const [showSavePrompt, setShowSavePrompt] = useState(false)
+  const [saveEmail, setSaveEmail] = useState('')
+  const scrollRef = useRef(null)
   const [data, setData] = useState(() => {
     if (typeof window === 'undefined') return initialState
     const saved = localStorage.getItem(WIZARD_STORAGE_KEY)
     if (!saved) return initialState
     try {
       const parsed = JSON.parse(saved)
+      // If they had data, skip welcome
+      const hasData = parsed.motivation || parsed.email || parsed.meal
+      if (hasData) setShowWelcome(false)
       return { ...initialState, ...parsed }
     } catch {
       return initialState
     }
   })
 
-  const [optionalOpen, setOptionalOpen] = useState({
-    trip: false,
-    lodging: false,
-    profiles: false,
-    experiences: false,
-  })
-
   useEffect(() => {
     localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(data))
     onAutosave?.()
-  }, [data, onAutosave])
+    onDataChange?.(data)
+  }, [data, onAutosave, onDataChange])
 
   const handleChange = (event) => {
     const { name, value } = event.target
     setData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const toggleMulti = (value) => {
-    setData((prev) => {
-      const set = new Set(prev.lodgingValues || [])
-      if (set.has(value)) {
-        set.delete(value)
-      } else {
-        set.add(value)
-      }
-      return { ...prev, lodgingValues: Array.from(set) }
-    })
-  }
+  const setPill = (name, value) => setData((prev) => ({ ...prev, [name]: value }))
 
-  const next = () => setStep((prev) => Math.min(prev + 1, 5))
+  const setAdults = (n) => setData((prev) => {
+    const newProfiles = prev.travelerProfiles.slice()
+    while (newProfiles.filter((p) => p.role === 'adult').length > n) {
+      const idx = newProfiles.findLastIndex((p) => p.role === 'adult')
+      if (idx >= 0) newProfiles.splice(idx, 1)
+    }
+    return { ...prev, adults: n, travelerProfiles: newProfiles }
+  })
+
+  const setKidsCount = (n) => setData((prev) => {
+    const newKids = prev.kids.slice(0, n)
+    while (newKids.length < n) newKids.push('')
+    const newProfiles = prev.travelerProfiles.filter((p) => {
+      if (p.role === 'child' && p.index >= n) return false
+      return true
+    })
+    return { ...prev, kids: newKids, travelerProfiles: newProfiles }
+  })
+
+  const setKidAge = (idx, age) => setData((prev) => {
+    const newKids = [...prev.kids]
+    newKids[idx] = age
+    return { ...prev, kids: newKids }
+  })
+
+  const setTravelerProfile = (role, index, profile) => setData((prev) => {
+    const newProfiles = [...prev.travelerProfiles]
+    const existing = newProfiles.findIndex((p) => p.role === role && p.index === index)
+    if (existing >= 0) {
+      newProfiles[existing] = { ...newProfiles[existing], profile }
+    } else {
+      newProfiles.push({ role, index, profile })
+    }
+    return { ...prev, travelerProfiles: newProfiles }
+  })
+
+  /* #14 scroll + focus management */
+  const scrollToNext = useCallback((id) => {
+    setTimeout(() => {
+      const el = document.getElementById(id)
+      if (!el) return
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      /* Focus first interactive element inside */
+      setTimeout(() => {
+        const focusable = el.querySelector('button, input, select, textarea')
+        focusable?.focus({ preventScroll: true })
+      }, 400)
+    }, 100)
+  }, [])
+
+  const next = () => {
+    if (!canAdvance) {
+      setTried((prev) => ({ ...prev, [step]: true }))
+      return
+    }
+    setCelebrateStep(step)
+    setTimeout(() => setCelebrateStep(-1), 1200)
+    const nextStep = Math.min(step + 1, 4)
+    setStep(nextStep)
+    /* #13 Show save prompt on entering step 2 if no email yet */
+    if (nextStep === 2 && !data.email) setShowSavePrompt(true)
+  }
   const back = () => setStep((prev) => Math.max(prev - 1, 0))
 
-  useEffect(() => {
-    onStepChange?.()
-  }, [step, onStepChange])
+  /* #5 Quick-start handler */
+  const handleQuickStart = () => {
+    setData((prev) => ({
+      ...prev,
+      motivation: isPT ? 'Descanso' : 'Rest',
+      adults: 2,
+      kids: [],
+      dateMode: 'flexible',
+      meal: isPT ? 'Tudo incluído' : 'All inclusive',
+      lodging: 'Hotel',
+      attraction: isPT ? 'Praia' : 'Beach',
+    }))
+    setShowWelcome(false)
+    setStep(2) // Skip to Service step
+  }
 
+  const handleRestart = () => {
+    if (window.confirm(t.wizardRestartConfirm)) {
+      localStorage.removeItem(WIZARD_STORAGE_KEY)
+      setData(initialState)
+      setStep(0)
+      setTried({})
+      setShowWelcome(true)
+      setShowSavePrompt(false)
+    }
+  }
+
+  useEffect(() => {
+    onStepChange?.(step, t.wizardStepTitles.length)
+  }, [step, onStepChange, t.wizardStepTitles.length])
+
+  const isPT = t.wizardBack === 'Voltar'
+
+  /* Helpers for travelers */
+  const totalTravelers = data.adults + data.kids.length
+  const allKidsHaveAge = data.kids.length === 0 || data.kids.every((k) => k)
+  const datesValid = data.dateMode === 'flexible' || (data.dateMode === 'range' && data.dateFrom.trim())
+  const allProfilesFilled = data.travelerProfiles.length === totalTravelers && data.travelerProfiles.every((p) => p.profile)
+
+  /* Step order: 0=trip, 1=lodging+attraction, 2=service, 3=profiles, 4=experiences+email */
   const canAdvance = [
-    data.email.trim(),
-    data.motivation && data.dates.trim() && data.people.trim(),
-    data.meal && data.lodging,
+    data.motivation && data.dateMode && datesValid && data.adults >= 1 && allKidsHaveAge,
+    data.attraction && data.meal && data.lodging,
     data.service,
-    data.motherProfile,
-    data.familyTraveled,
+    allProfilesFilled,
+    data.familyTraveled && data.email.trim(),
   ][step]
+
+  const showError = (stepIdx, condition) => tried[stepIdx] && !condition
 
   const stepsCount = t.wizardStepTitles.length
   const progress = ((step + 1) / stepsCount) * 100
@@ -682,524 +1063,398 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange }) => {
         : t.wizardProgressRemaining.replace('{count}', String(remaining))
       : ''
 
+  /* Personalized intro for last step (#18) */
+  const personalizedIntro = useMemo(() => {
+    if (!data.motivation) return ''
+    const travelersStr = formatTravelers(isPT ? 'pt' : 'en', data)
+    return t.wizardPersonalizedIntro.replace('{motivation}', data.motivation.toLowerCase()).replace('{travelers}', travelersStr)
+  }, [data.motivation, data.adults, data.kids, t.wizardPersonalizedIntro, isPT])
+
   const steps = [
-    {
-      id: 'email',
-      title: t.wizardStepTitles[0],
-      content: (
-        <div className="flex flex-col gap-2">
-          <label className="text-xs text-primary/60" htmlFor="email">
-            {t.wizardQuestions.email}
-          </label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            required
-            value={data.email}
-            onChange={handleChange}
-            className="font-body text-sm"
-          />
-          <p className="text-xs text-primary/50">{t.wizardReassureEmail}</p>
-          <p className="text-xs text-primary/50">{t.wizardReassurePrivacy}</p>
-          <p className="text-xs text-primary/50">{t.wizardTimeNote}</p>
-        </div>
-      ),
-    },
+    /* Step 0: Trip — progressive disclosure (#2), destination, motivation, travelers, dates */
     {
       id: 'trip',
-      title: t.wizardStepTitles[1],
+      title: t.wizardStepTitles[0],
       content: (
-        <div className="space-y-4">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs text-primary/60" htmlFor="motivation">
+        <div className="space-y-5">
+          {/* Destination — optional, first question */}
+          <div id="q-destination" className="flex flex-col gap-2">
+            <label className="text-xs font-medium text-primary/70" htmlFor="destination">
+              {t.wizardQuestions.destination} <span className="text-primary/40 font-normal">{t.wizardOptionalTag}</span>
+              <QuestionCheck done={!!data.destination} />
+            </label>
+            <Input id="destination" name="destination" placeholder={isPT ? 'ex: Algarve, Grécia, ainda não sei...' : 'e.g. Algarve, Greece, not sure yet...'} value={data.destination} onChange={handleChange} className="font-body text-sm" />
+          </div>
+
+          {/* Motivation — with icons, always visible */}
+          <div id="q-motivation" className="flex flex-col gap-2">
+            <label className="text-xs font-medium text-primary/70">
               {t.wizardQuestions.motivation}
+              <QuestionCheck done={!!data.motivation} />
             </label>
-          <Input as="select"
-            id="motivation"
-            name="motivation"
-            required
-            value={data.motivation}
-            onChange={handleChange}
-            className="font-body text-sm"
-          >
-            <option value="" disabled>
-              —
-            </option>
-            {t.wizardOptions.motivation.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </Input>
-          {!data.motivation && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
-        </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs text-primary/60" htmlFor="dates">
-              {t.wizardQuestions.dates}
-            </label>
-          <Input
-            id="dates"
-            name="dates"
-            required
-            value={data.dates}
-            onChange={handleChange}
-            className="font-body text-sm"
-          />
-          {!data.dates.trim() && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
-        </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs text-primary/60" htmlFor="people">
-              {t.wizardQuestions.people}
-            </label>
-          <Input
-            id="people"
-            name="people"
-            required
-            value={data.people}
-            onChange={handleChange}
-            className="font-body text-sm"
-          />
-          {!data.people.trim() && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
-        </div>
-          <Button
-            type="button"
-            variant="link"
-            size="sm"
-            onClick={() => setOptionalOpen((prev) => ({ ...prev, trip: !prev.trip }))}
-            className="justify-start text-left"
-          >
-            {t.wizardOptional}
-          </Button>
-          <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
-          {optionalOpen.trip && (
-            <div className="grid gap-3 rounded-2xl border border-dashed border-primary/10 p-4">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs text-primary/60" htmlFor="destination">
-                  {t.wizardQuestions.destination}
-                </label>
-                <Input
-                  id="destination"
-                  name="destination"
-                  value={data.destination}
-                  onChange={handleChange}
-                  className="font-body text-sm"
-                />
+            <PillSelect options={t.wizardOptions.motivation} value={data.motivation} onChange={(v) => setPill('motivation', v)} icons={t.wizardMotivationIcons} onAutoAdvance={() => scrollToNext('q-travelers')} otherPlaceholder={t.wizardOtherPlaceholder} />
+            {data.motivation && t.wizardContextHelpers?.motivation?.[data.motivation] && (
+              <ContextHelper text={t.wizardContextHelpers.motivation[data.motivation]} />
+            )}
+            {showError(0, data.motivation) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
+          </div>
+
+          {/* #2 Progressive: Travelers only visible after motivation */}
+          <QuestionReveal show={!!data.motivation} id="q-travelers">
+            <div className="flex flex-col gap-3">
+              <label className="text-xs font-medium text-primary/70">
+                {t.wizardQuestions.whosTravelling}
+                <QuestionCheck done={data.adults >= 1} />
+              </label>
+              <div className="space-y-2">
+                <NumberStepper label={t.wizardQuestions.adults} value={data.adults} onChange={setAdults} min={1} max={6} />
+                <NumberStepper label={t.wizardQuestions.kids} value={data.kids.length} onChange={setKidsCount} min={0} max={6} />
               </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs text-primary/60" htmlFor="attraction">
-                  {t.wizardQuestions.attraction}
-                </label>
-                <Input as="select"
-                  id="attraction"
-                  name="attraction"
-                  value={data.attraction}
-                  onChange={handleChange}
-                  className="font-body text-sm"
-                >
-                  <option value="">—</option>
-                  {t.wizardOptions.attraction.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
+              {/* #10 Compact child age row */}
+              {data.kids.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {data.kids.map((age, i) => (
+                    <div key={i} className="flex items-center gap-1.5 rounded-xl border border-primary/10 bg-white/80 px-2.5 py-1.5">
+                      <span className="text-[11px] text-primary/50 shrink-0">C{i + 1}</span>
+                      <select value={age} onChange={(e) => setKidAge(i, e.target.value)}
+                        className="font-body w-16 rounded-lg border-0 bg-transparent py-0 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60">
+                        <option value="">—</option>
+                        {Array.from({ length: 18 }, (_, n) => (
+                          <option key={n} value={String(n)}>{n} {isPT ? 'a' : 'y'}</option>
+                        ))}
+                      </select>
+                    </div>
                   ))}
-                </Input>
-              </div>
+                </div>
+              )}
+              {showError(0, allKidsHaveAge) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
             </div>
-          )}
+          </QuestionReveal>
+
+          {/* #2 Progressive: Dates only visible after travelers */}
+          <QuestionReveal show={!!data.motivation && data.adults >= 1} id="q-dates">
+            <div className="flex flex-col gap-3">
+              <label className="text-xs font-medium text-primary/70">
+                {t.wizardQuestions.whenTravel}
+                <QuestionCheck done={!!data.dateMode && datesValid} />
+              </label>
+              <PillSelect options={[t.wizardQuestions.haveDates, t.wizardQuestions.flexible]} value={data.dateMode === 'range' ? t.wizardQuestions.haveDates : data.dateMode === 'flexible' ? t.wizardQuestions.flexible : ''} onChange={(v) => setPill('dateMode', v === t.wizardQuestions.haveDates ? 'range' : 'flexible')} columns={2} />
+              {/* #9 Smarter date input — month pickers */}
+              {data.dateMode === 'range' && (
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] text-primary/50">{t.wizardQuestions.dateFrom}</span>
+                    <input type="month" name="dateFrom" value={data.dateFrom} onChange={handleChange}
+                      className="font-body w-full rounded-xl border border-primary/15 bg-white px-3 py-2.5 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2" />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] text-primary/50">{t.wizardQuestions.dateTo}</span>
+                    <input type="month" name="dateTo" value={data.dateTo || ''} onChange={handleChange}
+                      className="font-body w-full rounded-xl border border-primary/15 bg-white px-3 py-2.5 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2" />
+                  </div>
+                </div>
+              )}
+              {data.dateMode === 'flexible' && (
+                <div className="space-y-2">
+                  <PillSelect options={t.wizardSeasons} value={data.dateSeason} onChange={(v) => setPill('dateSeason', v)} columns={3} />
+                  <Input name="dateFlexNote" placeholder={t.wizardQuestions.flexibleNote} value={data.dateFlexNote} onChange={handleChange} className="font-body text-sm" />
+                </div>
+              )}
+              {showError(0, data.dateMode && datesValid) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
+            </div>
+          </QuestionReveal>
         </div>
       ),
     },
+    /* Step 1: Attraction + Lodging + values + budget — with progressive disclosure (#2), dynamic labels (#15) */
     {
       id: 'lodging',
-      title: t.wizardStepTitles[2],
+      title: t.wizardStepTitles[1],
       content: (
-        <div className="space-y-4">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs text-primary/60" htmlFor="meal">
-              {t.wizardQuestions.meal}
+        <div className="space-y-5">
+          <div id="q-attraction" className="flex flex-col gap-2">
+            <label className="text-xs font-medium text-primary/70">
+              {t.wizardQuestions.attraction}
+              <QuestionCheck done={!!data.attraction} />
             </label>
-          <Input as="select"
-            id="meal"
-            name="meal"
-            required
-            value={data.meal}
-            onChange={handleChange}
-            className="font-body text-sm"
-          >
-            <option value="" disabled>
-              —
-            </option>
-            {t.wizardOptions.meal.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </Input>
-          {!data.meal && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
-        </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs text-primary/60" htmlFor="lodging">
-              {t.wizardQuestions.lodging}
-            </label>
-          <Input as="select"
-            id="lodging"
-            name="lodging"
-            required
-            value={data.lodging}
-            onChange={handleChange}
-            className="font-body text-sm"
-          >
-            <option value="" disabled>
-              —
-            </option>
-            {t.wizardOptions.lodging.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </Input>
-          {!data.lodging && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
-        </div>
-          <Button
-            type="button"
-            variant="link"
-            size="sm"
-            onClick={() => setOptionalOpen((prev) => ({ ...prev, lodging: !prev.lodging }))}
-            className="justify-start text-left"
-          >
-            {t.wizardOptional}
-          </Button>
-          <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
-          {optionalOpen.lodging && (
-            <div className="grid gap-4 rounded-2xl border border-dashed border-primary/10 p-4">
-              <div className="space-y-2">
-                <p className="text-xs text-primary/60">{t.wizardQuestions.lodgingValues}</p>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {t.wizardOptions.lodgingValues.map((option) => (
-                    <label
-                      key={option}
-                      className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-primary/70 hover:bg-cream/40"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={data.lodgingValues.includes(option)}
-                        onChange={() => toggleMulti(option)}
-                        className="h-4 w-4 rounded border-primary/30 text-teal focus:ring-teal/60"
-                      />
-                      {option}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs text-primary/60" htmlFor="budget">
-                  {t.wizardQuestions.budget}
-                </label>
-                <Input
-                  id="budget"
-                  name="budget"
-                  value={data.budget}
-                  onChange={handleChange}
-                  className="font-body text-sm"
-                />
-              </div>
+            <PillSelect options={t.wizardOptions.attraction} value={data.attraction} onChange={(v) => setPill('attraction', v)} onAutoAdvance={() => scrollToNext('q-meal')} otherPlaceholder={t.wizardOtherPlaceholder} />
+            {showError(1, data.attraction) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
+          </div>
+
+          {/* #2 Progressive + #15 Dynamic label */}
+          <QuestionReveal show={!!data.attraction} id="q-meal">
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-medium text-primary/70">
+                {data.motivation ? t.wizardDynamicMeal?.replace('{motivation}', data.motivation.toLowerCase()) : t.wizardQuestions.meal}
+                <QuestionCheck done={!!data.meal} />
+              </label>
+              <PillSelect options={t.wizardOptions.meal} value={data.meal} onChange={(v) => setPill('meal', v)} onAutoAdvance={() => scrollToNext('q-lodging')} />
+              {showError(1, data.meal) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
             </div>
-          )}
+          </QuestionReveal>
+
+          <QuestionReveal show={!!data.attraction && !!data.meal} id="q-lodging">
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-medium text-primary/70">
+                {/* #15 Dynamic label */}
+                {data.attraction ? t.wizardDynamicLodging?.replace('{attraction}', data.attraction) : t.wizardQuestions.lodging}
+                <QuestionCheck done={!!data.lodging} />
+              </label>
+              <PillSelect options={t.wizardOptions.lodging} value={data.lodging} onChange={(v) => setPill('lodging', v)} onAutoAdvance={() => scrollToNext('q-lodgingValues')} />
+              {data.lodging && t.wizardContextHelpers?.lodging?.[data.lodging] && (
+                <ContextHelper text={t.wizardContextHelpers.lodging[data.lodging]} />
+              )}
+              {showError(1, data.lodging) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
+            </div>
+          </QuestionReveal>
+
+          <QuestionReveal show={!!data.lodging} id="q-lodgingValues">
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-medium text-primary/70">
+                {t.wizardQuestions.lodgingValues} <span className="text-primary/40 font-normal">{t.wizardOptionalTag}</span>
+                {t.wizardWhyAsk?.lodgingValues && <WhyTooltip text={t.wizardWhyAsk.lodgingValues} />}
+              </label>
+              <PillSelect options={t.wizardOptions.lodgingValues} value={data.lodgingValues} onChange={(v) => setPill('lodgingValues', v)} multi otherPlaceholder={t.wizardOtherPlaceholder} />
+            </div>
+          </QuestionReveal>
+
+          <QuestionReveal show={!!data.lodging} id="q-budget">
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-medium text-primary/70" htmlFor="budget">
+                {t.wizardQuestions.budget} <span className="text-primary/40 font-normal">{t.wizardOptionalTag}</span>
+                {t.wizardWhyAsk?.budget && <WhyTooltip text={t.wizardWhyAsk.budget} />}
+              </label>
+              <Input id="budget" name="budget" placeholder={isPT ? 'ex: 2000€, sem limite, quero ver opções...' : 'e.g. €2000, no limit, show me options...'} value={data.budget} onChange={handleChange} className="font-body text-sm" />
+            </div>
+          </QuestionReveal>
         </div>
       ),
     },
+    /* Step 2: Service — with popular badge (#11) and save prompt (#13) */
     {
       id: 'service',
-      title: t.wizardStepTitles[3],
+      title: t.wizardStepTitles[2],
       content: (
-        <div className="flex flex-col gap-2">
-          <label className="text-xs text-primary/60" htmlFor="service">
-            {t.wizardQuestions.service}
-          </label>
-          <Input as="select"
-            id="service"
-            name="service"
-            required
-            value={data.service}
-            onChange={handleChange}
-            className="font-body text-sm"
-          >
-            <option value="" disabled>
-              —
-            </option>
-            {t.wizardOptions.service.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
+        <div className="flex flex-col gap-3">
+          <label className="text-xs font-medium text-primary/70">{t.wizardQuestions.service}</label>
+          <div className="grid gap-3">
+            {t.serviceCards.map((card, idx) => (
+              <ServiceCard key={card.id} card={card} selected={data.service === card.id}
+                onSelect={(id) => { haptic(); setPill('service', id) }}
+                popularLabel={idx === 0 ? t.wizardPopularTag : undefined}
+                isSecondary={idx === 3} />
             ))}
-          </Input>
-          <p className="text-xs text-primary/50">Orçamento e marcação de viagem (gratuito)</p>
-          {!data.service && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
+          </div>
+          {showError(2, data.service) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
+
+          {/* #13 Save & continue email capture */}
+          <AnimatePresence>
+            {showSavePrompt && !data.email && (
+              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+                className="mt-2 rounded-2xl border border-teal/20 bg-teal/5 p-4">
+                <p className="text-xs text-primary/70 mb-2">{t.wizardSaveEmailPrompt}</p>
+                <div className="flex gap-2">
+                  <input type="email" value={saveEmail} onChange={(e) => setSaveEmail(e.target.value)} placeholder={isPT ? 'o-teu@email.com' : 'your@email.com'}
+                    className="font-body flex-1 rounded-xl border border-primary/15 bg-white px-3 py-2 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60" />
+                  <button type="button" onClick={() => { if (saveEmail.includes('@')) { setPill('email', saveEmail); setShowSavePrompt(false) } }}
+                    className="shrink-0 rounded-xl bg-teal text-white px-3 py-2 text-xs font-medium hover:bg-teal/90 transition">{t.wizardSaveEmailBtn}</button>
+                </div>
+                <button type="button" onClick={() => setShowSavePrompt(false)} className="mt-1.5 text-[10px] text-primary/40 hover:text-primary/60">✕ {isPT ? 'Não, obrigado' : 'No thanks'}</button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       ),
     },
+    /* Step 3: Profiles — dynamic based on travelers from Step 0 */
     {
       id: 'profiles',
-      title: t.wizardStepTitles[4],
+      title: t.wizardStepTitles[3],
       content: (
-        <div className="space-y-4">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs text-primary/60" htmlFor="motherProfile">
-              {t.wizardQuestions.motherProfile}
-            </label>
-          <Input as="select"
-            id="motherProfile"
-            name="motherProfile"
-            required
-            value={data.motherProfile}
-            onChange={handleChange}
-            className="font-body text-sm"
-          >
-            <option value="" disabled>
-              —
-            </option>
-            {t.wizardOptions.parentProfileMother.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </Input>
-          {!data.motherProfile && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
-        </div>
-          <Button
-            type="button"
-            variant="link"
-            size="sm"
-            onClick={() => setOptionalOpen((prev) => ({ ...prev, profiles: !prev.profiles }))}
-            className="justify-start text-left"
-          >
-            {t.wizardOptional}
-          </Button>
-          <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
-          {optionalOpen.profiles && (
-            <div className="grid gap-4 rounded-2xl border border-dashed border-primary/10 p-4">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs text-primary/60" htmlFor="fatherProfile">
-                  {t.wizardQuestions.fatherProfile}
+        <div className="space-y-5">
+          {/* Adult profiles */}
+          {Array.from({ length: data.adults }, (_, i) => {
+            const current = data.travelerProfiles.find((p) => p.role === 'adult' && p.index === i)
+            return (
+              <div key={`adult-${i}`} id={`q-adult-${i}`} className="flex flex-col gap-2">
+                <label className="text-xs font-medium text-primary/70">
+                  {t.wizardQuestions.adultProfile.replace('{n}', String(i + 1))}
+                  {i === 0 && t.wizardWhyAsk?.adultProfile && <WhyTooltip text={t.wizardWhyAsk.adultProfile} />}
                 </label>
-                <Input as="select"
-                  id="fatherProfile"
-                  name="fatherProfile"
-                  value={data.fatherProfile}
-                  onChange={handleChange}
-                  className="font-body text-sm"
-                >
-                  <option value="">—</option>
-                  {t.wizardOptions.parentProfileFather.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </Input>
+                <PillSelect options={t.wizardOptions.adultProfile} value={current?.profile || ''} onChange={(v) => setTravelerProfile('adult', i, v)} columns={1}
+                  onAutoAdvance={() => {
+                    const nextId = i + 1 < data.adults ? `q-adult-${i + 1}` : data.kids.length > 0 ? 'q-child-0' : null
+                    if (nextId) scrollToNext(nextId)
+                  }} />
+                {showError(3, current?.profile) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs text-primary/60" htmlFor="child1">
-                    {t.wizardQuestions.child1}
-                  </label>
-                  <Input as="select"
-                    id="child1"
-                    name="child1"
-                    value={data.child1}
-                    onChange={handleChange}
-                    className="font-body text-sm"
-                  >
-                    <option value="">—</option>
-                    {t.wizardOptions.childProfile.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </Input>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs text-primary/60" htmlFor="child2">
-                    {t.wizardQuestions.child2}
-                  </label>
-                  <Input as="select"
-                    id="child2"
-                    name="child2"
-                    value={data.child2}
-                    onChange={handleChange}
-                    className="font-body text-sm"
-                  >
-                    <option value="">—</option>
-                    {t.wizardOptions.childProfile.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </Input>
-                </div>
+            )
+          })}
+          {/* Child profiles */}
+          {data.kids.map((age, i) => {
+            const current = data.travelerProfiles.find((p) => p.role === 'child' && p.index === i)
+            const ageNum = parseInt(age, 10)
+            const ageLabel = !isNaN(ageNum) ? `${ageNum} ${ageNum === 1 ? (isPT ? 'ano' : 'yr') : (isPT ? 'anos' : 'yrs')}` : '?'
+            const label = t.wizardQuestions.childProfile.replace('{n}', String(i + 1)).replace('{age}', ageLabel)
+            const showNap = !isNaN(ageNum) && ageNum <= 5
+            const childOpts = showNap ? [...t.wizardOptions.childProfile, t.wizardOptions.childProfileNap] : t.wizardOptions.childProfile
+            return (
+              <div key={`child-${i}`} id={`q-child-${i}`} className="flex flex-col gap-2">
+                <label className="text-xs font-medium text-primary/70">{label}</label>
+                <PillSelect options={childOpts} value={current?.profile || ''} onChange={(v) => setTravelerProfile('child', i, v)}
+                  onAutoAdvance={() => {
+                    const nextId = i + 1 < data.kids.length ? `q-child-${i + 1}` : null
+                    if (nextId) scrollToNext(nextId)
+                  }} />
+                {showError(3, current?.profile) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
               </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs text-primary/60" htmlFor="child3">
-                  {t.wizardQuestions.child3}
-                </label>
-                <Input as="select"
-                  id="child3"
-                  name="child3"
-                  value={data.child3}
-                  onChange={handleChange}
-                  className="font-body text-sm"
-                >
-                  <option value="">—</option>
-                  {t.wizardOptions.childProfile.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </Input>
-              </div>
-            </div>
-          )}
+            )
+          })}
+          {totalTravelers === 0 && <p className="text-sm text-primary/50">{isPT ? 'Volta ao passo 1 e indica quem vai viajar.' : 'Go back to step 1 and add your travelers.'}</p>}
         </div>
       ),
     },
+    /* Step 4: Experiences + Email — "Almost there!" (#3, #5, #10, #18) */
     {
-      id: 'experiences',
-      title: t.wizardStepTitles[5],
+      id: 'final',
+      title: t.wizardStepTitles[4],
       content: (
-        <div className="space-y-4">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs text-primary/60" htmlFor="familyTraveled">
-              {t.wizardQuestions.familyTraveled}
-            </label>
-          <Input as="select"
-            id="familyTraveled"
-            name="familyTraveled"
-            required
-            value={data.familyTraveled}
-            onChange={handleChange}
-            className="font-body text-sm"
-          >
-            <option value="" disabled>
-              —
-            </option>
-            {t.wizardOptions.familyTraveled.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </Input>
-          {!data.familyTraveled && <p className="text-xs text-rose-700/80">{t.wizardRequiredNote}</p>}
-        </div>
-          <Button
-            type="button"
-            variant="link"
-            size="sm"
-            onClick={() => setOptionalOpen((prev) => ({ ...prev, experiences: !prev.experiences }))}
-            className="justify-start text-left"
-          >
-            {t.wizardOptional}
-          </Button>
-          <p className="text-xs text-primary/50">{t.wizardOptionalNote}</p>
-          {optionalOpen.experiences && (
-            <div className="grid gap-4 rounded-2xl border border-dashed border-primary/10 p-4">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs text-primary/60" htmlFor="previousTrips">
-                  {t.wizardQuestions.previousTrips}
-                </label>
-                <Input as="textarea"
-                  id="previousTrips"
-                  name="previousTrips"
-                  rows="3"
-                  value={data.previousTrips}
-                  onChange={handleChange}
-                  className="font-body text-sm"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs text-primary/60" htmlFor="hardest">
-                  {t.wizardQuestions.hardest}
-                </label>
-                <Input as="textarea"
-                  id="hardest"
-                  name="hardest"
-                  rows="3"
-                  value={data.hardest}
-                  onChange={handleChange}
-                  className="font-body text-sm"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs text-primary/60" htmlFor="success">
-                  {t.wizardQuestions.success}
-                </label>
-                <Input as="textarea"
-                  id="success"
-                  name="success"
-                  rows="3"
-                  value={data.success}
-                  onChange={handleChange}
-                  className="font-body text-sm"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs text-primary/60" htmlFor="moreInfo">
-                  {t.wizardQuestions.moreInfo}
-                </label>
-                <Input as="textarea"
-                  id="moreInfo"
-                  name="moreInfo"
-                  rows="3"
-                  value={data.moreInfo}
-                  onChange={handleChange}
-                  className="font-body text-sm"
-                />
-              </div>
-            </div>
+        <div className="space-y-5">
+          {/* Personalized intro (#18) */}
+          {personalizedIntro && (
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-teal font-medium">{personalizedIntro}</motion.p>
           )}
+
+          <div id="q-familyTraveled" className="flex flex-col gap-2">
+            <label className="text-xs font-medium text-primary/70">{t.wizardQuestions.familyTraveled}</label>
+            <PillSelect options={t.wizardOptions.familyTraveled} value={data.familyTraveled} onChange={(v) => setPill('familyTraveled', v)} onAutoAdvance={() => scrollToNext('q-experienceNotes')} />
+            {showError(4, data.familyTraveled) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
+          </div>
+
+          {/* Single smart textarea instead of 4 (#10) */}
+          <div id="q-experienceNotes" className="flex flex-col gap-2">
+            <label className="text-xs font-medium text-primary/70">
+              {isPT ? 'Partilha o que quiseres' : 'Share what you like'} <span className="text-primary/40 font-normal">{t.wizardOptionalTag}</span>
+            </label>
+            <Input as="textarea" id="experienceNotes" name="experienceNotes" rows="4" placeholder={t.wizardExperiencePrompt} value={data.experienceNotes} onChange={handleChange} className="font-body text-sm" />
+          </div>
+
+          {/* Email — moved here from Step 4 (#3) */}
+          <div id="q-email" className="flex flex-col gap-2 rounded-2xl border border-teal/20 bg-teal/5 p-4">
+            <label className="text-xs font-medium text-primary/70" htmlFor="email">{t.wizardQuestions.email}</label>
+            <Input id="email" name="email" type="email" required placeholder={isPT ? 'o-teu@email.com' : 'your@email.com'} value={data.email} onChange={handleChange} className="font-body text-sm" />
+            {showError(4, data.email.trim()) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
+            <p className="text-xs text-primary/50">{t.wizardReassureEmail}</p>
+            <p className="text-xs text-primary/50">{t.wizardReassurePrivacy}</p>
+          </div>
         </div>
       ),
     },
   ]
 
+  /* Welcome screen (#7) with social proof (#19) and quick-start (#5) */
+  if (showWelcome) {
+    return (
+      <div className="relative flex flex-col items-center justify-center py-8 text-center">
+        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+          className="max-w-sm mx-auto">
+          <p className="text-4xl mb-4">✈️</p>
+          <h3 className="font-display text-2xl text-primary">{t.wizardWelcomeTitle}</h3>
+          <p className="mt-2 text-sm text-primary/70">{t.wizardWelcomeBody}</p>
+          <p className="mt-1 text-xs text-primary/50">{t.wizardWelcomeNote}</p>
+          {/* #19 Social proof */}
+          <p className="mt-3 text-[11px] text-teal/80 font-medium">{t.wizardWelcomeSocialProof}</p>
+          <div className="mt-6 flex flex-col gap-2.5 items-center">
+            <Button type="button" variant="primary" size="lg" onClick={() => setShowWelcome(false)}>
+              {t.wizardWelcomeStart}
+            </Button>
+            {/* #5 Quick-start */}
+            <button type="button" onClick={handleQuickStart}
+              className="text-xs text-primary/50 hover:text-teal transition underline underline-offset-2 decoration-primary/20 hover:decoration-teal/50">
+              {t.wizardWelcomeQuickStart}
+            </button>
+            <p className="text-[10px] text-primary/30">{t.wizardWelcomeQuickNote}</p>
+          </div>
+        </motion.div>
+      </div>
+    )
+  }
+
   return (
-    <Card variant="elevated" className="p-6">
+    <div className="relative" ref={scrollRef}>
+      {/* Step watermark (#17) */}
+      <div className="absolute -top-2 -right-2 text-[72px] leading-none opacity-[0.04] pointer-events-none select-none">
+        {t.wizardStepWatermarks?.[step] || ''}
+      </div>
+
+      {/* Step header */}
       <div className="flex items-center justify-between text-xs text-primary/60">
-        <span className="text-sm text-primary/70">{steps[step].title}</span>
+        <span className="text-sm font-medium text-primary/80">
+          {steps[step].title}
+          <StepCelebration show={celebrateStep === step - 1} />
+        </span>
+        {/* Restart link (#19) */}
+        <button type="button" onClick={handleRestart} className="text-[10px] text-primary/30 hover:text-primary/60 transition">{t.wizardRestart}</button>
       </div>
-      <p className="mt-2 text-sm text-primary/70">{t.wizardStepHelpers[step]}</p>
-      <p className="mt-1 text-xs text-primary/50">{t.wizardTimeNote}</p>
-      {step === steps.length - 1 && (
-        <p className="mt-1 text-xs text-teal">{t.wizardProgressNote}</p>
-      )}
-      <div className="mt-3 flex items-center justify-between">
-        <Badge>
-          {t.wizardProgress} {step + 1} / {stepsCount}
-        </Badge>
-        {remainingText && <span className="text-xs text-primary/70">{remainingText}</span>}
+      <p className="mt-1 text-sm text-primary/60">{t.wizardStepHelpers[step]}</p>
+
+      {/* #6 Progress stepper with step labels on desktop */}
+      <div className="mt-3 flex items-center gap-1">
+        {t.wizardStepTitles.map((title, i) => (
+          <div key={i} className="flex-1">
+            <div className={`h-1.5 rounded-full transition-all duration-500 ${
+              i < step ? 'bg-teal' : i === step ? 'bg-teal' : 'bg-cream/60'
+            }`}>
+              {i === step && (
+                <motion.div layoutId="progress-active" className="h-1.5 rounded-full bg-teal" initial={false}
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }} style={{ width: '100%' }} />
+              )}
+            </div>
+            {/* Step labels — desktop only (#6) */}
+            <p className={`hidden sm:block mt-1 text-[9px] truncate transition-colors ${i === step ? 'text-primary/60 font-medium' : i < step ? 'text-teal/50' : 'text-primary/20'}`}>
+              {title.replace(/^\S+\s/, '')}
+            </p>
+          </div>
+        ))}
       </div>
-      <div className="mt-3 h-2 w-full rounded-full bg-cream/60">
-        <div className="h-2 rounded-full bg-teal transition-all duration-200" style={{ width: `${progress}%` }} />
+      <div className="mt-1 flex items-center justify-between sm:hidden">
+        <span className="text-[10px] text-primary/40">{t.wizardProgress} {step + 1}/{stepsCount}</span>
+        {remainingText && <span className="text-[10px] text-primary/40">{remainingText}</span>}
       </div>
-      <div className="mt-6">{steps[step].content}</div>
-      <div className="mt-6 flex items-center justify-between gap-3">
+
+      {/* Step content with AnimatePresence */}
+      <AnimatePresence mode="wait">
+        <motion.div key={step} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="mt-5">
+          {steps[step].content}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Sticky nav buttons with step context (#18) and animated button (#16) */}
+      <div className="sticky bottom-0 -mx-5 md:-mx-6 mt-6 rounded-b-[24px] border-t border-primary/10 bg-white/95 backdrop-blur-sm px-5 md:px-6 py-4 flex items-center justify-between gap-3 z-10">
         <Button type="button" variant="secondary" size="sm" onClick={back} disabled={step === 0}>
           {t.wizardBack}
         </Button>
+        {/* #18 Step context in center on mobile */}
+        <span className="text-[10px] text-primary/35 sm:hidden">{t.wizardProgress} {step + 1}/{stepsCount}</span>
         {step < steps.length - 1 ? (
-          <Button type="button" variant="primary" size="md" onClick={next} disabled={!canAdvance}>
-            {t.wizardNext}
-          </Button>
+          <motion.div animate={canAdvance ? { scale: [1, 1.05, 1] } : {}} transition={{ duration: 0.4 }}>
+            <Button type="button" variant="primary" size="md" onClick={next}>
+              {/* #16 Visual feedback when ready */}
+              {canAdvance ? `${t.wizardNext} ✓` : t.wizardNext}
+            </Button>
+          </motion.div>
         ) : (
           <div className="flex flex-col items-end gap-2">
-            <Button type="button" variant="primary" size="md" onClick={() => onSubmit(data)} disabled={!canAdvance}>
-              {t.wizardSubmit}
-            </Button>
+            <motion.div animate={canAdvance ? { scale: [1, 1.05, 1] } : {}} transition={{ duration: 0.4 }}>
+              <Button type="button" variant="primary" size="md" onClick={() => { if (!canAdvance) { setTried((prev) => ({ ...prev, [step]: true })); return; } onSubmit(data); }} >
+                {t.wizardSubmit}
+              </Button>
+            </motion.div>
             <p className="text-xs text-primary/60">{t.wizardNextStepNote}</p>
           </div>
         )}
       </div>
-      <p className="mt-3 text-xs text-primary/50">{t.wizardAutosaveNote}</p>
-    </Card>
+    </div>
   )
 }
 
@@ -1216,6 +1471,9 @@ export default function App() {
   const [message, setMessage] = useState('')
   const [copyStatus, setCopyStatus] = useState('')
   const [stepStatus, setStepStatus] = useState('')
+  const [wizardData, setWizardData] = useState(null)
+  const [wizardStep, setWizardStep] = useState({ current: 0, total: 5 })
+  const [resumoOpen, setResumoOpen] = useState(false)
 
   const t = copy[lang]
 
@@ -1252,7 +1510,8 @@ export default function App() {
     await copyToClipboard(built)
   }
 
-  const handleStepChange = () => {
+  const handleStepChange = (currentStep, totalSteps) => {
+    setWizardStep({ current: currentStep ?? 0, total: totalSteps ?? 5 })
     setStepStatus(lang === 'pt' ? 'Continuas depois — guardado ✅' : 'Continue later — saved ✅')
     setTimeout(() => setStepStatus(''), 1600)
   }
@@ -1431,81 +1690,207 @@ export default function App() {
             </Button>
 
             <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 md:py-16 border-t border-primary/10">
-              <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1fr]`}>
-                <Reveal>
-                  <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.formTitle}</h2>
-                  <p className="font-subtitle font-light mt-3 text-primary">{t.formBody}</p>
-                  <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.formHint}</p>
-                  <Card variant="surface" className="mt-6 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-5 md:p-6">
-                    <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} />
-                  </Card>
-                  <Card className="mt-4 p-5 md:p-6">
-                    <p className="text-sm font-semibold">{t.wizardReceiveTitle}</p>
-                    <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                      {t.wizardReceiveItems.map((item) => (
-                        <div key={item} className="rounded-xl border border-primary/10 bg-cream/60 px-3 py-3 text-xs text-primary/70 text-center">
-                          {item}
-                        </div>
-                      ))}
+              {/* #20 Full-width success state replaces wizard after submit */}
+              {message ? (
+                <div className={container}>
+                  <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}
+                    className="max-w-lg mx-auto text-center py-8">
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 15, delay: 0.2 }}
+                      className="text-5xl mb-4">🎉</motion.div>
+                    <h2 className="font-display text-2xl sm:text-3xl text-primary">{t.wizardSuccessTitle}</h2>
+                    <p className="mt-3 text-sm text-primary/70 max-w-md mx-auto">{t.wizardSuccessBody}</p>
+                    <div className="mt-6 rounded-2xl border border-teal/20 bg-teal/5 p-5 text-left">
+                      <p className="text-xs font-semibold text-primary/80 mb-3">{t.wizardSuccessNext}</p>
+                      <div className="space-y-2">
+                        {t.wizardSuccessSteps.map((s, i) => (
+                          <div key={i} className="flex items-center gap-3">
+                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal text-white text-xs font-medium shrink-0">{i + 1}</span>
+                            <span className="text-sm text-primary/70">{s}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
+                    <p className="mt-6 text-xs text-primary/50 mb-3">{t.wizardSuccessCta}</p>
+                    {links && (
+                      <div className="grid gap-2 max-w-xs mx-auto">
+                        <Button as="a" href={links.whatsapp} variant="primary" size="md" className="w-full">{t.whatsapp}</Button>
+                        <Button as="a" href={links.email} variant="secondary" size="sm" className="w-full">{t.email}</Button>
+                        <Button as="a" href={links.instagram} variant="link" className="text-center text-xs"
+                          onClick={async (event) => { if (!message) return; event.preventDefault(); await copyToClipboard(message); window.open(links.instagram, '_blank'); }}>
+                          {t.instagram}
+                        </Button>
+                      </div>
+                    )}
+                  </motion.div>
+                </div>
+              ) : (
+              <div className={`${container} grid gap-8 lg:grid-cols-[1fr_320px] items-start`}>
+                {/* Left: Wizard — #3 full-screen feel on mobile */}
+                <Reveal>
+                  <div className="text-center">
+                    <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.formTitle}</h2>
+                    <p className="font-subtitle font-light mt-3 text-primary">{t.formBody}</p>
+                    <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.formHint}</p>
+                  </div>
+                  {/* #3 On mobile, wizard card gets extra emphasis */}
+                  <Card variant="surface" className="mt-6 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-5 md:p-6 overflow-hidden -mx-5 sm:mx-0 rounded-none sm:rounded-[24px] min-h-[60vh] sm:min-h-0">
+                    <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} onDataChange={setWizardData} onAutosave={() => {}} />
                   </Card>
-                  {stepStatus && <p className="mt-2 text-xs text-teal">{stepStatus}</p>}
+                  <div className="mt-4 grid gap-2 grid-cols-3">
+                    {t.wizardReceiveItems.map((item) => (
+                      <div key={item} className="rounded-xl border border-primary/10 bg-cream/60 px-3 py-3 text-xs text-primary/70 text-center">
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                  {stepStatus && <p className="mt-2 text-xs text-teal text-center">{stepStatus}</p>}
                 </Reveal>
 
-                <Reveal>
-                  <Card variant="elevated" className="p-6">
-                    {message ? (
-                      <div className="space-y-6">
-                        <div>
-                          <p className="text-sm font-semibold">{t.formThankTitle}</p>
-                          <p className="mt-2 text-xs text-primary/60">{t.formThankBody}</p>
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
-                          <p className="text-xs text-primary/60 mt-2">{t.wizardSummaryBody}</p>
-                          <p className="text-xs text-primary/60 mt-2">Copiado</p>
-                          <div className="mt-3 rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-4 min-h-[160px] text-sm text-primary/70 whitespace-pre-wrap">
-                            {message}
-                          </div>
-                        </div>
-                        <p className="text-xs text-primary/60">Se preferires, manda só WhatsApp e nós pedimos o resto depois.</p>
-                        {links && (
-                          <div className="grid gap-3">
-                            <Button as="a" href={links.whatsapp} variant="primary" size="lg" className="w-full">
-                              {t.whatsapp}
-                            </Button>
-                            <p className="btn-helper text-center">Resposta humana em 24–48h úteis.</p>
-                            <Button as="a" href={links.email} variant="secondary">
-                              {t.email}
-                            </Button>
-                            <Button
-                              as="a"
-                              href={links.instagram}
-                              variant="link"
-                              className="text-center"
-                              onClick={async (event) => {
-                                if (!message) return
-                                event.preventDefault()
-                                await copyToClipboard(message)
-                                window.open(links.instagram, '_blank')
-                              }}
-                            >
-                              {t.instagram}
-                            </Button>
+                {/* Right: #4 Humanized Resumo — conversational style with icons */}
+                <Reveal className="hidden lg:block">
+                  <Card variant="elevated" className="p-5 sticky top-24">
+                    <div>
+                      <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
+                      <p className="text-xs text-primary/60 mt-1">{t.wizardSummaryBody}</p>
+                      <div className="mt-3 space-y-2.5">
+                        {wizardData && (wizardData.motivation || wizardData.dateMode || wizardData.meal || wizardData.lodging || wizardData.service || wizardData.email || wizardData.travelerProfiles?.length || wizardData.familyTraveled) ? (
+                          <>
+                            {wizardData.motivation && (
+                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
+                                <span className="text-sm shrink-0">{t.wizardMotivationIcons?.[wizardData.motivation] || '✈️'}</span>
+                                <div>
+                                  <p className="text-[11px] text-primary/40">{t.messageLabels.motivation}</p>
+                                  <p className="text-xs text-primary/80 font-medium">{wizardData.motivation}</p>
+                                </div>
+                              </div>
+                            )}
+                            {(wizardData.adults || wizardData.kids?.length > 0) && (
+                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
+                                <span className="text-sm shrink-0">👨‍👩‍👧</span>
+                                <div>
+                                  <p className="text-[11px] text-primary/40">{t.messageLabels.travelers}</p>
+                                  <p className="text-xs text-primary/80 font-medium">{formatTravelers(lang, wizardData)}</p>
+                                </div>
+                              </div>
+                            )}
+                            {wizardData.dateMode && (
+                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
+                                <span className="text-sm shrink-0">📅</span>
+                                <div>
+                                  <p className="text-[11px] text-primary/40">{t.messageLabels.dates}</p>
+                                  <p className="text-xs text-primary/80 font-medium">{formatDates(lang, wizardData)}</p>
+                                </div>
+                              </div>
+                            )}
+                            {(wizardData.attraction || wizardData.lodging || wizardData.meal) && (
+                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
+                                <span className="text-sm shrink-0">🏨</span>
+                                <div>
+                                  <p className="text-[11px] text-primary/40">{t.wizardSummarySections.lodging}</p>
+                                  <p className="text-xs text-primary/80 font-medium">
+                                    {[wizardData.attraction, wizardData.lodging, wizardData.meal].filter(Boolean).join(' · ')}
+                                  </p>
+                                </div>
+                              </div>
+                            )}
+                            {wizardData.service && (
+                              <div className="flex items-start gap-2 rounded-xl bg-teal/8 px-3 py-2">
+                                <span className="text-sm shrink-0">🎯</span>
+                                <div>
+                                  <p className="text-[11px] text-primary/40">{t.messageLabels.service}</p>
+                                  <p className="text-xs text-primary/80 font-medium">{wizardData.service}</p>
+                                </div>
+                              </div>
+                            )}
+                            {wizardData.travelerProfiles?.filter((p) => p.profile).length > 0 && (
+                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
+                                <span className="text-sm shrink-0">👤</span>
+                                <div>
+                                  <p className="text-[11px] text-primary/40">{t.wizardSummarySections.profiles}</p>
+                                  {wizardData.travelerProfiles.filter((p) => p.profile).map((p, i) => (
+                                    <p key={i} className="text-xs text-primary/70">{p.role === 'adult' ? `A${p.index + 1}` : `C${p.index + 1}`}: {p.profile}</p>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {wizardData.email && (
+                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
+                                <span className="text-sm shrink-0">📧</span>
+                                <div>
+                                  <p className="text-[11px] text-primary/40">{t.messageLabels.email}</p>
+                                  <p className="text-xs text-primary/80 font-medium">{wizardData.email}</p>
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="rounded-2xl border border-dashed border-primary/15 bg-cream/30 p-4 text-center">
+                            <p className="text-xs text-primary/35">{lang === 'pt' ? 'As tuas respostas aparecem aqui...' : 'Your answers will appear here...'}</p>
                           </div>
                         )}
                       </div>
-                    ) : (
-                      <div>
-                        <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
-                        <p className="text-xs text-primary/60 mt-2">{t.wizardSummaryBody}</p>
-                        <div className="mt-4 rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-4 min-h-[160px] whitespace-pre-wrap text-sm text-primary/70">
-                          {lang === 'pt' ? 'Preenche o questionário para gerar a mensagem.' : 'Complete the questionnaire to generate the message.'}
-                        </div>
-                      </div>
-                    )}
+                    </div>
                   </Card>
                 </Reveal>
+              </div>
+              )}
+
+              {/* Mobile floating Resumo drawer */}
+              <div className="lg:hidden">
+                <button
+                  type="button"
+                  onClick={() => setResumoOpen(!resumoOpen)}
+                  className="fixed bottom-20 right-4 z-50 flex items-center gap-2 rounded-full bg-primary text-white px-4 py-2.5 shadow-lg text-xs font-medium transition-all hover:scale-105"
+                >
+                  📋 {wizardStep.current + 1}/{wizardStep.total}
+                  <span className="hidden sm:inline">— {t.wizardSummaryTitle}</span>
+                </button>
+                <AnimatePresence>
+                  {resumoOpen && (
+                    <>
+                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm" onClick={() => setResumoOpen(false)} />
+                      <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                        className="fixed bottom-0 left-0 right-0 z-50 max-h-[70vh] overflow-y-auto rounded-t-3xl bg-white shadow-[0_-8px_30px_rgba(2,47,89,0.15)] p-5">
+                        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-primary/20" />
+                        <div className="flex items-center justify-between mb-3">
+                          <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
+                          <button type="button" onClick={() => setResumoOpen(false)} className="text-xs text-primary/50 hover:text-primary">✕</button>
+                        </div>
+                        {message ? (
+                          <div className="space-y-4">
+                            <p className="text-xs text-primary/60">{t.formThankBody}</p>
+                            <div className="rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-3 text-xs text-primary/70 whitespace-pre-wrap max-h-[40vh] overflow-y-auto">
+                              {message}
+                            </div>
+                            {links && (
+                              <div className="grid gap-2">
+                                <Button as="a" href={links.whatsapp} variant="primary" size="md" className="w-full">{t.whatsapp}</Button>
+                                <Button as="a" href={links.email} variant="secondary" size="sm">{t.email}</Button>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="rounded-2xl border border-dashed border-primary/20 bg-cream/40 p-3 text-xs text-primary/60 space-y-1.5">
+                            {wizardData && (wizardData.motivation || wizardData.dateMode || wizardData.adults || wizardData.meal || wizardData.lodging || wizardData.service || wizardData.email || wizardData.travelerProfiles?.length || wizardData.familyTraveled) ? (
+                              <>
+                                {wizardData.motivation && <p><span className="text-primary/40">{t.messageLabels.motivation}:</span> {wizardData.motivation}</p>}
+                                {(wizardData.adults || wizardData.kids?.length > 0) && <p><span className="text-primary/40">{t.messageLabels.travelers}:</span> {formatTravelers(lang, wizardData)}</p>}
+                                {wizardData.dateMode && <p><span className="text-primary/40">{t.messageLabels.dates}:</span> {formatDates(lang, wizardData)}</p>}
+                                {wizardData.meal && <p><span className="text-primary/40">{t.messageLabels.meal}:</span> {wizardData.meal}</p>}
+                                {wizardData.lodging && <p><span className="text-primary/40">{t.messageLabels.lodging}:</span> {wizardData.lodging}</p>}
+                                {wizardData.service && <p><span className="text-primary/40">{t.messageLabels.service}:</span> {wizardData.service}</p>}
+                                {wizardData.email && <p><span className="text-primary/40">{t.messageLabels.email}:</span> {wizardData.email}</p>}
+                                {wizardData.familyTraveled && <p><span className="text-primary/40">{t.messageLabels.familyTraveled}:</span> {wizardData.familyTraveled}</p>}
+                              </>
+                            ) : (
+                              <p className="text-primary/40">{lang === 'pt' ? 'As tuas respostas aparecem aqui...' : 'Your answers will appear here...'}</p>
+                            )}
+                          </div>
+                        )}
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
               </div>
             </section>
 
