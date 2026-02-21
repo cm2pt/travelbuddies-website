@@ -29,15 +29,15 @@ const copy = {
     navLinks: [
       { href: '#como-funciona', label: 'Como funciona' },
       { href: '#services', label: 'Serviços' },
-      { href: '#diagnostico', label: 'Diagnóstico' },
+      { href: '#questionario', label: 'Questionário' },
     ],
     homeNav: 'Início',
     productsNav: 'Produtos',
     heroTag: 'TravelBuddies | Viagens em Família',
     heroTitle: 'Viagens com crianças e bebés que funcionam na vida real',
-    heroBody: 'Planeamento leve para pais cansados.',
+    heroBody: 'Férias de Verão? Os melhores voos para famílias esgotam em Fevereiro.',
     heroCtaNote: '2–3 minutos · sem compromisso',
-    primaryCta: 'Começar diagnóstico',
+    primaryCta: 'Começar questionário',
     heroCtaPrompt: 'Se estás cansada(o) de decidir, começa aqui.',
     qualifyTitle: 'Isto é para ti se…',
     qualifyItems: [
@@ -48,8 +48,14 @@ const copy = {
       { title: 'Isto não é para ti', text: 'Se queres viagens maratona.' },
     ],
     servicesTitle: 'Serviços TravelBuddies',
-    servicesBody: 'Escolha simples, com calma.',
+    servicesBody: 'Uma viagem mal planeada com crianças tem um custo alto em stress, e memórias que ficam por criar.',
     servicesFreeLine: 'Orçamento e marcação de viagem (gratuito)',
+    servicesTravelPlanner: '🎁 Com qualquer serviço, recebes um Travel Planner em PDF para acompanhar o roteiro da tua família.',
+    servicesContextualNote: 'Quando marcares a tua viagem, recebe o Travel Planner para acompanhar o roteiro.',
+    baseDiscount: 'Metade do preço (30€) se usares o nosso serviço de marcação gratuito.',
+    premiumBundleTitle: 'Oferta especial Premium:',
+    premiumBundleA: 'Travel Buddy ou Boné por apenas +12,50€',
+    premiumBundleB: '15% de desconto em t-shirts de família',
     baseTitle: 'Organização Base',
     premiumTitle: 'Premium',
     premiumBadge: 'Menos decisões',
@@ -61,7 +67,7 @@ const copy = {
     premiumWhen:
       '👉 Ideal para viagens longas, destinos complexos ou quando queres zero stress.',
     baseDetailedList: [
-      'Diagnóstico dos perfis da família (na TravelBuddies identificamos 4 tipos de perfis)',
+      'Perfil da família (na TravelBuddies identificamos 4 tipos de perfis)',
       'Roteiro adaptado aos perfis da família (destino, ritmo, tipo de viagem)',
       'Sugestão de voos e alojamento adequados a crianças (com opção de marcação)',
       'Ajuda na preparação das malas',
@@ -79,7 +85,7 @@ const copy = {
     premiumBenefits: ['Planeamento por dias', 'Experiências alinhadas', 'Apoio antes e durante'],
     pricingNote: 'Valores variam consoante duração e complexidade.',
     baseIncludes: [
-      'Diagnóstico TravelBuddies da família',
+      'Perfil TravelBuddies da família',
       'Roteiro adaptado aos perfis (destino, ritmo, tipo)',
       'Sugestão de voos e alojamento (com possibilidade de marcação)',
       'Checklist burocracias (documentos, saúde, etc.)',
@@ -93,7 +99,7 @@ const copy = {
     ],
     howTitle: 'Como funciona',
     howSteps: [
-      { title: 'Diagnóstico curto', text: 'Ouvimos a vossa família.' },
+      { title: 'Questionário curto', text: 'Ouvimos a vossa família.' },
       { title: 'Desenhamos e alinhamos', text: 'Ajustamos juntos, com calma.' },
       { title: 'Viajas com confiança', text: 'Estamos por perto.' },
     ],
@@ -109,11 +115,11 @@ const copy = {
     baseBadge: 'Mais pedido',
     serviceCta: 'Escolher este plano',
     serviceCtaFree: 'Pedir orçamento',
-    basePrice: 'A partir de 60€',
+    basePrice: 'A partir de 60€ (ou 30€ com marcação)',
     premiumPrice: 'A partir de 130€',
     faqTitle: 'Dúvidas frequentes',
     faqItems: [
-      { q: 'Quanto tempo demora a receber a proposta?', a: 'Normalmente 2–3 dias úteis após o diagnóstico.' },
+      { q: 'Quanto tempo demora a receber a proposta?', a: 'Normalmente 2–3 dias úteis após o questionário.' },
       { q: 'Posso alterar o plano depois de contratar?', a: 'Sim, ajustamos juntos até estar perfeito.' },
       { q: 'O orçamento gratuito tem algum compromisso?', a: 'Nenhum. É totalmente gratuito e sem obrigação.' },
       { q: 'Viajam convosco?', a: 'Não viajamos fisicamente, mas estamos sempre disponíveis durante a viagem.' },
@@ -124,9 +130,9 @@ const copy = {
     dividerServices: '~ escolhe o teu plano ~',
     footerNav: [
       { href: '#services', label: 'Serviços' },
-      { href: '#diagnostico', label: 'Diagnóstico' },
+      { href: '#questionario', label: 'Questionário' },
     ],
-    footerTagline: 'Planeamento leve para pais cansados.',
+    footerTagline: 'Viagens com crianças que funcionam na vida real.',
     footerCopyright: '© 2025 TravelBuddies. Todos os direitos reservados.',
     trustCaptions: ['Praia com os miúdos', 'Explorar juntos', 'Momentos reais'],
     trustTitle: 'Confiança e calma',
@@ -136,7 +142,7 @@ const copy = {
       { title: 'Presença humana', text: 'Acompanhamento próximo.' },
     ],
     trustLine: 'Somos uma família que viaja com crianças e conhece os desafios.',
-    formTitle: 'Diagnóstico TravelBuddies',
+    formTitle: 'Questionário TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
     formHint: '2–3 minutos · sem compromisso',
     wizardWelcomeTitle: 'Olá! 👋',
@@ -197,7 +203,6 @@ const copy = {
         'Hotel': 'Hotel com tudo pensado para os mais pequenos. 👌',
         'Apartamento': 'Mais espaço e flexibilidade para a família. 🏠',
         'Resort': 'Tudo incluído, zero stress. ✨',
-        'Casa de Locais': 'Viver como local — experiência autêntica! 🏡',
       },
     },
     wizardSeasons: ['Primavera', 'Verão', 'Outono', 'Inverno', 'Qualquer altura'],
@@ -284,7 +289,7 @@ const copy = {
         'Other',
       ],
       meal: ['Tudo incluído', 'Meia - Pensão', 'Pequeno-almoço', 'Sem refeições incluídas', 'Ainda não sei'],
-      lodging: ['Hotel', 'Apartamento', 'Resort', 'Casa de Locais', 'Não tenho preferência'],
+      lodging: ['Hotel', 'Apartamento', 'Resort', 'Não tenho preferência'],
       lodgingValues: [
         'Localização',
         'Preço',
@@ -352,21 +357,21 @@ const copy = {
     footerTitle: 'TravelBuddies',
     footerBody: 'Estamos aqui para ajudar a tua família.',
     footerSmall: 'Com carinho, TravelBuddies.',
-    messageTitle: 'Pedido de Diagnóstico TravelBuddies',
+    messageTitle: 'Pedido de Questionário TravelBuddies',
   },
   en: {
     navLinks: [
       { href: '#como-funciona', label: 'How it works' },
       { href: '#services', label: 'Services' },
-      { href: '#diagnosis', label: 'Diagnosis' },
+      { href: '#questionnaire', label: 'Questionnaire' },
     ],
     homeNav: 'Home',
     productsNav: 'Produtos',
     heroTag: 'TravelBuddies | Family Trip Design',
     heroTitle: 'Family travel with kids/babies — real life.',
-    heroBody: 'Light planning for busy parents.',
+    heroBody: 'Summer holidays? The best family flights sell out by February.',
     heroCtaNote: '2–3 minutes · no commitment',
-    primaryCta: 'Começar diagnóstico',
+    primaryCta: 'Começar questionário',
     heroCtaPrompt: 'If you are tired of deciding, start here.',
     qualifyTitle: 'This is for you if…',
     qualifyItems: [
@@ -377,8 +382,14 @@ const copy = {
       { title: 'This is not for you', text: 'If you want marathon trips.' },
     ],
     servicesTitle: 'TravelBuddies Services',
-    servicesBody: 'A simple, calm choice.',
+    servicesBody: 'A poorly planned trip with kids has a high cost in stress, and memories that never get made.',
     servicesFreeLine: 'Orçamento e marcação de viagem (gratuito)',
+    servicesTravelPlanner: '🎁 With any service, you receive a Travel Planner PDF to accompany your family\'s itinerary.',
+    servicesContextualNote: 'When you book your trip, receive the Travel Planner to follow the itinerary.',
+    baseDiscount: 'Half price (30€) when using our free booking service.',
+    premiumBundleTitle: 'Premium special offer:',
+    premiumBundleA: 'Travel Buddy or Cap for only +€12.50',
+    premiumBundleB: '15% discount on family t-shirts',
     baseTitle: 'Base Plan',
     premiumTitle: 'Premium',
     premiumBadge: 'Less decisions',
@@ -388,7 +399,7 @@ const copy = {
     baseWhen: '👉 Ideal when you have a destination but don\'t know where to start planning.',
     premiumWhen: '👉 Ideal for longer trips, complex destinations, or when you want zero stress.',
     baseDetailedList: [
-      'Family profile diagnosis (TravelBuddies maps 4 profile types)',
+      'Family profile assessment (TravelBuddies maps 4 profile types)',
       'Itinerary adapted to family profiles (destination, pace, trip style)',
       'Flight and child-friendly lodging suggestions (with booking option)',
       'Packing support',
@@ -406,7 +417,7 @@ const copy = {
     premiumBenefits: ['Day-by-day plan', 'Aligned experiences', 'Support before and during'],
     pricingNote: 'Prices vary by duration and complexity.',
     baseIncludes: [
-      'TravelBuddies family diagnosis',
+      'TravelBuddies family profile',
       'Itinerary adapted to profiles (destination, pace, style)',
       'Flight and lodging suggestions (with booking option)',
       'Bureaucracy checklist (docs, health, etc.)',
@@ -420,7 +431,7 @@ const copy = {
     ],
     howTitle: 'How it works',
     howSteps: [
-      { title: 'Short diagnosis', text: 'We listen to your family.' },
+      { title: 'Quick questionnaire', text: 'We listen to your family.' },
       { title: 'Design and align', text: 'We adjust together, calmly.' },
       { title: 'Travel with confidence', text: 'We stay close.' },
     ],
@@ -436,11 +447,11 @@ const copy = {
     baseBadge: 'Most popular',
     serviceCta: 'Choose this plan',
     serviceCtaFree: 'Get a quote',
-    basePrice: 'From 60€',
+    basePrice: 'From 60€ (or 30€ with booking)',
     premiumPrice: 'From 130€',
     faqTitle: 'Frequently asked questions',
     faqItems: [
-      { q: 'How long until I receive a proposal?', a: 'Usually 2–3 business days after the diagnosis.' },
+      { q: 'How long until I receive a proposal?', a: 'Usually 2–3 business days after the questionnaire.' },
       { q: 'Can I change the plan after hiring?', a: 'Yes, we adjust together until it\'s perfect.' },
       { q: 'Does the free quote involve any commitment?', a: 'None at all. It\'s completely free and non-binding.' },
       { q: 'Do you travel with us?', a: 'We don\'t travel physically, but we\'re always available during the trip.' },
@@ -451,9 +462,9 @@ const copy = {
     dividerServices: '~ choose your plan ~',
     footerNav: [
       { href: '#services', label: 'Services' },
-      { href: '#diagnosis', label: 'Diagnosis' },
+      { href: '#questionnaire', label: 'Questionnaire' },
     ],
-    footerTagline: 'Light planning for busy parents.',
+    footerTagline: 'Family travel with kids that works in real life.',
     footerCopyright: '© 2025 TravelBuddies. All rights reserved.',
     trustCaptions: ['Beach with the kids', 'Exploring together', 'Real moments'],
     trustTitle: 'Trust and calm',
@@ -463,7 +474,7 @@ const copy = {
       { title: 'Human presence', text: 'Close support.' },
     ],
     trustLine: 'We are a family that travels with kids and knows the challenges.',
-    formTitle: 'TravelBuddies Diagnosis',
+    formTitle: 'TravelBuddies Questionnaire',
     formBody: 'Share the essentials. We simplify.',
     formHint: '2–3 minutes · no commitment',
     wizardWelcomeTitle: 'Hello! 👋',
@@ -524,7 +535,6 @@ const copy = {
         'Hotel': 'Hotel with everything planned for the little ones. 👌',
         'Apartment': 'More space and flexibility for the family. 🏠',
         'Resort': 'All inclusive, zero stress. ✨',
-        'Local home': 'Live like a local — authentic experience! 🏡',
       },
     },
     wizardSeasons: ['Spring', 'Summer', 'Autumn', 'Winter', 'Anytime'],
@@ -611,7 +621,7 @@ const copy = {
         'Other',
       ],
       meal: ['All inclusive', 'Half-board', 'Breakfast', 'No meals included', 'Not sure yet'],
-      lodging: ['Hotel', 'Apartment', 'Resort', 'Local home', 'No preference'],
+      lodging: ['Hotel', 'Apartment', 'Resort', 'No preference'],
       lodgingValues: [
         'Location',
         'Price',
@@ -679,7 +689,7 @@ const copy = {
     footerTitle: 'TravelBuddies',
     footerBody: 'We are here to help your family.',
     footerSmall: 'With care, TravelBuddies.',
-    messageTitle: 'TravelBuddies Diagnosis Request',
+    messageTitle: 'TravelBuddies Questionnaire Request',
   },
 }
 
@@ -1601,7 +1611,7 @@ export default function App() {
   const handleServiceSelect = (serviceId) => {
     setPreselectedService(serviceId)
     setTimeout(() => {
-      document.getElementById(lang === 'pt' ? 'diagnostico' : 'diagnosis')?.scrollIntoView({ behavior: 'smooth' })
+      document.getElementById(lang === 'pt' ? 'questionario' : 'questionnaire')?.scrollIntoView({ behavior: 'smooth' })
     }, 100)
   }
 
@@ -1703,7 +1713,7 @@ export default function App() {
               {route === 'home' ? t.productsNav : 'Home'}
             </Button>
             {route === 'home' && (
-              <Button as="a" href={lang === 'pt' ? '#diagnostico' : '#diagnosis'} variant="secondary" size="sm" className="hidden sm:inline-flex">
+              <Button as="a" href={lang === 'pt' ? '#questionario' : '#questionnaire'} variant="secondary" size="sm" className="hidden sm:inline-flex">
                 {t.primaryCta}
               </Button>
             )}
@@ -1747,7 +1757,7 @@ export default function App() {
                   <p className="font-subtitle font-light mt-3 text-base text-primary text-balance max-w-xl">{t.heroBody}</p>
                   <div className="mt-5">
                     <p className="font-subtitle font-light mb-2 text-sm text-primary">{t.heroCtaPrompt}</p>
-                    <Button as="a" href={lang === 'pt' ? '#diagnostico' : '#diagnosis'} variant="primary" size="lg">
+                    <Button as="a" href={lang === 'pt' ? '#questionario' : '#questionnaire'} variant="primary" size="lg">
                       {t.primaryCta}
                     </Button>
                     <p className="font-subtitle font-light mt-2 btn-helper">{t.heroCtaNote}</p>
@@ -1805,55 +1815,22 @@ export default function App() {
               </div>
             </section>
 
-            {/* #1 SERVICES — 3 cards: Base (popular), Premium (elevated), Free */}
+            {/* SERVICES — 3 cards: Free first, Base (popular), Premium (elevated) */}
             <section id="services" className="py-12 md:py-16 bg-white/70 border-t border-primary/10">
               <div className={container}>
                 <SectionDivider text={t.dividerServices} />
                 <Reveal>
                   <h2 className="mt-6 text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.servicesTitle}</h2>
-                  <p className="font-subtitle font-light mt-2 text-primary">{t.servicesBody}</p>
+                  <p className="font-subtitle font-light mt-2 text-primary text-balance">{t.servicesBody}</p>
+                </Reveal>
+                {/* Travel Planner offer banner */}
+                <Reveal>
+                  <div className="mt-6 rounded-2xl border border-teal/20 bg-teal/5 px-4 py-3 text-sm text-primary/80 text-center">
+                    {t.servicesTravelPlanner}
+                  </div>
                 </Reveal>
                 <div className="mt-8 grid gap-5 lg:grid-cols-3">
-                  {/* BASE card — "Mais pedido" */}
-                  <Reveal>
-                    <Card className="relative p-5 md:p-6 flex flex-col h-full">
-                      <span className="absolute -top-2.5 right-4 rounded-full bg-teal text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.baseBadge}</span>
-                      <h3 className="font-display text-2xl text-primary/85 leading-none">{t.baseTitle}</h3>
-                      <p className="mt-2 text-lg font-display text-teal">{t.basePrice}</p>
-                      <p className="mt-3 text-sm text-primary/70">{t.baseOutcome}</p>
-                      <ExpandableList items={t.baseDetailedList} />
-                      <Card variant="muted" className="mt-4 p-3">
-                        <p className="text-xs text-primary/70">{t.baseWhen}</p>
-                      </Card>
-                      <div className="mt-auto pt-4">
-                        <Button type="button" variant="primary" size="md" className="w-full"
-                          onClick={() => handleServiceSelect('Organização de Viagem em família (Plano Base)')}>
-                          {t.serviceCta}
-                        </Button>
-                      </div>
-                    </Card>
-                  </Reveal>
-                  {/* PREMIUM card — gradient + elevated */}
-                  <Reveal>
-                    <Card variant="elevated" className="relative p-5 md:p-6 bg-gradient-to-br from-cream/60 to-tealSoft/20 ring-2 ring-teal/15 flex flex-col h-full">
-                      <span className="absolute -top-2.5 right-4 rounded-full bg-primary text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.premiumBadge}</span>
-                      <h3 className="font-display text-2xl text-primary/85 leading-none">{t.premiumTitle}</h3>
-                      <p className="mt-2 text-lg font-display text-teal">{t.premiumPrice}</p>
-                      <p className="mt-3 text-sm text-primary/70">{t.premiumOutcome}</p>
-                      <Badge className="mt-3">{t.premiumIncludesBase}</Badge>
-                      <ExpandableList items={t.premiumDetailedList} />
-                      <Card variant="muted" className="mt-4 p-3">
-                        <p className="text-xs text-primary/70">{t.premiumWhen}</p>
-                      </Card>
-                      <div className="mt-auto pt-4">
-                        <Button type="button" variant="primary" size="md" className="w-full"
-                          onClick={() => handleServiceSelect('Organização de Viagem em família (Premium)')}>
-                          {t.serviceCta}
-                        </Button>
-                      </div>
-                    </Card>
-                  </Reveal>
-                  {/* FREE card */}
+                  {/* FREE card — first */}
                   <Reveal>
                     <Card className="relative p-5 md:p-6 bg-tealSoft/10 flex flex-col h-full">
                       <span className="absolute -top-2.5 right-4 rounded-full bg-teal/80 text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.freeTag}</span>
@@ -1868,10 +1845,61 @@ export default function App() {
                       <Card variant="muted" className="mt-4 p-3">
                         <p className="text-xs text-primary/70">{t.freeWhen}</p>
                       </Card>
+                      <div className="mt-3 rounded-xl bg-cream/50 px-3 py-2 text-xs text-primary/60 text-center">
+                        {t.servicesContextualNote}
+                      </div>
                       <div className="mt-auto pt-4">
                         <Button type="button" variant="secondary" size="md" className="w-full"
                           onClick={() => handleServiceSelect('Orçamento e marcação de viagem')}>
                           {t.serviceCtaFree}
+                        </Button>
+                      </div>
+                    </Card>
+                  </Reveal>
+                  {/* BASE card — "Mais pedido" */}
+                  <Reveal>
+                    <Card className="relative p-5 md:p-6 flex flex-col h-full">
+                      <span className="absolute -top-2.5 right-4 rounded-full bg-teal text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.baseBadge}</span>
+                      <h3 className="font-display text-2xl text-primary/85 leading-none">{t.baseTitle}</h3>
+                      <p className="mt-2 text-lg font-display text-teal">{t.basePrice}</p>
+                      <p className="mt-1 text-[11px] text-teal/70">{t.baseDiscount}</p>
+                      <p className="mt-3 text-sm text-primary/70">{t.baseOutcome}</p>
+                      <ExpandableList items={t.baseDetailedList} />
+                      <Card variant="muted" className="mt-4 p-3">
+                        <p className="text-xs text-primary/70">{t.baseWhen}</p>
+                      </Card>
+                      <div className="mt-auto pt-4">
+                        <Button type="button" variant="primary" size="md" className="w-full"
+                          onClick={() => handleServiceSelect('Organização de Viagem em família (Plano Base)')}>
+                          {t.serviceCta}
+                        </Button>
+                      </div>
+                    </Card>
+                  </Reveal>
+                  {/* PREMIUM card — gradient + elevated + bundles */}
+                  <Reveal>
+                    <Card variant="elevated" className="relative p-5 md:p-6 bg-gradient-to-br from-cream/60 to-tealSoft/20 ring-2 ring-teal/15 flex flex-col h-full">
+                      <span className="absolute -top-2.5 right-4 rounded-full bg-primary text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.premiumBadge}</span>
+                      <h3 className="font-display text-2xl text-primary/85 leading-none">{t.premiumTitle}</h3>
+                      <p className="mt-2 text-lg font-display text-teal">{t.premiumPrice}</p>
+                      <p className="mt-3 text-sm text-primary/70">{t.premiumOutcome}</p>
+                      <Badge className="mt-3">{t.premiumIncludesBase}</Badge>
+                      <ExpandableList items={t.premiumDetailedList} />
+                      <Card variant="muted" className="mt-4 p-3">
+                        <p className="text-xs text-primary/70">{t.premiumWhen}</p>
+                      </Card>
+                      {/* Premium bundles */}
+                      <div className="mt-4 rounded-xl border border-blush/30 bg-blush/5 px-3 py-2.5">
+                        <p className="text-xs font-semibold text-primary/80">{t.premiumBundleTitle}</p>
+                        <ul className="mt-1.5 space-y-1">
+                          <li className="text-xs text-primary/70 flex items-start gap-1.5"><span className="shrink-0">🎁</span>{t.premiumBundleA}</li>
+                          <li className="text-xs text-primary/70 flex items-start gap-1.5"><span className="shrink-0">👕</span>{t.premiumBundleB}</li>
+                        </ul>
+                      </div>
+                      <div className="mt-auto pt-4">
+                        <Button type="button" variant="primary" size="md" className="w-full"
+                          onClick={() => handleServiceSelect('Organização de Viagem em família (Premium)')}>
+                          {t.serviceCta}
                         </Button>
                       </div>
                     </Card>
@@ -1894,11 +1922,11 @@ export default function App() {
             </section>
 
             {/* #17 Sticky mobile CTA */}
-            <Button as="a" href={lang === 'pt' ? '#diagnostico' : '#diagnosis'} variant="primary" size="lg" className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 sm:hidden">
+            <Button as="a" href={lang === 'pt' ? '#questionario' : '#questionnaire'} variant="primary" size="lg" className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 sm:hidden">
               {t.primaryCta}
             </Button>
 
-            <section id={lang === 'pt' ? 'diagnostico' : 'diagnosis'} className="py-12 md:py-16 border-t border-primary/10">
+            <section id={lang === 'pt' ? 'questionario' : 'questionnaire'} className="py-12 md:py-16 border-t border-primary/10">
               {/* #20 Full-width success state replaces wizard after submit */}
               {message ? (
                 <div className={container}>
