@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 import ProductsPage from './components/ProductsPage'
 import Button from './components/ui/Button'
@@ -889,7 +889,7 @@ const PillSelect = ({ options, value, onChange, multi = false, columns = 2, icon
       <div className={gridClass}>
         {options.map((opt) => (
           <button key={opt} type="button" onClick={() => handleClick(opt)}
-            className={`rounded-xl border px-3 py-2.5 text-left text-sm transition-all duration-150 flex items-center gap-2 ${
+            className={`rounded-xl border px-3 py-3.5 text-left text-sm transition-all duration-150 flex items-center gap-2 min-h-[44px] ${
               isSelected(opt)
                 ? 'border-teal bg-teal/10 text-primary font-medium shadow-sm ring-1 ring-teal/30'
                 : 'border-primary/10 bg-white/80 text-primary/70 hover:border-primary/25 hover:bg-cream/40'
@@ -919,7 +919,7 @@ const WhyTooltip = ({ text }) => {
   return (
     <span className="inline-flex flex-col">
       <button type="button" onClick={() => setOpen(!open)}
-        className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-primary/8 px-2 py-0.5 text-[10px] text-primary/50 hover:bg-primary/15 transition">
+        className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-primary/8 px-2.5 py-1 text-[11px] text-primary/50 hover:bg-primary/15 transition min-h-[32px]">
         {open ? '✕' : '?'} <span className="hidden sm:inline">{open ? '' : 'porquê'}</span>
       </button>
       <AnimatePresence>
@@ -946,14 +946,14 @@ const ServiceCard = ({ card, selected, onSelect, popularLabel, isSecondary }) =>
     }`}
   >
     {popularLabel && (
-      <span className="absolute -top-2.5 right-3 rounded-full bg-teal text-white px-2.5 py-0.5 text-[10px] font-medium shadow-sm">{popularLabel}</span>
+      <span className="absolute -top-2.5 right-3 rounded-full bg-teal text-white px-2.5 py-0.5 text-[11px] font-medium shadow-sm">{popularLabel}</span>
     )}
     <div className="flex items-start justify-between gap-2">
       <div className="flex items-center gap-2">
-        <span className={`text-[11px] shrink-0 ${selected ? 'text-teal' : 'text-primary/25'}`}>{selected ? '●' : '○'}</span>
+        <span className={`text-xs shrink-0 ${selected ? 'text-teal' : 'text-primary/25'}`}>{selected ? '●' : '○'}</span>
         <p className="font-display text-base leading-tight text-primary">{card.title}</p>
       </div>
-      {card.tag && <span className="shrink-0 rounded-full bg-primary/8 px-2 py-0.5 text-[10px] text-primary/70">{card.tag}</span>}
+      {card.tag && <span className="shrink-0 rounded-full bg-primary/8 px-2.5 py-0.5 text-[11px] text-primary/70">{card.tag}</span>}
     </div>
     <p className="mt-1.5 ml-5 text-xs text-primary/60">{card.desc}</p>
   </button>
@@ -963,7 +963,7 @@ const FAQItem = ({ q, a }) => {
   const [open, setOpen] = useState(false)
   return (
     <div className="border-b border-primary/10">
-      <button type="button" onClick={() => setOpen(!open)}
+      <button type="button" onClick={() => { haptic(); setOpen(!open) }}
         className="w-full flex items-center justify-between py-4 text-left text-sm font-medium text-primary hover:text-primary/80 transition">
         <span>{q}</span>
         <motion.span animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.2 }} className="text-primary/40 text-lg shrink-0 ml-3">+</motion.span>
@@ -1050,7 +1050,7 @@ const TripSimulator = ({ t }) => {
         <p className="mt-1 text-lg font-display text-primary">{suggestion.tier}</p>
         <p className="text-sm text-teal font-medium">{t.simulatorBasePrice.replace('{price}', String(suggestion.price))}</p>
       </div>
-      <p className="text-[10px] text-primary/35 text-center">{t.simulatorNote}</p>
+      <p className="text-[11px] text-primary/35 text-center">{t.simulatorNote}</p>
     </div>
   )
 }
@@ -1062,13 +1062,13 @@ const NumberStepper = ({ value, onChange, min = 0, max = 6, label }) => {
       <span className="text-sm text-primary/80">{label}</span>
       <div className="flex items-center gap-3">
         <button type="button" onClick={() => handleChange(Math.max(min, value - 1))} disabled={value <= min}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/15 text-primary/60 transition hover:bg-cream/40 disabled:opacity-30 disabled:cursor-not-allowed">
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-primary/15 text-primary/60 text-lg transition hover:bg-cream/40 disabled:opacity-30 disabled:cursor-not-allowed">
           −
         </button>
         <motion.span key={value} initial={{ scale: 1.3, opacity: 0.5 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-          className="w-5 text-center text-sm font-medium text-primary">{value}</motion.span>
+          className="w-6 text-center text-base font-medium text-primary">{value}</motion.span>
         <button type="button" onClick={() => handleChange(Math.min(max, value + 1))} disabled={value >= max}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/15 text-primary/60 transition hover:bg-cream/40 disabled:opacity-30 disabled:cursor-not-allowed">
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-primary/15 text-primary/60 text-lg transition hover:bg-cream/40 disabled:opacity-30 disabled:cursor-not-allowed">
           +
         </button>
       </div>
@@ -1378,12 +1378,12 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
               {data.dateMode === 'range' && (
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] text-primary/50">{t.wizardQuestions.dateFrom}</span>
+                    <span className="text-[11px] text-primary/50">{t.wizardQuestions.dateFrom}</span>
                     <input type="month" name="dateFrom" value={data.dateFrom} onChange={handleChange}
                       className="font-body w-full rounded-xl border border-primary/15 bg-white px-3 py-2.5 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2" />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] text-primary/50">{t.wizardQuestions.dateTo}</span>
+                    <span className="text-[11px] text-primary/50">{t.wizardQuestions.dateTo}</span>
                     <input type="month" name="dateTo" value={data.dateTo || ''} onChange={handleChange}
                       className="font-body w-full rounded-xl border border-primary/15 bg-white px-3 py-2.5 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2" />
                   </div>
@@ -1494,7 +1494,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
                   <button type="button" onClick={() => { if (saveEmail.includes('@')) { setPill('email', saveEmail); setShowSavePrompt(false) } }}
                     className="shrink-0 rounded-xl bg-teal text-white px-3 py-2 text-xs font-medium hover:bg-teal/90 transition">{t.wizardSaveEmailBtn}</button>
                 </div>
-                <button type="button" onClick={() => setShowSavePrompt(false)} className="mt-1.5 text-[10px] text-primary/40 hover:text-primary/60">✕ {isPT ? 'Não, obrigado' : 'No thanks'}</button>
+                <button type="button" onClick={() => setShowSavePrompt(false)} className="mt-1.5 text-[11px] text-primary/40 hover:text-primary/60">✕ {isPT ? 'Não, obrigado' : 'No thanks'}</button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -1597,34 +1597,37 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
           <h3 className="font-display text-2xl text-primary">{t.wizardWelcomeTitle}</h3>
           <p className="mt-2 text-sm text-primary/70">{t.wizardWelcomeBody}</p>
           <p className="mt-1 text-xs text-primary/50">{t.wizardWelcomeNote}</p>
-          <p className="mt-2 text-[11px] text-teal/80 font-medium">{t.wizardWelcomeSocialProof}</p>
+          <p className="mt-2 text-xs text-teal/80 font-medium">{t.wizardWelcomeSocialProof}</p>
 
           {/* Quick-match mini quiz — 3 taps before entering the full wizard */}
           <div className="mt-5 text-left space-y-3">
             <p className="text-xs font-medium text-primary/60 text-center">{isPT ? 'Começa por aqui:' : 'Start here:'}</p>
             <div>
               <p className="text-xs text-primary/50 mb-1.5">{isPT ? 'O que vos atrai mais?' : 'What attracts you most?'}</p>
-              <div className="grid grid-cols-3 gap-1.5">
-                {(isPT ? ['Praia', 'Cidade', 'Natureza'] : ['Beach', 'City', 'Nature']).map((opt) => (
-                  <button key={opt} type="button" onClick={() => setPill('attraction', data.attraction === opt ? '' : opt)}
-                    className={`rounded-lg border px-2 py-2 text-xs transition ${data.attraction === opt ? 'border-teal bg-teal/10 text-primary font-medium' : 'border-primary/10 bg-white/80 text-primary/60 hover:border-primary/20'}`}>
+              <div className="grid grid-cols-3 gap-2">
+                {(isPT ? ['🏖️ Praia', '🏙️ Cidade', '🌿 Natureza'] : ['🏖️ Beach', '🏙️ City', '🌿 Nature']).map((opt) => {
+                  const val = opt.replace(/^.+\s/, '')
+                  return (
+                  <button key={opt} type="button" onClick={() => { haptic(); setPill('attraction', data.attraction === val ? '' : val) }}
+                    className={`rounded-xl border px-2 py-3 text-sm min-h-[44px] transition ${data.attraction === val ? 'border-teal bg-teal/10 text-primary font-medium' : 'border-primary/10 bg-white/80 text-primary/60 hover:border-primary/20'}`}>
                     {opt}
                   </button>
-                ))}
+                )})}
               </div>
             </div>
             <div>
               <p className="text-xs text-primary/50 mb-1.5">{isPT ? 'Quantas crianças?' : 'How many kids?'}</p>
-              <div className="grid grid-cols-4 gap-1.5">
+              <div className="grid grid-cols-4 gap-2">
                 {[1, 2, 3, '4+'].map((n) => {
                   const val = n === '4+' ? 4 : n
                   const isActive = data.kids.length === val
                   return (
                     <button key={n} type="button" onClick={() => {
+                      haptic()
                       const newKids = Array(val).fill('')
                       setData((prev) => ({ ...prev, kids: isActive ? [] : newKids }))
                     }}
-                      className={`rounded-lg border px-2 py-2 text-xs transition ${isActive ? 'border-teal bg-teal/10 text-primary font-medium' : 'border-primary/10 bg-white/80 text-primary/60 hover:border-primary/20'}`}>
+                      className={`rounded-xl border px-2 py-3 text-sm min-h-[44px] transition ${isActive ? 'border-teal bg-teal/10 text-primary font-medium' : 'border-primary/10 bg-white/80 text-primary/60 hover:border-primary/20'}`}>
                       {n}
                     </button>
                   )
@@ -1641,7 +1644,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
               className="text-xs text-primary/50 hover:text-teal transition underline underline-offset-2 decoration-primary/20 hover:decoration-teal/50">
               {t.wizardWelcomeQuickStart}
             </button>
-            <p className="text-[10px] text-primary/30">{t.wizardWelcomeQuickNote}</p>
+            <p className="text-[11px] text-primary/30">{t.wizardWelcomeQuickNote}</p>
           </div>
         </motion.div>
       </div>
@@ -1662,7 +1665,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
           <StepCelebration show={celebrateStep === step - 1} />
         </span>
         {/* Restart link (#19) */}
-        <button type="button" onClick={handleRestart} className="text-[10px] text-primary/30 hover:text-primary/60 transition">{t.wizardRestart}</button>
+        <button type="button" onClick={handleRestart} className="text-[11px] text-primary/30 hover:text-primary/60 transition">{t.wizardRestart}</button>
       </div>
       <p className="mt-1 text-sm text-primary/60">{t.wizardStepHelpers[step]}</p>
 
@@ -1679,15 +1682,15 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
               )}
             </div>
             {/* Step labels — desktop only (#6) */}
-            <p className={`hidden sm:block mt-1 text-[9px] truncate transition-colors ${i === step ? 'text-primary/60 font-medium' : i < step ? 'text-teal/50' : 'text-primary/20'}`}>
+            <p className={`hidden sm:block mt-1 text-[11px] truncate transition-colors ${i === step ? 'text-primary/60 font-medium' : i < step ? 'text-teal/50' : 'text-primary/20'}`}>
               {title.replace(/^\S+\s/, '')}
             </p>
           </div>
         ))}
       </div>
       <div className="mt-1 flex items-center justify-between sm:hidden">
-        <span className="text-[10px] text-primary/40">{t.wizardProgress} {step + 1}/{stepsCount}</span>
-        {remainingText && <span className="text-[10px] text-primary/40">{remainingText}</span>}
+        <span className="text-[11px] text-primary/40">{t.wizardProgress} {step + 1}/{stepsCount}</span>
+        {remainingText && <span className="text-[11px] text-primary/40">{remainingText}</span>}
       </div>
 
       {/* Plan confirmation banner — shows when a service was pre-selected from cards */}
@@ -1700,7 +1703,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
             }</span>
           </p>
           <button type="button" onClick={() => { setData((prev) => ({ ...prev, service: '' })); /* Clear but don't reset preselected */ }}
-            className="text-[10px] text-primary/40 hover:text-primary/70 transition shrink-0">{isPT ? 'alterar' : 'change'}</button>
+            className="text-[11px] text-primary/40 hover:text-primary/70 transition shrink-0 min-h-[32px]">{isPT ? 'alterar' : 'change'}</button>
         </motion.div>
       )}
 
@@ -1712,12 +1715,12 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
       </AnimatePresence>
 
       {/* Sticky nav buttons with step context (#18) and animated button (#16) */}
-      <div className="sticky bottom-0 -mx-5 md:-mx-6 mt-6 rounded-b-[24px] border-t border-primary/10 bg-white/95 backdrop-blur-sm px-5 md:px-6 py-4 flex items-center justify-between gap-3 z-10">
+      <div className="sticky bottom-0 -mx-5 md:-mx-6 mt-6 rounded-b-[24px] border-t border-primary/10 bg-white/95 backdrop-blur-sm px-5 md:px-6 py-5 flex items-center justify-between gap-3 z-40">
         <Button type="button" variant="secondary" size="sm" onClick={back} disabled={step === 0}>
           {t.wizardBack}
         </Button>
         {/* #18 Step context in center on mobile */}
-        <span className="text-[10px] text-primary/35 sm:hidden">{t.wizardProgress} {step + 1}/{stepsCount}</span>
+        <span className="text-[11px] text-primary/35 sm:hidden">{t.wizardProgress} {step + 1}/{stepsCount}</span>
         {step < steps.length - 1 ? (
           <motion.div animate={canAdvance ? { scale: [1, 1.05, 1] } : {}} transition={{ duration: 0.4 }}>
             <Button type="button" variant="primary" size="md" onClick={next}>
@@ -1756,7 +1759,24 @@ export default function App() {
   const [wizardData, setWizardData] = useState(null)
   const [wizardStep, setWizardStep] = useState({ current: 0, total: 5 })
   const [resumoOpen, setResumoOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [preselectedService, setPreselectedService] = useState('')
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  /* Scroll progress tracking */
+  useEffect(() => {
+    const handleScroll = () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight
+      if (h > 0) setScrollProgress(Math.min(1, window.scrollY / h))
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  /* Hero parallax */
+  const heroRef = useRef(null)
+  const { scrollYProgress: heroScrollProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
+  const heroParallaxY = useTransform(heroScrollProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 40])
 
   const t = copy[lang]
 
@@ -1821,15 +1841,17 @@ export default function App() {
 
   return (
     <div className="font-body text-primary">
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-primary/10">
-        <div className={`${container} flex items-center justify-between py-4`}>
-          <div className="flex items-center gap-3">
-            <button type="button" onClick={() => navigate('/')} className="h-20 w-20 flex items-center justify-center">
-              <img src={logoBrand} alt="TravelBuddies" className="h-20 w-20 object-contain" />
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-primary/10 relative">
+        {/* Scroll progress bar */}
+        <div className="absolute bottom-0 left-0 h-[2px] bg-teal/60 transition-[width] duration-100" style={{ width: `${scrollProgress * 100}%` }} />
+        <div className={`${container} flex items-center justify-between py-2 sm:py-4`}>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button type="button" onClick={() => navigate('/')} className="h-12 w-12 sm:h-20 sm:w-20 flex items-center justify-center shrink-0">
+              <img src={logoBrand} alt="TravelBuddies" className="h-12 w-12 sm:h-20 sm:w-20 object-contain" />
             </button>
             <div>
-              <p className="font-display text-xl">TravelBuddies</p>
-              <p className="font-subtitle font-light text-sm text-primary">Organizamos Viagens em Família</p>
+              <p className="font-display text-lg sm:text-xl">TravelBuddies</p>
+              <p className="font-subtitle font-light text-xs sm:text-sm text-primary hidden sm:block">Organizamos Viagens em Família</p>
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -1860,40 +1882,89 @@ export default function App() {
               {t.productsNav}
             </a>
           </nav>
-          <div className="flex items-center gap-3">
-            <Button type="button" variant="ghost" size="sm" onClick={() => navigate(route === 'home' ? '/produtos' : '/')} className="md:hidden">
-              {route === 'home' ? t.productsNav : 'Home'}
-            </Button>
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Desktop: full CTA + lang toggles */}
             {route === 'home' && (
               <Button as="a" href={lang === 'pt' ? '#questionario' : '#questionnaire'} variant="secondary" size="sm" className="hidden sm:inline-flex">
                 {t.primaryCta}
               </Button>
             )}
-            <Button
-              type="button"
-              size="sm"
-              variant={lang === 'pt' ? 'primary' : 'ghost'}
-              className={`min-h-[40px] ${
-                lang === 'pt' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
-              }`}
-              onClick={() => setLang('pt')}
-            >
-              PT
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={lang === 'en' ? 'primary' : 'ghost'}
-              className={`min-h-[40px] ${
-                lang === 'en' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
-              }`}
-              onClick={() => setLang('en')}
-            >
-              EN
-            </Button>
+            <div className="hidden sm:flex items-center gap-2">
+              <Button
+                type="button"
+                size="sm"
+                variant={lang === 'pt' ? 'primary' : 'ghost'}
+                className={`min-h-[40px] ${
+                  lang === 'pt' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
+                }`}
+                onClick={() => setLang('pt')}
+              >
+                PT
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant={lang === 'en' ? 'primary' : 'ghost'}
+                className={`min-h-[40px] ${
+                  lang === 'en' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
+                }`}
+                onClick={() => setLang('en')}
+              >
+                EN
+              </Button>
+            </div>
+            {/* Mobile: hamburger button */}
+            <button type="button" onClick={() => setMobileMenuOpen(true)} className="sm:hidden flex items-center justify-center h-11 w-11 rounded-xl border border-primary/10 hover:bg-cream/40 transition" aria-label="Menu">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+            </button>
           </div>
         </div>
       </header>
+
+      {/* Mobile menu bottom sheet */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm sm:hidden" onClick={() => setMobileMenuOpen(false)} />
+            <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              className="fixed bottom-0 left-0 right-0 z-50 rounded-t-3xl bg-white shadow-[0_-8px_30px_rgba(2,47,89,0.15)] p-6 pb-10 sm:hidden">
+              <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-primary/20" />
+              <nav className="space-y-1">
+                {route === 'home' && t.navLinks.map((link) => (
+                  <a key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium text-primary hover:bg-cream/50 transition min-h-[44px]">
+                    {link.label}
+                  </a>
+                ))}
+                <button type="button" onClick={() => { navigate(route === 'home' ? '/produtos' : '/'); setMobileMenuOpen(false) }}
+                  className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium text-primary hover:bg-cream/50 transition w-full text-left min-h-[44px]">
+                  {route === 'home' ? t.productsNav : t.homeNav}
+                </button>
+              </nav>
+              <div className="mt-4 pt-4 border-t border-primary/10 flex items-center justify-between">
+                <span className="text-xs text-primary/40">{lang === 'pt' ? 'Idioma' : 'Language'}</span>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => { setLang('pt'); setMobileMenuOpen(false) }}
+                    className={`rounded-lg px-4 py-2 text-sm font-medium transition min-h-[40px] ${lang === 'pt' ? 'bg-primary text-white' : 'border border-primary/15 text-primary/60'}`}>
+                    PT
+                  </button>
+                  <button type="button" onClick={() => { setLang('en'); setMobileMenuOpen(false) }}
+                    className={`rounded-lg px-4 py-2 text-sm font-medium transition min-h-[40px] ${lang === 'en' ? 'bg-primary text-white' : 'border border-primary/15 text-primary/60'}`}>
+                    EN
+                  </button>
+                </div>
+              </div>
+              {route === 'home' && (
+                <div className="mt-4">
+                  <Button as="a" href={lang === 'pt' ? '#questionario' : '#questionnaire'} variant="primary" size="lg" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                    {t.primaryCta}
+                  </Button>
+                </div>
+              )}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <main>
         {route === 'home' ? (
@@ -1904,10 +1975,19 @@ export default function App() {
             </div>
 
             {/* HERO */}
-            <section className="pt-6 pb-8 sm:pt-10 sm:pb-10 md:py-14">
-              <div className={`${container} grid gap-6 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
+            <section ref={heroRef} className="pt-4 pb-8 sm:pt-10 sm:pb-10 md:py-14">
+              <div className={`${container} grid gap-5 sm:gap-6 lg:grid-cols-[1.1fr_0.9fr] items-center`}>
+                {/* Image first on mobile, second on desktop */}
+                <Reveal immediate className="relative order-first lg:order-last">
+                  <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
+                  <div className="overflow-hidden rounded-2xl sm:rounded-[24px] -mx-5 sm:mx-0 shadow-[0_12px_30px_rgba(2,47,89,0.1)]">
+                    <motion.img src={travel2} alt="Family traveling"
+                      style={{ y: heroParallaxY }}
+                      className="h-[220px] sm:h-[280px] lg:h-[340px] w-full object-cover object-[50%_42%] scale-[1.10]" />
+                  </div>
+                </Reveal>
                 <Reveal immediate>
-                  <h1 className="text-[1.65rem] sm:text-[2.1rem] lg:text-[2.6rem] font-display leading-[1.12] text-balance whitespace-pre-line">
+                  <h1 className="text-[1.65rem] sm:text-[2.1rem] lg:text-[2.6rem] font-display leading-[1.25] text-balance whitespace-pre-line">
                     {t.heroTitle}
                   </h1>
                   <p className="font-subtitle font-light mt-3 text-sm sm:text-base text-primary/70 text-balance max-w-lg">{t.heroBody}</p>
@@ -1919,13 +1999,6 @@ export default function App() {
                     <p className="font-subtitle font-light mt-2 btn-helper">{t.heroCtaNote}</p>
                   </div>
                 </Reveal>
-                <Reveal immediate className="relative">
-                  <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
-                  <Card variant="surface" className="overflow-hidden p-0">
-                    <img src={travel2} alt="Family traveling"
-                      className="h-[180px] sm:h-[280px] lg:h-[340px] w-full object-cover object-[50%_42%] scale-[1.06]" />
-                  </Card>
-                </Reveal>
               </div>
             </section>
 
@@ -1933,7 +2006,7 @@ export default function App() {
             <section className="py-8 md:py-10 border-t border-primary/5">
               <div className={container}>
                 <Reveal>
-                  <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.12]">{t.qualifyTitle}</h2>
+                  <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.qualifyTitle}</h2>
                 </Reveal>
                 <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {t.qualifyItems.map((item, i) => (
@@ -1952,15 +2025,33 @@ export default function App() {
             <section id="como-funciona" className="py-8 md:py-10 border-t border-primary/5 bg-cream/15">
               <div className={container}>
                 <Reveal>
-                  <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.12]">{t.howTitle}</h2>
+                  <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.howTitle}</h2>
                 </Reveal>
-                <div className="mt-8 grid gap-6 sm:grid-cols-3">
+                {/* Desktop: 3-column grid | Mobile: vertical timeline */}
+                <div className="mt-8 hidden sm:grid gap-6 sm:grid-cols-3">
                   {t.howSteps.map((s, i) => (
                     <Reveal key={s.title}>
-                      <div className="text-center sm:text-left">
+                      <div className="text-left">
                         <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-teal text-white text-lg font-semibold">{i + 1}</span>
                         <h3 className="mt-3 font-display text-lg text-primary">{s.title}</h3>
                         <p className="mt-1 text-sm text-primary/60">{s.text}</p>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+                {/* Mobile vertical timeline */}
+                <div className="mt-6 sm:hidden space-y-0">
+                  {t.howSteps.map((s, i) => (
+                    <Reveal key={s.title}>
+                      <div className="flex gap-4">
+                        <div className="flex flex-col items-center">
+                          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-teal text-white text-lg font-semibold shrink-0">{i + 1}</span>
+                          {i < t.howSteps.length - 1 && <div className="w-0.5 flex-1 bg-teal/20 mt-2 mb-2 min-h-[24px]" />}
+                        </div>
+                        <div className="pb-6">
+                          <h3 className="font-display text-lg text-primary mt-1.5">{s.title}</h3>
+                          <p className="mt-1 text-sm text-primary/60">{s.text}</p>
+                        </div>
                       </div>
                     </Reveal>
                   ))}
@@ -1972,7 +2063,7 @@ export default function App() {
             <section id="services" className="py-8 md:py-10 bg-white/70 border-t border-primary/5">
               <div className={container}>
                 <Reveal>
-                  <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.12]">{t.servicesTitle}</h2>
+                  <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.servicesTitle}</h2>
                   <p className="font-subtitle font-light mt-2 text-primary text-balance">{t.servicesBody}</p>
                 </Reveal>
                 {/* Travel Planner offer banner */}
@@ -1982,11 +2073,12 @@ export default function App() {
                     {t.servicesTravelPlanner}
                   </div>
                 </Reveal>
-                <div className="mt-6 grid gap-4 lg:grid-cols-3">
+                {/* Mobile: horizontal swipe cards | Desktop: 3-col grid */}
+                <div className="mt-6 -mx-5 px-5 sm:mx-0 sm:px-0 overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none flex sm:grid gap-4 sm:grid-cols-2 lg:grid-cols-3 pb-4 sm:pb-0 scrollbar-hide">
                   {/* FREE card */}
-                  <Reveal>
+                  <Reveal className="w-[85vw] sm:w-auto shrink-0 snap-center">
                     <Card className="relative p-5 bg-tealSoft/8 flex flex-col h-full">
-                      <span className="absolute -top-2.5 right-4 rounded-full bg-teal/80 text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.freeTag}</span>
+                      <span className="absolute -top-2.5 right-4 rounded-full bg-teal/80 text-white px-3 py-0.5 text-[11px] font-medium shadow-sm">{t.freeTag}</span>
                       <h3 className="font-display text-xl text-primary leading-none">{t.freeTitle}</h3>
                       <p className="mt-1 text-sm font-display text-teal">{t.freeSubtitle}</p>
                       <p className="mt-2 text-sm font-medium text-primary/80">{t.freeBenefit}</p>
@@ -1994,16 +2086,16 @@ export default function App() {
                       <ExpandableList items={t.freeDetailedList} />
                       <div className="mt-auto pt-4">
                         <Button type="button" variant="secondary" size="sm" className="w-full"
-                          onClick={() => handleServiceSelect('Orçamento e marcação de viagem')}>
+                          onClick={() => { haptic(); handleServiceSelect('Orçamento e marcação de viagem') }}>
                           {t.serviceCtaFree}
                         </Button>
                       </div>
                     </Card>
                   </Reveal>
                   {/* BASE card — "Mais pedido" */}
-                  <Reveal>
+                  <Reveal className="w-[85vw] sm:w-auto shrink-0 snap-center">
                     <Card className="relative p-5 flex flex-col h-full ring-1 ring-teal/15">
-                      <span className="absolute -top-2.5 right-4 rounded-full bg-teal text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.baseBadge}</span>
+                      <span className="absolute -top-2.5 right-4 rounded-full bg-teal text-white px-3 py-0.5 text-[11px] font-medium shadow-sm">{t.baseBadge}</span>
                       <h3 className="font-display text-xl text-primary leading-none">{t.baseTitle}</h3>
                       <p className="mt-1 text-sm font-display text-teal">{t.baseSubtitle}</p>
                       <p className="mt-2 text-sm font-medium text-primary/80">{t.baseBenefit}</p>
@@ -2012,20 +2104,20 @@ export default function App() {
                       <ExpandableList items={t.baseDetailedList} />
                       <div className="mt-auto pt-4">
                         <Button type="button" variant="primary" size="sm" className="w-full"
-                          onClick={() => handleServiceSelect('Organização de Viagem em família (Plano Base)')}>
+                          onClick={() => { haptic(); handleServiceSelect('Organização de Viagem em família (Plano Base)') }}>
                           {t.serviceCta}
                         </Button>
                       </div>
                     </Card>
                   </Reveal>
                   {/* PREMIUM card — elevated + bundles */}
-                  <Reveal>
+                  <Reveal className="w-[85vw] sm:w-auto shrink-0 snap-center">
                     <Card variant="elevated" className="relative p-5 bg-gradient-to-br from-cream/50 to-tealSoft/15 ring-2 ring-teal/15 flex flex-col h-full">
-                      <span className="absolute -top-2.5 right-4 rounded-full bg-primary text-white px-3 py-0.5 text-[10px] font-medium shadow-sm">{t.premiumBadge}</span>
+                      <span className="absolute -top-2.5 right-4 rounded-full bg-primary text-white px-3 py-0.5 text-[11px] font-medium shadow-sm">{t.premiumBadge}</span>
                       <h3 className="font-display text-xl text-primary leading-none">{t.premiumTitle}</h3>
                       <p className="mt-1 text-sm font-display text-teal">{t.premiumSubtitle}</p>
                       <p className="mt-2 text-sm font-medium text-primary/80">{t.premiumBenefit}</p>
-                      <Badge className="mt-2 text-[10px]">{t.premiumIncludesBase}</Badge>
+                      <Badge className="mt-2 text-[11px]">{t.premiumIncludesBase}</Badge>
                       <p className="mt-2 text-xs text-primary/55">{t.premiumWhen}</p>
                       <ExpandableList items={t.premiumDetailedList} />
                       {/* Premium bundles with product thumbnails */}
@@ -2042,13 +2134,15 @@ export default function App() {
                       </div>
                       <div className="mt-auto pt-4">
                         <Button type="button" variant="primary" size="sm" className="w-full"
-                          onClick={() => handleServiceSelect('Organização de Viagem em família (Premium)')}>
+                          onClick={() => { haptic(); handleServiceSelect('Organização de Viagem em família (Premium)') }}>
                           {t.serviceCta}
                         </Button>
                       </div>
                     </Card>
                   </Reveal>
                 </div>
+                {/* Swipe hint — mobile only */}
+                <p className="mt-2 text-center text-[11px] text-primary/30 sm:hidden">{lang === 'pt' ? '← desliza para comparar →' : '← swipe to compare →'}</p>
                 <p className="font-subtitle font-light mt-3 text-xs text-primary/40">{t.pricingNote}</p>
 
                 {/* Trip cost simulator */}
@@ -2065,14 +2159,16 @@ export default function App() {
             </section>
 
             {/* FAQ */}
-            <section className="py-8 md:py-10 border-t border-primary/5">
+            <section className="py-10 md:py-12 border-t border-primary/5">
               <div className={`${container} max-w-[720px]`}>
                 <Reveal>
-                  <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.faqTitle}</h2>
+                  <Card className="p-5 sm:p-8 bg-cream/20">
+                    <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.25]">{t.faqTitle}</h2>
+                    <div className="mt-6">
+                      {t.faqItems.map((item) => <FAQItem key={item.q} q={item.q} a={item.a} />)}
+                    </div>
+                  </Card>
                 </Reveal>
-                <div className="mt-6">
-                  {t.faqItems.map((item) => <FAQItem key={item.q} q={item.q} a={item.a} />)}
-                </div>
               </div>
             </section>
 
@@ -2080,7 +2176,7 @@ export default function App() {
             <section className="py-8 md:py-10 border-t border-primary/5 bg-cream/15">
               <div className={`${container} max-w-[720px]`}>
                 <Reveal>
-                  <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.12]">{t.founderTitle}</h2>
+                  <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.founderTitle}</h2>
                   <p className="mt-3 text-sm text-primary/70 leading-relaxed">{t.founderBody}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {t.founderHighlights.map((h) => (
@@ -2091,14 +2187,16 @@ export default function App() {
               </div>
             </section>
 
-            {/* Sticky mobile CTA */}
-            <Button as="a" href={lang === 'pt' ? '#questionario' : '#questionnaire'} variant="primary" size="lg" className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 sm:hidden">
-              {t.primaryCta}
-            </Button>
+            {/* Sticky mobile CTA — full-width with frosted glass */}
+            <div className="fixed bottom-0 left-0 right-0 z-40 sm:hidden px-4 pb-4 pt-2 bg-gradient-to-t from-white/95 via-white/80 to-transparent backdrop-blur-sm pointer-events-none">
+              <Button as="a" href={lang === 'pt' ? '#questionario' : '#questionnaire'} variant="primary" size="lg" className="w-full pointer-events-auto shadow-lg">
+                {t.primaryCta}
+              </Button>
+            </div>
 
-            {/* Floating WhatsApp button */}
+            {/* Floating WhatsApp button — tablet+, stacked above Resumo on sm-lg */}
             <a href="https://wa.me/351919676329" target="_blank" rel="noopener noreferrer"
-              className="fixed bottom-4 right-4 z-40 hidden sm:flex items-center gap-2 rounded-full bg-[#25D366] text-white pl-4 pr-5 py-3 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
+              className="fixed bottom-5 right-4 z-40 hidden sm:flex items-center gap-2 rounded-full bg-[#25D366] text-white pl-4 pr-5 py-3 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
               aria-label="WhatsApp">
               <img src={btnWhatsapp} alt="" className="h-5 w-5 brightness-0 invert" />
               <span className="text-sm font-medium">{t.whatsappFloat}</span>
@@ -2143,12 +2241,12 @@ export default function App() {
                 {/* Left: Wizard — #3 full-screen feel on mobile */}
                 <Reveal>
                   <div className="text-center">
-                    <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.formTitle}</h2>
+                    <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.25]">{t.formTitle}</h2>
                     <p className="font-subtitle font-light mt-3 text-primary">{t.formBody}</p>
                     <p className="font-subtitle font-light mt-2 text-sm text-primary">{t.formHint}</p>
                   </div>
                   {/* #3 On mobile, wizard card gets extra emphasis */}
-                  <Card variant="surface" className="mt-6 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 p-5 md:p-6 overflow-hidden -mx-5 sm:mx-0 rounded-none sm:rounded-[24px] min-h-[60vh] sm:min-h-0">
+                  <Card variant="surface" className="mt-6 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 pt-6 px-5 pb-5 md:p-6 overflow-hidden -mx-5 sm:mx-0 rounded-t-3xl sm:rounded-[24px]">
                     <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} onDataChange={setWizardData} onAutosave={() => {}} preselectedService={preselectedService} />
                   </Card>
                   <div className="mt-4 grid gap-2 grid-cols-3">
@@ -2252,24 +2350,32 @@ export default function App() {
 
               {/* Mobile floating Resumo drawer */}
               <div className="lg:hidden">
-                <button
+                <motion.button
                   type="button"
-                  onClick={() => setResumoOpen(!resumoOpen)}
-                  className="fixed bottom-20 right-4 z-50 flex items-center gap-2 rounded-full bg-primary text-white px-4 py-2.5 shadow-lg text-xs font-medium transition-all hover:scale-105"
+                  onClick={() => { haptic(); setResumoOpen(!resumoOpen) }}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.5 }}
+                  className="fixed bottom-[4.5rem] sm:bottom-[4.5rem] right-4 z-50 flex items-center gap-2 rounded-full bg-primary text-white px-4 py-2.5 shadow-lg text-xs font-medium transition-all hover:scale-105 min-h-[44px]"
                 >
-                  📋 {wizardStep.current + 1}/{wizardStep.total}
+                  {t.wizardStepTitles[wizardStep.current]?.slice(0, 2) || '📋'} {wizardStep.current + 1}/{wizardStep.total}
                   <span className="hidden sm:inline">— {t.wizardSummaryTitle}</span>
-                </button>
+                </motion.button>
                 <AnimatePresence>
                   {resumoOpen && (
                     <>
                       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm" onClick={() => setResumoOpen(false)} />
-                      <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                        className="fixed bottom-0 left-0 right-0 z-50 max-h-[70vh] overflow-y-auto rounded-t-3xl bg-white shadow-[0_-8px_30px_rgba(2,47,89,0.15)] p-5">
-                        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-primary/20" />
+                      <motion.div
+                        initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+                        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                        drag="y" dragConstraints={{ top: 0, bottom: 0 }} dragElastic={0.2}
+                        onDragEnd={(_, info) => { if (info.offset.y > 100) setResumoOpen(false) }}
+                        className="fixed bottom-0 left-0 right-0 z-50 max-h-[70vh] overflow-y-auto rounded-t-3xl bg-white shadow-[0_-8px_30px_rgba(2,47,89,0.15)] p-5"
+                        role="dialog" aria-modal="true" aria-label={t.wizardSummaryTitle}>
+                        <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-primary/20 cursor-grab" />
                         <div className="flex items-center justify-between mb-3">
                           <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
-                          <button type="button" onClick={() => setResumoOpen(false)} className="text-xs text-primary/50 hover:text-primary">✕</button>
+                          <button type="button" onClick={() => setResumoOpen(false)} className="flex items-center justify-center h-8 w-8 rounded-full hover:bg-primary/5 text-primary/50 hover:text-primary transition">✕</button>
                         </div>
                         {message ? (
                           <div className="space-y-4">
@@ -2312,7 +2418,7 @@ export default function App() {
             <section id="trust" className="py-12 md:py-16 border-t border-primary/10">
               <div className={container}>
                 <Reveal>
-                  <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.12]">{t.trustTitle}</h2>
+                  <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.25]">{t.trustTitle}</h2>
                 </Reveal>
                 <div className="mt-6 grid gap-4 md:grid-cols-3">
                   {t.trustCards.map((card) => (
@@ -2328,7 +2434,7 @@ export default function App() {
                   {[travel1, travel2, travel3].map((img, index) => (
                     <Reveal key={img}>
                       <Card className="overflow-hidden rounded-2xl p-0">
-                        <img src={img} alt={t.trustCaptions?.[index] || `Viagem em família ${index + 1}`} className="h-40 w-full object-cover" loading="lazy" />
+                        <img src={img} alt={t.trustCaptions?.[index] || `Viagem em família ${index + 1}`} className="h-52 sm:h-40 w-full object-cover" loading="lazy" />
                         <p className="px-3 py-2 text-xs text-primary/50 text-center">{t.trustCaptions?.[index]}</p>
                       </Card>
                     </Reveal>
@@ -2339,19 +2445,32 @@ export default function App() {
             </section>
 
             {/* Lead Magnet — Travel Planner PDF download */}
-            <section className="py-8 md:py-10 border-t border-primary/5 bg-gradient-to-br from-tealSoft/20 to-cream/30">
-              <div className={`${container} max-w-[600px] text-center`}>
+            <section className="py-10 md:py-12 border-t border-primary/5 bg-gradient-to-br from-tealSoft/20 to-cream/30">
+              <div className={`${container} max-w-[600px]`}>
                 <Reveal>
-                  <span className="text-3xl">📋</span>
-                  <h2 className="mt-2 text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.12]">{t.leadMagnetTitle}</h2>
-                  <p className="mt-2 text-sm text-primary/70">{t.leadMagnetBody}</p>
-                  <form onSubmit={(e) => { e.preventDefault(); const email = e.target.elements.leadEmail?.value; if (email) { window.open(`mailto:joana_krisna@hotmail.com?subject=${encodeURIComponent(lang === 'pt' ? 'Pedido Travel Planner PDF' : 'Travel Planner PDF Request')}&body=${encodeURIComponent(lang === 'pt' ? `Olá! Quero receber o Travel Planner gratuito. O meu email é: ${email}` : `Hi! I want to receive the free Travel Planner. My email is: ${email}`)}`, '_self') } }}
-                    className="mt-5 flex flex-col sm:flex-row gap-2 items-stretch sm:items-center max-w-sm mx-auto">
-                    <input type="email" name="leadEmail" required placeholder="email@exemplo.com"
-                      className="flex-1 rounded-xl border border-primary/15 bg-white px-4 py-2.5 text-sm text-primary placeholder:text-primary/30 focus:outline-none focus:ring-2 focus:ring-teal/50" />
-                    <Button type="submit" variant="primary" size="sm">{t.leadMagnetCta}</Button>
-                  </form>
-                  <p className="mt-2 text-[10px] text-primary/35">{t.leadMagnetNote}</p>
+                  <Card className="p-6 sm:p-8 text-center bg-white/80">
+                    <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-teal/10 mb-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-teal"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    </div>
+                    <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.leadMagnetTitle}</h2>
+                    <p className="mt-2 text-sm text-primary/70">{t.leadMagnetBody}</p>
+                    {/* Peek inside */}
+                    <div className="mt-4 flex flex-col gap-1.5 items-start max-w-xs mx-auto text-left">
+                      {(lang === 'pt' ? ['Checklist de malas para toda a família', 'Timeline dia-a-dia para a viagem', 'Dicas práticas por tipo de destino'] : ['Family packing checklist', 'Day-by-day trip timeline', 'Practical tips by destination type']).map((item) => (
+                        <div key={item} className="flex items-center gap-2 text-xs text-primary/60">
+                          <span className="text-teal text-sm">✓</span>
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <form onSubmit={(e) => { e.preventDefault(); haptic(); const email = e.target.elements.leadEmail?.value; if (email) { window.open(`mailto:joana_krisna@hotmail.com?subject=${encodeURIComponent(lang === 'pt' ? 'Pedido Travel Planner PDF' : 'Travel Planner PDF Request')}&body=${encodeURIComponent(lang === 'pt' ? `Olá! Quero receber o Travel Planner gratuito. O meu email é: ${email}` : `Hi! I want to receive the free Travel Planner. My email is: ${email}`)}`, '_self') } }}
+                      className="mt-5 flex gap-2 items-stretch max-w-sm mx-auto">
+                      <input type="email" name="leadEmail" required placeholder="email@exemplo.com"
+                        className="flex-1 rounded-xl border border-primary/15 bg-white px-4 py-3 text-sm text-primary placeholder:text-primary/30 focus:outline-none focus:ring-2 focus:ring-teal/50 min-h-[48px]" />
+                      <Button type="submit" variant="primary" size="md" className="shrink-0">{t.leadMagnetCta}</Button>
+                    </form>
+                    <p className="mt-2 text-[11px] text-primary/35">{t.leadMagnetNote}</p>
+                  </Card>
                 </Reveal>
               </div>
             </section>
@@ -2365,7 +2484,7 @@ export default function App() {
       <footer className="py-12 md:py-16 border-t border-primary/10 bg-primary/[0.03]">
         <div className={`${container} grid gap-8 sm:grid-cols-[1fr_auto_auto]`}>
           <div className="space-y-3">
-            <img src={logoBrand} alt={t.footerTitle} className="h-20 w-auto object-contain" />
+            <img src={logoBrand} alt={t.footerTitle} className="h-14 sm:h-20 w-auto object-contain" />
             <p className="font-subtitle font-light text-sm text-primary max-w-[260px]">{t.footerTagline || t.footerBody}</p>
           </div>
           <div className="space-y-2">

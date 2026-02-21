@@ -79,3 +79,12 @@ option {
   font-size: 12px;
   color: rgba(2, 47, 89, 0.72);
 }
+
+/* Hide scrollbar for horizontal swipe containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
