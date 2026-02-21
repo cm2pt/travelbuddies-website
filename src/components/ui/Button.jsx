@@ -3,7 +3,7 @@ const base =
 
 const variants = {
   primary:
-    'bg-primary text-white font-semibold shadow-[0_8px_22px_rgba(2,47,89,0.14)] hover:bg-[#0a3b6a] hover:-translate-y-[1px] hover:shadow-[0_12px_26px_rgba(2,47,89,0.18)]',
+    'bg-blush text-primary font-semibold shadow-[0_8px_22px_rgba(231,176,164,0.25)] hover:bg-blush/90 hover:-translate-y-[1px] hover:shadow-[0_12px_26px_rgba(231,176,164,0.35)]',
   secondary: 'border border-primary/30 text-primary font-medium bg-transparent hover:bg-primary/5 hover:-translate-y-[1px]',
   link: 'min-h-0 px-0 py-0 rounded-none text-primary/75 hover:text-primary underline-offset-4 hover:underline',
   ghost: 'border border-primary/20 bg-white text-primary font-medium hover:bg-primary/6',
