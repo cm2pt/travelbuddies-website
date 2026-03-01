@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
+import { Plane, Hotel, Target, Users, Map, Palmtree, Mountain, Heart, PartyPopper, Globe, Pencil, Zap, Hand, Sparkles, Home, ThumbsUp, Calendar, Mail, Lightbulb, CircleCheck, Building2, TreePine } from 'lucide-react'
 import ProductsPage from './components/ProductsPage'
 import Button from './components/ui/Button'
 import Card from './components/ui/Card'
@@ -10,6 +11,7 @@ import logoBrand from './assets/logo-brand.png'
 import heroImage from './assets/hero.jpg'
 import travel1 from './assets/travel-family-1.jpeg'
 import travel2 from './assets/travel-family-2.jpeg'
+import heroCuba from './assets/hero-cuba.jpeg'
 import travel3 from './assets/travel-family-3.jpeg'
 import btnWhatsapp from './assets/btn-whatsapp.svg'
 import btnEmail from './assets/btn-email.svg'
@@ -21,6 +23,10 @@ const REMOTE_IMAGES = {
   hero:
     'https://images.unsplash.com/photo-1767411972844-b5e8bdda9e5d?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1800',
 }
+
+/* Branded icon helpers — Lucide icons in teal/primary */
+const ic = (Icon, props = {}) => <Icon size={16} className="text-teal" strokeWidth={2} {...props} />
+const icLg = (Icon, props = {}) => <Icon size={20} className="text-teal" strokeWidth={2} {...props} />
 
 const LANG_STORAGE_KEY = 'travelbuddies_lang'
 const WIZARD_STORAGE_KEY = 'travelbuddies_wizard'
@@ -35,18 +41,18 @@ const copy = {
     homeNav: 'Início',
     productsNav: 'Produtos',
     heroTag: 'TravelBuddies | Viagens em Família',
-    heroTitle: 'Nós marcamos a viagem.\nTu aproveitas os momentos.',
-    heroBody: 'Marcação de viagens em família sem custos — feita por pais, para pais. Precisas de ajuda a planear? Planos a partir de 30€ com marcação.',
-    heroUrgency: 'Férias de Verão — os melhores voos para famílias esgotam cedo.',
+    heroTitle: 'Viagens em família que funcionam na vida real.',
+    heroBody: 'Marcação de viagens em família sem custos, feita por pais, para pais. Precisas de ajuda a planear? Conhece os nossos serviços.',
+    heroUrgency: 'Férias de Verão: os melhores voos para famílias esgotam cedo.',
     heroCtaNote: '2–3 minutos · sem compromisso',
     primaryCta: 'Planear a minha viagem',
     heroCtaPrompt: 'Começa pela marcação gratuita.',
     proofBar: ['40+ viagens em família', '3 filhos', 'Pais como tu'],
-    servicesQuizFirst: 'Não sabes qual escolher?',
+    servicesQuizFirst: 'Entusiasmado(a) mas precisas de ajuda? Começa aqui',
     servicesShowAll: 'Ver todos os planos',
     servicesHideAll: 'Esconder planos',
     servicesTitle: 'Serviços TravelBuddies',
-    servicesBody: 'Uma viagem mal planeada com crianças tem um custo alto em stress e memórias que ficam por criar.',
+    servicesBody: 'Sem planeamento, viajar com crianças custa caro em cansaço e memórias que ficam por criar.',
     servicesFreeLine: 'Orçamento e marcação de viagem (gratuito)',
     servicesTravelPlanner: 'Com qualquer serviço, recebes um Travel Planner em PDF para acompanhar o roteiro da tua família.',
     servicesContextualNote: 'Quando marcares a tua viagem, recebe o Travel Planner para acompanhar o roteiro.',
@@ -61,9 +67,9 @@ const copy = {
     premiumTitle: 'Zero Stress',
     premiumBadge: 'Tudo tratado',
     baseOutcome:
-      'Sabes o destino mas precisas de ajuda a organizar — roteiro, voos, alojamento e o essencial para viajar com crianças.',
+      'Sabes o destino mas precisas de ajuda a organizar: roteiro, voos, alojamento e o essencial para viajar com crianças.',
     premiumOutcome:
-      'Queres desligar. Nós tratamos de tudo — do primeiro voo ao último dia, com acompanhamento antes e durante a viagem.',
+      'Queres desligar. Nós tratamos de tudo, do primeiro voo ao último dia, com acompanhamento antes e durante a viagem.',
     baseWhen: 'Para quem sabe para onde vai mas quer ajuda a montar a viagem.',
     premiumWhen:
       'Para viagens longas, destinos complexos, ou quando só queres aparecer no aeroporto.',
@@ -101,7 +107,7 @@ const copy = {
     premiumIncludesBase: 'Inclui tudo do Base +',
     baseBenefits: ['Roteiro leve', 'Comparações claras', 'Decisão com apoio'],
     premiumBenefits: ['Planeamento por dias', 'Experiências alinhadas', 'Apoio antes e durante'],
-    pricingNote: 'Valores variam consoante duração e complexidade.',
+    pricingNote: 'Valores variam consoante a duração e complexidade.',
     baseIncludes: [
       'Perfil TravelBuddies da família',
       'Roteiro adaptado aos perfis (destino, ritmo, tipo)',
@@ -124,7 +130,7 @@ const copy = {
     freeTitle: 'Só a Marcação',
     freeSubtitle: 'Gratuito',
     freeBenefit: 'Nós marcamos. Tu viajas.',
-    freeOutcome: 'Já sabes o que queres — só precisas de alguém que trate da marcação sem custos.',
+    freeOutcome: 'Já sabes o que queres. Só precisas de alguém que trate da marcação sem custos.',
     freeWhen: 'Para quem já tem destino e datas e só quer a marcação feita.',
     freeDetailedList: [
       'Pesquisa de voos e alojamento',
@@ -138,7 +144,7 @@ const copy = {
     baseBadge: 'Mais pedido',
     baseSubtitle: 'A partir de 30€',
     baseBenefit: 'Orientação clara. Decisão leve.',
-    serviceCta: 'Escolher este plano',
+    serviceCta: 'Escolher este serviço',
     serviceCtaFree: 'Pedir orçamento',
     basePrice: 'A partir de 30€',
     premiumPrice: 'A partir de 75€',
@@ -157,11 +163,11 @@ const copy = {
     quizResultCta: 'Começar questionário',
     quizRestart: 'Recomeçar quiz',
     founderTitle: 'Quem somos',
-    founderBody: 'Somos a Joana e o Luís — pais de 3 crianças e com mais de 40 viagens em família. Criámos a TravelBuddies porque sabemos o que é viajar com filhos pequenos e querer que corra bem.',
+    founderBody: 'Somos a Joana e o Luís, pais de 3 crianças e com mais de 40 viagens em família. Criámos a TravelBuddies porque sabemos o que é viajar com filhos pequenos e querer que corra bem.',
     founderHighlights: ['3 crianças', '+40 viagens', 'Pais reais'],
     whatsappFloat: 'Fala connosco',
     leadMagnetTitle: 'Travel Planner Gratuito',
-    leadMagnetBody: 'Um guia prático em PDF para organizar a tua próxima viagem em família — com checklists, timeline e dicas úteis.',
+    leadMagnetBody: 'Um guia prático em PDF para organizar a tua próxima viagem em família, com checklists, timeline e dicas úteis.',
     leadMagnetCta: 'Receber o Travel Planner',
     leadMagnetNote: 'Enviamos para o teu email. Sem spam.',
     simulatorTitle: 'Estimativa rápida',
@@ -177,9 +183,9 @@ const copy = {
     faqTitle: 'Dúvidas frequentes',
     faqItems: [
       { q: 'Quanto tempo até ter a proposta?', a: 'Normalmente 2–3 dias úteis após preencheres o questionário. Em época alta pode demorar um pouco mais.' },
-      { q: 'E se mudarmos de ideias sobre o destino?', a: 'Sem problema — ajustamos o plano juntos até estar perfeito. A viagem é vossa.' },
+      { q: 'E se mudarmos de ideias sobre o destino?', a: 'Sem problema! Ajustamos o plano juntos até estar perfeito. A viagem é vossa.' },
       { q: 'Funciona para destinos fora da Europa?', a: 'Sim. Qualquer destino no mundo. Já organizámos viagens dos Açores à Tailândia.' },
-      { q: 'Posso só pedir a marcação, sem planeamento?', a: 'Claro! O serviço "Só a Marcação" é gratuito — pesquisamos, comparamos e marcamos por ti.' },
+      { q: 'Posso só pedir a marcação, sem planeamento?', a: 'Claro! O serviço "Só a Marcação" é gratuito: pesquisamos, comparamos e marcamos por ti.' },
       { q: 'E se o meu bebé tiver menos de 1 ano?', a: 'Temos experiência com bebés desde os 3 meses. Adaptamos tudo ao ritmo e necessidades dos mais pequenos.' },
       { q: 'O que acontece durante a viagem?', a: 'No plano Zero Stress, tens suporte durante toda a viagem. No Viagem Leve, apoio na preparação e decisão.' },
     ],
@@ -191,7 +197,7 @@ const copy = {
       { href: '#planning-tiers', label: 'Serviços' },
     ],
     footerTagline: 'Viagens com crianças que funcionam na vida real.',
-    footerCopyright: '© 2025 TravelBuddies. Todos os direitos reservados.',
+    footerCopyright: '© 2026 TravelBuddies. Todos os direitos reservados.',
     trustCaptions: ['Praia com os miúdos', 'Explorar juntos', 'Momentos reais'],
     trustTitle: 'Confiança e calma',
     trustCards: [
@@ -203,20 +209,21 @@ const copy = {
     formTitle: 'Questionário TravelBuddies',
     formBody: 'Partilha o essencial. Nós simplificamos.',
     formHint: '2–3 minutos · sem compromisso',
-    wizardWelcomeTitle: 'Olá! 👋',
+    wizardWelcomeTitle: 'Olá!',
     wizardWelcomeBody: 'Vamos desenhar a viagem perfeita para a tua família.',
     wizardWelcomeNote: 'São só 5 passos rápidos.',
     wizardWelcomeSocialProof: 'Feito por pais que viajam com crianças.',
     wizardWelcomeStart: 'Começar',
-    wizardWelcomeQuickStart: '⚡ Resposta rápida',
+    wizardWelcomeQuickStart: 'Resposta rápida',
     wizardWelcomeQuickNote: 'Preenche os essenciais e salta o resto.',
     wizardStepTitles: [
-      '✈️ Sobre a viagem',
-      '🏨 Alojamento e estilo',
-      '🎯 Tipo de serviço',
-      '👨‍👩‍👧‍👦 Perfil de viajantes',
-      '🗺️ Quase lá!',
+      'Sobre a viagem',
+      'Alojamento e estilo',
+      'Tipo de serviço',
+      'Perfil de viajantes',
+      'Quase lá!',
     ],
+    wizardStepIcons: [Plane, Hotel, Target, Users, Map],
     wizardStepHelpers: [
       'Ajuda-nos a perceber o ritmo ideal.',
       'Para dormir bem e com pouco stress.',
@@ -226,7 +233,7 @@ const copy = {
     ],
     wizardReassureEmail: 'Só usamos para te responder. Sem spam.',
     wizardReassurePrivacy: 'Não partilhamos com terceiros.',
-    wizardAutosaveNote: 'Podes parar a qualquer momento — guardamos automaticamente.',
+    wizardAutosaveNote: 'Podes parar a qualquer momento. Guardamos automaticamente.',
     wizardNextStepNote: 'Depois enviamos uma proposta clara e humana.',
     wizardTimeNote: 'Menos de 1 minuto.',
     wizardRequiredNote: 'Preenche aqui para continuar',
@@ -237,7 +244,7 @@ const copy = {
     wizardSaveEmailBtn: 'Guardar progresso',
     wizardOtherPlaceholder: 'Conta-nos mais...',
     wizardRestart: 'Recomeçar',
-    wizardSuccessTitle: 'Tudo pronto! 🎉',
+    wizardSuccessTitle: 'Tudo pronto!',
     wizardSuccessBody: 'Recebemos as tuas respostas. Vamos analisar e enviamos uma proposta personalizada em breve.',
     wizardSuccessNext: 'Próximos passos:',
     wizardSuccessSteps: ['Analisamos o perfil da tua família', 'Desenhamos opções à medida', 'Enviamos a proposta por email'],
@@ -246,38 +253,38 @@ const copy = {
     wizardPopularTag: 'Mais popular',
     wizardRestartConfirm: 'Tens a certeza? Todas as respostas serão apagadas.',
     wizardWhyAsk: {
-      budget: 'Ajuda-nos a sugerir opções realistas — sem compromisso.',
+      budget: 'Ajuda-nos a sugerir opções realistas, sem compromisso.',
       lodgingValues: 'Para encontrar o alojamento perfeito para a família.',
       adultProfile: 'Ajuda-nos a adaptar o ritmo e estilo da viagem.',
     },
     wizardContextHelpers: {
       motivation: {
-        'Descanso': 'Boa escolha! Vamos encontrar o ritmo ideal para relaxar. 🏖️',
-        'Aventura': 'Fantástico! Vamos encontrar aventuras seguras para toda a família. 🧗',
-        'Tempo de qualidade em família': 'Perfeito! Momentos juntos são o melhor. 💛',
-        'Celebração (aniversário, lua de mel, etc.)': 'Vamos tornar esta celebração especial! 🎉',
-        'Conhecer outra cultura': 'Adoramos! Explorar o mundo com crianças é mágico. 🌍',
+        'Descanso': 'Boa escolha! Vamos encontrar o ritmo ideal para relaxar.',
+        'Aventura': 'Fantástico! Vamos encontrar aventuras seguras para toda a família.',
+        'Tempo de qualidade em família': 'Perfeito! Momentos juntos são o melhor.',
+        'Celebração (aniversário, lua de mel, etc.)': 'Vamos tornar esta celebração especial!',
+        'Conhecer outra cultura': 'Adoramos! Explorar o mundo com crianças é mágico.',
       },
       lodging: {
-        'Hotel': 'Hotel com tudo pensado para os mais pequenos. 👌',
-        'Apartamento': 'Mais espaço e flexibilidade para a família. 🏠',
-        'Resort': 'Tudo incluído, zero stress. ✨',
+        'Hotel': 'Hotel com tudo pensado para os mais pequenos.',
+        'Apartamento': 'Mais espaço e flexibilidade para a família.',
+        'Resort': 'Tudo incluído, zero stress.',
       },
     },
     wizardSeasons: ['Primavera', 'Verão', 'Outono', 'Inverno', 'Qualquer altura'],
     wizardMotivationIcons: {
-      'Descanso': '🏖️',
-      'Aventura': '🧗',
-      'Tempo de qualidade em família': '👨‍👩‍👧',
-      'Celebração (aniversário, lua de mel, etc.)': '🎂',
-      'Conhecer outra cultura': '🌍',
-      'Other': '✏️',
+      'Descanso': ic(Palmtree),
+      'Aventura': ic(Mountain),
+      'Tempo de qualidade em família': ic(Heart),
+      'Celebração (aniversário, lua de mel, etc.)': ic(PartyPopper),
+      'Conhecer outra cultura': ic(Globe),
+      'Other': ic(Pencil),
     },
-    wizardDynamicLodging: 'Escolheste {attraction} — que tipo de alojamento preferes?',
-    wizardDynamicMeal: 'Para a vossa viagem de {motivation} — que regime alimentar preferem?',
-    wizardExperiencePrompt: 'Conta-nos o que quiseres sobre viagens em família — o que correu bem, o que foi difícil, o que gostariam nesta viagem...',
-    wizardPersonalizedIntro: 'Viagem de {motivation} para {travelers} — quase pronto!',
-    wizardStepWatermarks: ['✈️', '🏨', '🎯', '👨‍👩‍👧‍👦', '🗺️'],
+    wizardDynamicLodging: 'Escolheste {attraction}. Que tipo de alojamento preferes?',
+    wizardDynamicMeal: 'Para a vossa viagem de {motivation}, que regime alimentar preferem?',
+    wizardExperiencePrompt: 'Conta-nos o que quiseres sobre viagens em família: o que correu bem, o que foi difícil, o que gostariam nesta viagem...',
+    wizardPersonalizedIntro: 'Viagem de {motivation} para {travelers}. Quase pronto!',
+    wizardStepIcons_ref: [Plane, Hotel, Target, Users, Map],
     wizardQuestions: {
       email: 'Email',
       destination: 'Qual é o destino da viagem? Tens algum destino em mente? Se sim, qual?',
@@ -301,7 +308,7 @@ const copy = {
         'Qual é o vosso orçamento aproximado? Esta pergunta vai permitir-nos ver opções mais ajustadas à realidade',
       service: 'Que tipo de ajuda procuram?',
       adultProfile: 'Adulto {n}',
-      childProfile: 'Criança {n} — {age}',
+      childProfile: 'Criança {n}, {age}',
       familyTraveled: 'Já viajaram em família antes?',
       previousTrips: 'Para onde foram e o que correu bem em viagens anteriores?',
       hardest: 'O que foi mais difícil ou stressante?',
@@ -320,7 +327,7 @@ const copy = {
       { id: 'Orçamento e marcação de viagem', title: 'Só a Marcação', desc: 'Já sabes o que queres. Nós marcamos, sem custos.', tag: 'Gratuito', price: '' },
       { id: 'Organização de Viagem em família (Plano Base)', title: 'Viagem Leve', desc: 'Sabes o destino mas precisas de ajuda a organizar.', tag: 'Mais pedido', price: 'desde 30€', priceNote: '(com marcação)' },
       { id: 'Organização de Viagem em família (Premium)', title: 'Zero Stress', desc: 'Queres desligar. Nós tratamos de tudo.', tag: 'Tudo tratado', price: 'desde 75€', priceNote: '(com marcação)' },
-      { id: 'Ainda não sei', title: 'Ainda não sei', desc: 'Sem problema — nós ajudamos a escolher.', tag: '', price: '' },
+      { id: 'Ainda não sei', title: 'Ainda não sei', desc: 'Sem problema! Nós ajudamos a escolher.', tag: '', price: '' },
     ],
     wizardDurationLabel: 'Duração da viagem:',
     wizardDurationOptions: ['Até 7 dias', '8–14 dias', '15+ dias'],
@@ -434,18 +441,18 @@ const copy = {
     homeNav: 'Home',
     productsNav: 'Products',
     heroTag: 'TravelBuddies | Family Trip Design',
-    heroTitle: 'We book your trip.\nYou enjoy the moments.',
-    heroBody: 'Free family trip booking — made by parents, for parents. Need more help planning? Plans from 30€ with booking.',
-    heroUrgency: 'Summer holidays — the best family flights sell out early.',
+    heroTitle: 'Family trips that work in real life.',
+    heroBody: 'Free family trip booking, made by parents, for parents. Need more help planning? Plans from 30€ with booking.',
+    heroUrgency: 'Summer holidays: the best family flights sell out early.',
     heroCtaNote: '2–3 minutes · no commitment',
     primaryCta: 'Plan my trip',
     heroCtaPrompt: 'Start with our free booking service.',
     proofBar: ['40+ family trips', '3 kids', 'Parents like you'],
-    servicesQuizFirst: 'Not sure which to pick?',
+    servicesQuizFirst: 'Excited but need help? Start here',
     servicesShowAll: 'See all plans',
     servicesHideAll: 'Hide plans',
     servicesTitle: 'TravelBuddies Services',
-    servicesBody: 'A poorly planned trip with kids has a high cost in stress and memories that never get made.',
+    servicesBody: 'Without planning, travelling with kids costs you in exhaustion and memories that never get made.',
     servicesFreeLine: 'Budget and trip booking (free)',
     servicesTravelPlanner: 'With any service, you receive a Travel Planner PDF to accompany your family\'s itinerary.',
     servicesContextualNote: 'When you book your trip, receive the Travel Planner to follow the itinerary.',
@@ -460,8 +467,8 @@ const copy = {
     premiumTitle: 'Zero Stress',
     premiumBadge: 'All sorted',
     baseOutcome:
-      'You know the destination but need help organizing — itinerary, flights, accommodation and the essentials for traveling with kids.',
-    premiumOutcome: 'You want to switch off. We handle everything — from the first flight to the last day, with support before and during the trip.',
+      'You know the destination but need help organizing: itinerary, flights, accommodation and the essentials for traveling with kids.',
+    premiumOutcome: 'You want to switch off. We handle everything, from the first flight to the last day, with support before and during the trip.',
     baseWhen: 'For those who know where they\'re going but want help putting the trip together.',
     premiumWhen: 'For longer trips, complex destinations, or when you just want to show up at the airport.',
     durationLabel: 'Trip duration',
@@ -520,7 +527,7 @@ const copy = {
     freeTitle: 'Just Booking',
     freeSubtitle: 'Free',
     freeBenefit: 'We book. You travel.',
-    freeOutcome: 'You already know what you want — you just need someone to handle the booking at no cost.',
+    freeOutcome: 'You already know what you want. You just need someone to handle the booking at no cost.',
     freeWhen: 'For those who have a destination and dates and just want the booking done.',
     freeDetailedList: [
       'Flight and accommodation search',
@@ -534,7 +541,7 @@ const copy = {
     baseBadge: 'Most popular',
     baseSubtitle: 'From 30€',
     baseBenefit: 'Clear guidance. Light decisions.',
-    serviceCta: 'Choose this plan',
+    serviceCta: 'Choose this service',
     serviceCtaFree: 'Get a quote',
     basePrice: 'From 30€',
     premiumPrice: 'From 75€',
@@ -552,11 +559,11 @@ const copy = {
     quizResultCta: 'Start questionnaire',
     quizRestart: 'Restart quiz',
     founderTitle: 'Who we are',
-    founderBody: 'We are Joana and Luís — parents of 3 kids with 40+ family trips under our belt. We created TravelBuddies because we know what it takes to travel with young children and want it to go well.',
+    founderBody: 'We are Joana and Luís, parents of 3 kids with 40+ family trips under our belt. We created TravelBuddies because we know what it takes to travel with young children and want it to go well.',
     founderHighlights: ['3 kids', '40+ trips', 'Real parents'],
     whatsappFloat: 'Talk to us',
     leadMagnetTitle: 'Free Travel Planner',
-    leadMagnetBody: 'A practical PDF guide to organize your next family trip — with checklists, timeline, and useful tips.',
+    leadMagnetBody: 'A practical PDF guide to organize your next family trip, with checklists, timeline, and useful tips.',
     leadMagnetCta: 'Get the Travel Planner',
     leadMagnetNote: 'Sent to your email. No spam.',
     simulatorTitle: 'Quick estimate',
@@ -572,9 +579,9 @@ const copy = {
     faqTitle: 'Frequently asked questions',
     faqItems: [
       { q: 'How long until I get a proposal?', a: 'Usually 2–3 business days after you fill in the questionnaire. During peak season it may take a bit longer.' },
-      { q: 'What if we change our mind about the destination?', a: 'No problem — we adjust the plan together until it feels right. The trip is yours.' },
+      { q: 'What if we change our mind about the destination?', a: 'No problem! We adjust the plan together until it feels right. The trip is yours.' },
       { q: 'Does it work for destinations outside Europe?', a: 'Yes. Any destination in the world. We have organized trips from the Azores to Thailand.' },
-      { q: 'Can I just get booking help, no planning?', a: 'Of course! The "Just Booking" service is free — we search, compare, and book for you.' },
+      { q: 'Can I just get booking help, no planning?', a: 'Of course! The "Just Booking" service is free: we search, compare, and book for you.' },
       { q: 'What if my baby is under 1 year old?', a: 'We have experience with babies from 3 months. We adapt everything to the pace and needs of the little ones.' },
       { q: 'What happens during the trip?', a: 'With Zero Stress, you get support throughout your trip. With Light Trip, we help with preparation and decisions.' },
     ],
@@ -586,7 +593,7 @@ const copy = {
       { href: '#planning-tiers', label: 'Services' },
     ],
     footerTagline: 'Family travel with kids that works in real life.',
-    footerCopyright: '© 2025 TravelBuddies. All rights reserved.',
+    footerCopyright: '© 2026 TravelBuddies. All rights reserved.',
     trustCaptions: ['Beach with the kids', 'Exploring together', 'Real moments'],
     trustTitle: 'Trust and calm',
     trustCards: [
@@ -598,20 +605,21 @@ const copy = {
     formTitle: 'TravelBuddies Questionnaire',
     formBody: 'Share the essentials. We simplify.',
     formHint: '2–3 minutes · no commitment',
-    wizardWelcomeTitle: 'Hello! 👋',
+    wizardWelcomeTitle: 'Hello!',
     wizardWelcomeBody: "Let's design the perfect trip for your family.",
     wizardWelcomeNote: 'Just 5 quick steps.',
     wizardWelcomeSocialProof: 'Made by parents who travel with kids.',
     wizardWelcomeStart: 'Start',
-    wizardWelcomeQuickStart: '⚡ Quick fill',
+    wizardWelcomeQuickStart: 'Quick fill',
     wizardWelcomeQuickNote: 'Fill the essentials, skip the rest.',
     wizardStepTitles: [
-      '✈️ About the trip',
-      '🏨 Accommodation & style',
-      '🎯 Service type',
-      '👨‍👩‍👧‍👦 Traveler profiles',
-      '🗺️ Almost there!',
+      'About the trip',
+      'Accommodation & style',
+      'Service type',
+      'Traveler profiles',
+      'Almost there!',
     ],
+    wizardStepIcons: [Plane, Hotel, Target, Users, Map],
     wizardStepHelpers: [
       'Helps us understand the right pace.',
       'For better rest and less stress.',
@@ -621,7 +629,7 @@ const copy = {
     ],
     wizardReassureEmail: 'Only for your reply. No spam.',
     wizardReassurePrivacy: 'We do not share with third parties.',
-    wizardAutosaveNote: 'You can pause anytime — we save automatically.',
+    wizardAutosaveNote: 'You can pause anytime. We save automatically.',
     wizardNextStepNote: 'Then we send a clear, human proposal.',
     wizardTimeNote: 'Less than 1 minute.',
     wizardRequiredNote: 'Fill this in to continue',
@@ -632,7 +640,7 @@ const copy = {
     wizardSaveEmailBtn: 'Save progress',
     wizardOtherPlaceholder: 'Tell us more...',
     wizardRestart: 'Restart',
-    wizardSuccessTitle: 'All done! 🎉',
+    wizardSuccessTitle: 'All done!',
     wizardSuccessBody: "We received your answers. We'll analyze your family profile and send a personalized proposal soon.",
     wizardSuccessNext: 'What happens next:',
     wizardSuccessSteps: ['We analyze your family profile', 'Design tailored options', 'Send a proposal via email'],
@@ -641,38 +649,38 @@ const copy = {
     wizardPopularTag: 'Most popular',
     wizardRestartConfirm: 'Are you sure? All answers will be cleared.',
     wizardWhyAsk: {
-      budget: 'Helps us suggest realistic options — no commitment.',
+      budget: 'Helps us suggest realistic options, no commitment.',
       lodgingValues: 'To find the perfect accommodation for your family.',
       adultProfile: 'Helps us adapt the pace and style of the trip.',
     },
     wizardContextHelpers: {
       motivation: {
-        'Rest': 'Great choice! We will find the perfect pace to relax. 🏖️',
-        'Adventure': 'Fantastic! Safe adventures for the whole family. 🧗',
-        'Quality family time': 'Perfect! Time together is what matters most. 💛',
-        'Celebration (birthday, honeymoon, etc.)': "Let's make this celebration special! 🎉",
-        'Discover another culture': 'We love it! Exploring the world with kids is magical. 🌍',
+        'Rest': 'Great choice! We will find the perfect pace to relax.',
+        'Adventure': 'Fantastic! Safe adventures for the whole family.',
+        'Quality family time': 'Perfect! Time together is what matters most.',
+        'Celebration (birthday, honeymoon, etc.)': "Let's make this celebration special!",
+        'Discover another culture': 'We love it! Exploring the world with kids is magical.',
       },
       lodging: {
-        'Hotel': 'Hotel with everything planned for the little ones. 👌',
-        'Apartment': 'More space and flexibility for the family. 🏠',
-        'Resort': 'All inclusive, zero stress. ✨',
+        'Hotel': 'Hotel with everything planned for the little ones.',
+        'Apartment': 'More space and flexibility for the family.',
+        'Resort': 'All inclusive, zero stress.',
       },
     },
     wizardSeasons: ['Spring', 'Summer', 'Autumn', 'Winter', 'Anytime'],
     wizardMotivationIcons: {
-      'Rest': '🏖️',
-      'Adventure': '🧗',
-      'Quality family time': '👨‍👩‍👧',
-      'Celebration (birthday, honeymoon, etc.)': '🎂',
-      'Discover another culture': '🌍',
-      'Other': '✏️',
+      'Rest': ic(Palmtree),
+      'Adventure': ic(Mountain),
+      'Quality family time': ic(Heart),
+      'Celebration (birthday, honeymoon, etc.)': ic(PartyPopper),
+      'Discover another culture': ic(Globe),
+      'Other': ic(Pencil),
     },
-    wizardDynamicLodging: 'You chose {attraction} — what type of lodging do you prefer?',
-    wizardDynamicMeal: 'For your {motivation} trip — which meal plan works best?',
-    wizardExperiencePrompt: 'Tell us anything about family travel — what went well, what was hard, what you hope for this trip...',
-    wizardPersonalizedIntro: '{motivation} trip for {travelers} — almost done!',
-    wizardStepWatermarks: ['✈️', '🏨', '🎯', '👨‍👩‍👧‍👦', '🗺️'],
+    wizardDynamicLodging: 'You chose {attraction}. What type of lodging do you prefer?',
+    wizardDynamicMeal: 'For your {motivation} trip, which meal plan works best?',
+    wizardExperiencePrompt: 'Tell us anything about family travel: what went well, what was hard, what you hope for this trip...',
+    wizardPersonalizedIntro: '{motivation} trip for {travelers}. Almost done!',
+    wizardStepIcons_ref: [Plane, Hotel, Target, Users, Map],
     wizardQuestions: {
       email: 'Email',
       destination: 'What is the trip destination? Do you have one in mind? If yes, which?',
@@ -696,7 +704,7 @@ const copy = {
         'What is your approximate budget? This helps us see options closer to reality.',
       service: 'What kind of help are you looking for?',
       adultProfile: 'Adult {n}',
-      childProfile: 'Child {n} — {age}',
+      childProfile: 'Child {n}, {age}',
       familyTraveled: 'Have you traveled as a family before?',
       previousTrips: 'Where did you go and what went well?',
       hardest: 'What was the hardest or most stressful?',
@@ -715,7 +723,7 @@ const copy = {
       { id: 'Orçamento e marcação de viagem', title: 'Just Booking', desc: 'You know what you want. We book it, no fees.', tag: 'Free', price: '' },
       { id: 'Organização de Viagem em família (Plano Base)', title: 'Light Trip', desc: 'You know the destination but need help organizing.', tag: 'Most popular', price: 'from 30€', priceNote: '(with booking)' },
       { id: 'Organização de Viagem em família (Premium)', title: 'Zero Stress', desc: 'You want to switch off. We handle everything.', tag: 'All sorted', price: 'from 75€', priceNote: '(with booking)' },
-      { id: 'Ainda não sei', title: "Not sure yet", desc: "No problem — we'll help you choose.", tag: '', price: '' },
+      { id: 'Ainda não sei', title: "Not sure yet", desc: "No problem! We'll help you choose.", tag: '', price: '' },
     ],
     wizardDurationLabel: 'Trip duration:',
     wizardDurationOptions: ['Up to 7 days', '8–14 days', '15+ days'],
@@ -874,7 +882,7 @@ const formatDates = (lang, form) => {
     const parts = []
     if (form.dateSeason) parts.push(form.dateSeason)
     if (form.dateFlexNote?.trim()) parts.push(form.dateFlexNote.trim())
-    const detail = parts.length > 0 ? ` — ${parts.join(', ')}` : ''
+    const detail = parts.length > 0 ? ` (${parts.join(', ')})` : ''
     return `${lang === 'pt' ? 'Flexível' : 'Flexible'}${detail}`
   }
   if (form.dateMode === 'range' && form.dateFrom?.trim()) {
@@ -1233,7 +1241,7 @@ const StepCelebration = ({ show }) => (
   <AnimatePresence>
     {show && (
       <motion.span initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 12 }} className="inline-block ml-2 text-sm">✨</motion.span>
+        transition={{ type: 'spring', stiffness: 400, damping: 12 }} className="inline-block ml-2">{ic(Sparkles, { size: 14 })}</motion.span>
     )}
   </AnimatePresence>
 )
@@ -1759,7 +1767,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
       <div className="relative flex flex-col items-center justify-center py-6 text-center">
         <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 20 }}
           className="max-w-sm mx-auto">
-          <p className="text-3xl mb-3">✈️</p>
+          <div className="mb-3">{ic(Plane, { size: 32 })}</div>
           <h3 className="font-display text-2xl text-primary">{t.wizardWelcomeTitle}</h3>
           <p className="mt-2 text-sm text-primary/70">{t.wizardWelcomeBody}</p>
           <p className="mt-1 text-xs text-primary/50">{t.wizardWelcomeNote}</p>
@@ -1771,14 +1779,13 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
             <div>
               <p className="text-xs text-primary/50 mb-1.5">{isPT ? 'O que vos atrai mais?' : 'What attracts you most?'}</p>
               <div className="grid grid-cols-3 gap-2">
-                {(isPT ? ['🏖️ Praia', '🏙️ Cidade', '🌿 Natureza'] : ['🏖️ Beach', '🏙️ City', '🌿 Nature']).map((opt) => {
-                  const val = opt.replace(/^.+\s/, '')
-                  return (
-                  <button key={opt} type="button" onClick={() => { haptic(); setPill('attraction', data.attraction === val ? '' : val) }}
-                    className={`rounded-xl border px-2 py-3 text-sm min-h-[44px] transition ${data.attraction === val ? 'border-teal bg-teal/10 text-primary font-medium' : 'border-primary/10 bg-white/80 text-primary/60 hover:border-primary/20'}`}>
-                    {opt}
+                {(isPT ? [{ label: 'Praia', icon: Palmtree }, { label: 'Cidade', icon: Building2 }, { label: 'Natureza', icon: TreePine }] : [{ label: 'Beach', icon: Palmtree }, { label: 'City', icon: Building2 }, { label: 'Nature', icon: TreePine }]).map(({ label, icon: Icon }) => (
+                  <button key={label} type="button" onClick={() => { haptic(); setPill('attraction', data.attraction === label ? '' : label) }}
+                    className={`rounded-xl border px-2 py-3 text-sm min-h-[44px] transition flex flex-col items-center gap-1 ${data.attraction === label ? 'border-teal bg-teal/10 text-primary font-medium' : 'border-primary/10 bg-white/80 text-primary/60 hover:border-primary/20'}`}>
+                    <Icon size={16} className="text-teal" strokeWidth={2} />
+                    {label}
                   </button>
-                )})}
+                ))}
               </div>
             </div>
             <div>
@@ -1808,7 +1815,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
             </Button>
             <button type="button" onClick={handleQuickStart}
               className="text-xs text-primary/50 hover:text-teal transition underline underline-offset-2 decoration-primary/20 hover:decoration-teal/50">
-              {t.wizardWelcomeQuickStart}
+              <span className="inline-flex items-center gap-1">{ic(Zap, { size: 12 })} {t.wizardWelcomeQuickStart}</span>
             </button>
             <p className="text-[11px] text-primary/30">{t.wizardWelcomeQuickNote}</p>
           </div>
@@ -1820,13 +1827,14 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
   return (
     <div className="relative" ref={scrollRef}>
       {/* Step watermark (#17) */}
-      <div className="absolute -top-2 -right-2 text-[72px] leading-none opacity-[0.04] pointer-events-none select-none">
-        {t.wizardStepWatermarks?.[step] || ''}
+      <div className="absolute -top-2 -right-2 opacity-[0.04] pointer-events-none select-none">
+        {t.wizardStepIcons?.[step] && ic(t.wizardStepIcons[step], { size: 72, className: 'text-primary' })}
       </div>
 
       {/* Step header */}
       <div className="flex items-center justify-between text-xs text-primary/60">
-        <span className="text-sm font-medium text-primary/80">
+        <span className="text-sm font-medium text-primary/80 inline-flex items-center gap-1.5">
+          {t.wizardStepIcons?.[step] && ic(t.wizardStepIcons[step])}
           {steps[step].title}
           <StepCelebration show={celebrateStep === step - 1} />
         </span>
@@ -1849,7 +1857,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
             </div>
             {/* Step labels — desktop only (#6) */}
             <p className={`hidden sm:block mt-1 text-[11px] truncate transition-colors ${i === step ? 'text-primary/60 font-medium' : i < step ? 'text-teal/50' : 'text-primary/20'}`}>
-              {title.replace(/^\S+\s/, '')}
+              {title}
             </p>
           </div>
         ))}
@@ -1988,7 +1996,7 @@ export default function App() {
       setCopyStatus(lang === 'pt' ? 'Copiado!' : 'Copied!')
       setTimeout(() => setCopyStatus(''), 2000)
     } catch (error) {
-      setCopyStatus(lang === 'pt' ? 'Copia manual necessária' : 'Copy manually')
+      setCopyStatus(lang === 'pt' ? 'Cópia manual necessária' : 'Copy manually')
     }
   }
 
@@ -2000,7 +2008,7 @@ export default function App() {
 
   const handleStepChange = (currentStep, totalSteps) => {
     setWizardStep({ current: currentStep ?? 0, total: totalSteps ?? 5 })
-    setStepStatus(lang === 'pt' ? 'Continuas depois — guardado ✅' : 'Continue later — saved ✅')
+    setStepStatus(lang === 'pt' ? 'Continuas depois, guardado' : 'Continue later, saved')
     setTimeout(() => setStepStatus(''), 1600)
   }
 
@@ -2063,7 +2071,7 @@ export default function App() {
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Desktop: full CTA + lang toggles */}
             {route === 'home' && (
-              <Button as="a" href={lang === 'pt' ? '#questionario' : '#questionnaire'} variant="secondary" size="sm" className="hidden sm:inline-flex">
+              <Button as="a" href="#planning-tiers" variant="secondary" size="sm" className="hidden sm:inline-flex">
                 {t.primaryCta}
               </Button>
             )}
@@ -2134,7 +2142,7 @@ export default function App() {
               </div>
               {route === 'home' && (
                 <div className="mt-4">
-                  <Button as="a" href={lang === 'pt' ? '#questionario' : '#questionnaire'} variant="primary" size="lg" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                  <Button as="a" href="#planning-tiers" variant="primary" size="lg" className="w-full" onClick={() => setMobileMenuOpen(false)}>
                     {t.primaryCta}
                   </Button>
                 </div>
@@ -2159,23 +2167,17 @@ export default function App() {
                 <Reveal immediate className="relative order-first lg:order-last">
                   <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-tealSoft/70 blur-2xl" />
                   <div className="overflow-hidden rounded-2xl sm:rounded-[24px] -mx-5 sm:mx-0 shadow-[0_12px_30px_rgba(2,47,89,0.1)]">
-                    <motion.img src={travel2} alt="Family traveling"
+                    <motion.img src={heroCuba} alt="Family traveling in Cuba"
                       style={{ y: heroParallaxY }}
-                      className="h-[220px] sm:h-[280px] lg:h-[320px] w-full object-cover object-[50%_42%] scale-[1.10]" />
+                      className="h-[220px] sm:h-[280px] lg:h-[320px] w-full object-cover object-[50%_60%] scale-[1.10]" />
                   </div>
                 </Reveal>
                 <Reveal immediate>
                   <h1 className="text-[1.65rem] sm:text-[2.1rem] lg:text-[2.5rem] font-display leading-[1.2] text-balance whitespace-pre-line">
                     {t.heroTitle}
                   </h1>
-                  <p className="font-subtitle font-light mt-2 text-sm sm:text-base text-primary/70 text-balance max-w-lg">{t.heroBody}</p>
-                  {/* Free booking badge */}
-                  <div className="mt-2.5 inline-flex items-center gap-2 rounded-full bg-teal/10 border border-teal/15 px-3 py-1.5">
-                    <span className="text-teal text-sm">✓</span>
-                    <span className="text-xs font-medium text-teal">{lang === 'pt' ? 'Marcação de viagem gratuita' : 'Free trip booking'}</span>
-                  </div>
+                  <p className="font-body mt-2 text-sm sm:text-base text-primary/70 text-balance max-w-lg">{t.heroBody}</p>
                   <div className="mt-4">
-                    <p className="font-subtitle font-light mb-1.5 text-sm text-primary/60">{t.heroCtaPrompt}</p>
                     <Button as="a" href={`#planning-tiers`} variant="primary" size="lg">
                       {t.primaryCta}
                     </Button>
@@ -2199,9 +2201,9 @@ export default function App() {
               </div>
             </Reveal>
 
-            {/* Sticky mobile CTA — only visible while hero is on screen */}
+            {/* Sticky mobile CTA — appears after hero scrolls off screen */}
             <AnimatePresence>
-              {heroVisible && (
+              {!heroVisible && (
                 <motion.div
                   initial={{ y: 80, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -2245,8 +2247,8 @@ export default function App() {
                   <Reveal className="w-[85vw] sm:w-auto shrink-0 snap-center">
                     <Card className="relative p-5 bg-tealSoft/15 flex flex-col h-full ring-2 ring-teal/20">
                       <span className="absolute -top-2.5 right-4 rounded-full bg-teal text-white px-3 py-0.5 text-[11px] font-medium shadow-sm">{t.freeTag}</span>
-                      <h3 className="font-display text-xl text-primary leading-none">{t.freeTitle}</h3>
-                      <p className="mt-1 text-sm font-display text-teal">{t.freeSubtitle}</p>
+                      <h3 className="font-body font-bold text-xl text-primary leading-none">{t.freeTitle}</h3>
+                      <p className="mt-1 text-sm font-body font-semibold text-teal">{t.freeSubtitle}</p>
                       <p className="mt-2 text-xs text-primary/70">{t.freeOutcome}</p>
                       <p className="mt-2 text-xs text-primary/55">{t.freeWhen}</p>
                       <ExpandableList items={t.freeDetailedList} />
@@ -2262,8 +2264,8 @@ export default function App() {
                   <Reveal className="w-[85vw] sm:w-auto shrink-0 snap-center">
                     <Card className="relative p-5 flex flex-col h-full ring-1 ring-teal/15">
                       <span className="absolute -top-2.5 right-4 rounded-full bg-teal text-white px-3 py-0.5 text-[11px] font-medium shadow-sm">{t.baseBadge}</span>
-                      <h3 className="font-display text-xl text-primary leading-none">{t.baseTitle}</h3>
-                      <p className="mt-1 text-sm font-display text-teal">{t.baseSubtitle}</p>
+                      <h3 className="font-body font-bold text-xl text-primary leading-none">{t.baseTitle}</h3>
+                      <p className="mt-1 text-sm font-body font-semibold text-teal">{t.baseSubtitle}</p>
                       <p className="mt-2 text-xs text-primary/70">{t.baseOutcome}</p>
                       <p className="mt-2 text-xs text-primary/55">{t.baseWhen}</p>
                       <CollapsiblePricing label={t.durationLabel} startPrice={`${t.basePricing[0].discount}€–${t.basePricing[2].discount}€`}>
@@ -2294,8 +2296,8 @@ export default function App() {
                   <Reveal className="w-[85vw] sm:w-auto shrink-0 snap-center">
                     <Card variant="elevated" className="relative p-5 bg-gradient-to-br from-cream/50 to-tealSoft/15 ring-2 ring-teal/15 flex flex-col h-full">
                       <span className="absolute -top-2.5 right-4 rounded-full bg-primary text-white px-3 py-0.5 text-[11px] font-medium shadow-sm">{t.premiumBadge}</span>
-                      <h3 className="font-display text-xl text-primary leading-none">{t.premiumTitle}</h3>
-                      <p className="mt-1 text-sm font-display text-teal">{t.premiumSubtitle}</p>
+                      <h3 className="font-body font-bold text-xl text-primary leading-none">{t.premiumTitle}</h3>
+                      <p className="mt-1 text-sm font-body font-semibold text-teal">{t.premiumSubtitle}</p>
                       <p className="mt-2 text-xs text-primary/70">{t.premiumOutcome}</p>
                       <Badge className="mt-2 text-[11px]">{t.premiumIncludesBase}</Badge>
                       <p className="mt-2 text-xs text-primary/55">{t.premiumWhen}</p>
@@ -2342,8 +2344,7 @@ export default function App() {
                   {!showDesktopQuiz ? (
                     <button type="button" onClick={() => setShowDesktopQuiz(true)}
                       className="inline-flex items-center gap-2 text-sm text-teal hover:text-teal/80 font-medium transition">
-                      <span>{t.servicesQuizFirst}</span>
-                      <span className="text-xs">{lang === 'pt' ? 'Responde a 3 perguntas →' : 'Answer 3 questions →'}</span>
+                      <span>{t.servicesQuizFirst} →</span>
                     </button>
                   ) : (
                     <Card className="p-5 max-w-md mx-auto">
@@ -2365,7 +2366,7 @@ export default function App() {
                   <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}
                     className="max-w-lg mx-auto text-center py-8">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 15, delay: 0.2 }}
-                      className="text-5xl mb-4">🎉</motion.div>
+                      className="mb-4 flex justify-center"><CircleCheck size={48} className="text-teal" strokeWidth={1.5} /></motion.div>
                     <h2 className="font-display text-2xl sm:text-3xl text-primary">{t.wizardSuccessTitle}</h2>
                     <p className="mt-3 text-sm text-primary/70 max-w-md mx-auto">{t.wizardSuccessBody}</p>
                     <div className="mt-6 rounded-2xl border border-teal/20 bg-teal/5 p-5 text-left">
@@ -2382,7 +2383,7 @@ export default function App() {
                     {/* Soft upsell nudge for free booking users */}
                     {wizardData?.service === 'Orçamento e marcação de viagem' && t.wizardSuccessUpsell && (
                       <div className="mt-4 rounded-2xl border border-blush/20 bg-blush/5 px-4 py-3 text-xs text-primary/60 text-center">
-                        <span className="mr-1">💡</span>{t.wizardSuccessUpsell}
+                        <span className="mr-1 inline-flex align-text-bottom">{ic(Lightbulb, { size: 14 })}</span>{t.wizardSuccessUpsell}
                       </div>
                     )}
                     <p className="mt-6 text-xs text-primary/50 mb-3">{t.wizardSuccessCta}</p>
@@ -2411,11 +2412,11 @@ export default function App() {
                   <Card variant="surface" className="mt-6 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 pt-6 px-5 pb-5 md:p-6 overflow-hidden -mx-5 sm:mx-0 rounded-t-3xl sm:rounded-[24px]">
                     <DiagnosisWizard t={t} onSubmit={handleWizardSubmit} onStepChange={handleStepChange} onDataChange={setWizardData} onAutosave={() => {}} preselectedService={preselectedService} />
                   </Card>
-                  <div className="mt-4 grid gap-2 grid-cols-3">
+                  <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-1">
                     {t.wizardReceiveItems.map((item) => (
-                      <div key={item} className="rounded-xl border border-primary/10 bg-cream/60 px-3 py-3 text-xs text-primary/70 text-center">
+                      <span key={item} className="text-sm text-primary/60">
                         {item}
-                      </div>
+                      </span>
                     ))}
                   </div>
                   {stepStatus && <p className="mt-2 text-xs text-teal text-center">{stepStatus}</p>}
@@ -2432,7 +2433,7 @@ export default function App() {
                           <>
                             {wizardData.motivation && (
                               <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="text-sm shrink-0">{t.wizardMotivationIcons?.[wizardData.motivation] || '✈️'}</span>
+                                <span className="shrink-0">{t.wizardMotivationIcons?.[wizardData.motivation] || ic(Plane)}</span>
                                 <div>
                                   <p className="text-[11px] text-primary/40">{t.messageLabels.motivation}</p>
                                   <p className="text-xs text-primary/80 font-medium">{wizardData.motivation}</p>
@@ -2441,7 +2442,7 @@ export default function App() {
                             )}
                             {(wizardData.adults || wizardData.kids?.length > 0) && (
                               <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="text-sm shrink-0">👨‍👩‍👧</span>
+                                <span className="shrink-0">{ic(Users)}</span>
                                 <div>
                                   <p className="text-[11px] text-primary/40">{t.messageLabels.travelers}</p>
                                   <p className="text-xs text-primary/80 font-medium">{formatTravelers(lang, wizardData)}</p>
@@ -2450,7 +2451,7 @@ export default function App() {
                             )}
                             {wizardData.dateMode && (
                               <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="text-sm shrink-0">📅</span>
+                                <span className="shrink-0">{ic(Calendar)}</span>
                                 <div>
                                   <p className="text-[11px] text-primary/40">{t.messageLabels.dates}</p>
                                   <p className="text-xs text-primary/80 font-medium">{formatDates(lang, wizardData)}</p>
@@ -2459,7 +2460,7 @@ export default function App() {
                             )}
                             {(wizardData.attraction || wizardData.lodging || wizardData.meal) && (
                               <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="text-sm shrink-0">🏨</span>
+                                <span className="shrink-0">{ic(Hotel)}</span>
                                 <div>
                                   <p className="text-[11px] text-primary/40">{t.wizardSummarySections.lodging}</p>
                                   <p className="text-xs text-primary/80 font-medium">
@@ -2470,7 +2471,7 @@ export default function App() {
                             )}
                             {wizardData.service && (
                               <div className="flex items-start gap-2 rounded-xl bg-teal/8 px-3 py-2">
-                                <span className="text-sm shrink-0">🎯</span>
+                                <span className="shrink-0">{ic(Target)}</span>
                                 <div>
                                   <p className="text-[11px] text-primary/40">{t.messageLabels.service}</p>
                                   <p className="text-xs text-primary/80 font-medium">{wizardData.service}</p>
@@ -2479,7 +2480,7 @@ export default function App() {
                             )}
                             {wizardData.travelerProfiles?.filter((p) => p.profile).length > 0 && (
                               <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="text-sm shrink-0">👤</span>
+                                <span className="shrink-0">{ic(Users)}</span>
                                 <div>
                                   <p className="text-[11px] text-primary/40">{t.wizardSummarySections.profiles}</p>
                                   {wizardData.travelerProfiles.filter((p) => p.profile).map((p, i) => (
@@ -2490,7 +2491,7 @@ export default function App() {
                             )}
                             {wizardData.email && (
                               <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="text-sm shrink-0">📧</span>
+                                <span className="shrink-0">{ic(Mail)}</span>
                                 <div>
                                   <p className="text-[11px] text-primary/40">{t.messageLabels.email}</p>
                                   <p className="text-xs text-primary/80 font-medium">{wizardData.email}</p>
@@ -2513,21 +2514,49 @@ export default function App() {
               {/* Resumo drawer removed — cleaner mobile UX */}
             </section>
 
-            {/* FAQ */}
+            {/* FAQ + Lead Magnet — side-by-side on desktop */}
             <section className="py-10 md:py-12 border-t border-primary/5">
-              <div className={`${container} max-w-[720px]`}>
-                <Reveal>
-                  <Card className="p-5 sm:p-8 bg-cream/20">
-                    <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.25]">{t.faqTitle}</h2>
-                    <div className="mt-6">
-                      {t.faqItems.map((item) => <FAQItem key={item.q} q={item.q} a={item.a} />)}
-                    </div>
-                  </Card>
-                </Reveal>
+              <div className={`${container}`}>
+                <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+                  {/* FAQ */}
+                  <Reveal>
+                    <Card className="p-5 sm:p-8 bg-cream/20">
+                      <h2 className="text-[1.65rem] sm:text-[1.95rem] font-display leading-[1.25]">{t.faqTitle}</h2>
+                      <div className="mt-6">
+                        {t.faqItems.map((item) => <FAQItem key={item.q} q={item.q} a={item.a} />)}
+                      </div>
+                    </Card>
+                  </Reveal>
+                  {/* Lead Magnet — Travel Planner PDF */}
+                  <Reveal>
+                    <Card className="p-5 sm:p-8 text-center bg-gradient-to-br from-tealSoft/20 to-cream/30">
+                      <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-teal/10 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-teal"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                      </div>
+                      <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.leadMagnetTitle}</h2>
+                      <p className="mt-2 text-sm text-primary/70">{t.leadMagnetBody}</p>
+                      <div className="mt-4 flex flex-col gap-1.5 items-start max-w-xs mx-auto text-left">
+                        {(lang === 'pt' ? ['Checklist de malas para toda a família', 'Timeline dia-a-dia para a viagem', 'Dicas práticas por tipo de destino'] : ['Family packing checklist', 'Day-by-day trip timeline', 'Practical tips by destination type']).map((item) => (
+                          <div key={item} className="flex items-center gap-2 text-xs text-primary/60">
+                            <span className="text-teal text-sm">✓</span>
+                            <span>{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <form onSubmit={(e) => { e.preventDefault(); haptic(); const email = e.target.elements.leadEmail?.value; if (email) { window.open(`mailto:joana_krisna@hotmail.com?subject=${encodeURIComponent(lang === 'pt' ? 'Pedido Travel Planner PDF' : 'Travel Planner PDF Request')}&body=${encodeURIComponent(lang === 'pt' ? `Olá! Quero receber o Travel Planner gratuito. O meu email é: ${email}` : `Hi! I want to receive the free Travel Planner. My email is: ${email}`)}`, '_self') } }}
+                        className="mt-5 flex flex-col gap-2 items-stretch max-w-sm mx-auto">
+                        <input type="email" name="leadEmail" required placeholder="email@exemplo.com"
+                          className="rounded-xl border border-primary/15 bg-white px-4 py-3 text-sm text-primary placeholder:text-primary/30 focus:outline-none focus:ring-2 focus:ring-teal/50 min-h-[48px]" />
+                        <Button type="submit" variant="primary" size="md" className="w-full">{t.leadMagnetCta}</Button>
+                      </form>
+                      <p className="mt-2 text-[11px] text-primary/35">{t.leadMagnetNote}</p>
+                    </Card>
+                  </Reveal>
+                </div>
               </div>
             </section>
 
-            {/* FOUNDER section — with family photos (moved from trust) */}
+            {/* FOUNDER section — with family photos */}
             <section className="py-8 md:py-10 border-t border-primary/5 bg-cream/15">
               <div className={container}>
                 <div className="max-w-[720px]">
@@ -2541,7 +2570,6 @@ export default function App() {
                     </div>
                   </Reveal>
                 </div>
-                {/* Single photo on mobile, 3-grid on desktop */}
                 <Reveal>
                   <div className="mt-6 sm:hidden overflow-hidden rounded-xl">
                     <img src={travel1} alt={t.trustCaptions?.[0] || ''} className="h-44 w-full object-cover" loading="lazy" />
@@ -2557,37 +2585,6 @@ export default function App() {
                   ))}
                 </div>
                 <p className="mt-2 text-[11px] text-primary/35">{lang === 'pt' ? 'Fotos reais da nossa família.' : 'Real photos of our family.'}</p>
-              </div>
-            </section>
-
-            {/* Lead Magnet — Travel Planner PDF download */}
-            <section className="py-10 md:py-12 border-t border-primary/5 bg-gradient-to-br from-tealSoft/20 to-cream/30">
-              <div className={`${container} max-w-[600px]`}>
-                <Reveal>
-                  <Card className="p-6 sm:p-8 text-center bg-white/80">
-                    <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-teal/10 mb-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-teal"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    </div>
-                    <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.leadMagnetTitle}</h2>
-                    <p className="mt-2 text-sm text-primary/70">{t.leadMagnetBody}</p>
-                    {/* Peek inside */}
-                    <div className="mt-4 flex flex-col gap-1.5 items-start max-w-xs mx-auto text-left">
-                      {(lang === 'pt' ? ['Checklist de malas para toda a família', 'Timeline dia-a-dia para a viagem', 'Dicas práticas por tipo de destino'] : ['Family packing checklist', 'Day-by-day trip timeline', 'Practical tips by destination type']).map((item) => (
-                        <div key={item} className="flex items-center gap-2 text-xs text-primary/60">
-                          <span className="text-teal text-sm">✓</span>
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <form onSubmit={(e) => { e.preventDefault(); haptic(); const email = e.target.elements.leadEmail?.value; if (email) { window.open(`mailto:joana_krisna@hotmail.com?subject=${encodeURIComponent(lang === 'pt' ? 'Pedido Travel Planner PDF' : 'Travel Planner PDF Request')}&body=${encodeURIComponent(lang === 'pt' ? `Olá! Quero receber o Travel Planner gratuito. O meu email é: ${email}` : `Hi! I want to receive the free Travel Planner. My email is: ${email}`)}`, '_self') } }}
-                      className="mt-5 flex gap-2 items-stretch max-w-sm mx-auto">
-                      <input type="email" name="leadEmail" required placeholder="email@exemplo.com"
-                        className="flex-1 rounded-xl border border-primary/15 bg-white px-4 py-3 text-sm text-primary placeholder:text-primary/30 focus:outline-none focus:ring-2 focus:ring-teal/50 min-h-[48px]" />
-                      <Button type="submit" variant="primary" size="md" className="shrink-0">{t.leadMagnetCta}</Button>
-                    </form>
-                    <p className="mt-2 text-[11px] text-primary/35">{t.leadMagnetNote}</p>
-                  </Card>
-                </Reveal>
               </div>
             </section>
           </>

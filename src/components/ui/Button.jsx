@@ -1,5 +1,5 @@
 const base =
-  'inline-flex items-center justify-center gap-2 min-h-[48px] px-5 rounded-[14px] text-sm font-medium leading-none transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:opacity-50 disabled:pointer-events-none'
+  'inline-flex items-center justify-center gap-2 min-h-[48px] px-5 rounded-[14px] font-body text-sm font-medium leading-none transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:opacity-50 disabled:pointer-events-none'
 
 const variants = {
   primary:
@@ -10,9 +10,9 @@ const variants = {
 }
 
 const sizes = {
-  sm: 'min-h-[44px] px-4 text-xs',
-  md: 'min-h-[48px] px-5 text-sm',
-  lg: 'min-h-[52px] px-6 text-base',
+  sm: 'min-h-[44px] px-4',
+  md: 'min-h-[48px] px-5',
+  lg: 'min-h-[52px] px-6',
 }
 
 export default function Button({
