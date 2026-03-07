@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
-import { Plane, Hotel, Target, Users, Map, Palmtree, Mountain, Heart, PartyPopper, Globe, Pencil, Zap, Hand, Sparkles, Home, ThumbsUp, Calendar, Mail, Lightbulb, CircleCheck, Building2, TreePine, Crown, Compass, X } from 'lucide-react'
+import { Plane, Hotel, Target, Users, Map, Palmtree, Mountain, Heart, PartyPopper, Globe, Pencil, Zap, Hand, Sparkles, Home, ThumbsUp, Calendar, Mail, Lightbulb, CircleCheck, Building2, TreePine, Crown, Compass, X, Instagram, MessageCircle, MapPin } from 'lucide-react'
 import ProductsPage from './components/ProductsPage'
 import Button from './components/ui/Button'
 import Card from './components/ui/Card'
@@ -184,6 +184,7 @@ const copy = {
       { href: '#planning-tiers', label: 'Serviços' },
     ],
     footerTagline: 'Viagens com crianças que funcionam na vida real.',
+    footerMadeWith: 'Feito com amor em Portugal',
     footerCopyright: '© 2026 TravelBuddies. Todos os direitos reservados.',
     trustCaptions: ['Praia com os miúdos', 'Explorar juntos', 'Momentos reais'],
     trustTitle: 'Confiança e calma',
@@ -552,6 +553,7 @@ const copy = {
       { href: '#planning-tiers', label: 'Services' },
     ],
     footerTagline: 'Family travel with kids that works in real life.',
+    footerMadeWith: 'Made with love in Portugal',
     footerCopyright: '© 2026 TravelBuddies. All rights reserved.',
     trustCaptions: ['Beach with the kids', 'Exploring together', 'Real moments'],
     trustTitle: 'Trust and calm',
@@ -1947,81 +1949,68 @@ export default function App() {
 
   return (
     <div className="font-body text-primary">
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-primary/10 relative">
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-primary/8 relative">
         {/* Scroll progress bar */}
         <div className="absolute bottom-0 left-0 h-[2px] bg-teal/60 transition-[width] duration-100" style={{ width: `${scrollProgress * 100}%` }} />
-        <div className={`${container} flex items-center justify-between py-2 sm:py-4`}>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <button type="button" onClick={() => navigate('/')} className="h-12 w-12 sm:h-20 sm:w-20 flex items-center justify-center shrink-0">
-              <img src={logoBrand} alt="TravelBuddies" className="h-12 w-12 sm:h-20 sm:w-20 object-contain" />
-            </button>
-            <div>
-              <p className="font-display text-lg sm:text-xl">TravelBuddies</p>
-              <p className="font-subtitle font-light text-xs sm:text-sm text-primary hidden sm:block">Organizamos Viagens em Família</p>
-            </div>
-          </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm">
+        <div className={`${container} flex items-center justify-between py-2.5`}>
+          {/* Logo — compact */}
+          <button type="button" onClick={() => navigate('/')} className="flex items-center gap-2 shrink-0">
+            <img src={logoBrand} alt="TravelBuddies" className="h-9 w-9 sm:h-10 sm:w-10 object-contain" />
+            <span className="font-display text-lg sm:text-xl text-primary">TravelBuddies</span>
+          </button>
+
+          {/* Nav links with underline hover */}
+          <nav className="hidden md:flex items-center gap-5 text-[13px]">
             <a
               href="/"
-              onClick={(event) => {
-                event.preventDefault()
-                navigate('/')
-              }}
-              className={`hover:text-primary/80 ${route === 'home' ? 'text-primary font-semibold' : 'text-primary'}`}
+              onClick={(event) => { event.preventDefault(); navigate('/') }}
+              className={`relative py-1 transition-colors hover:text-primary/70 after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:bg-teal after:transition-all after:duration-200 ${
+                route === 'home' ? 'text-primary font-semibold after:w-full' : 'text-primary/70 after:w-0 hover:after:w-full'
+              }`}
             >
               {t.homeNav}
             </a>
             {route === 'home' &&
               t.navLinks.map((link) => (
-                <a key={link.href} href={link.href} className="text-primary hover:text-primary/80">
+                <a key={link.href} href={link.href}
+                  className="relative py-1 text-primary/70 transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-0 after:bg-teal after:transition-all after:duration-200 hover:after:w-full">
                   {link.label}
                 </a>
               ))}
             <a
               href="/produtos"
-              onClick={(event) => {
-                event.preventDefault()
-                navigate('/produtos')
-              }}
-              className={`hover:text-primary/80 ${route === 'produtos' ? 'text-primary font-semibold' : 'text-primary'}`}
+              onClick={(event) => { event.preventDefault(); navigate('/produtos') }}
+              className={`relative py-1 transition-colors hover:text-primary/70 after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:bg-teal after:transition-all after:duration-200 ${
+                route === 'produtos' ? 'text-primary font-semibold after:w-full' : 'text-primary/70 after:w-0 hover:after:w-full'
+              }`}
             >
               {t.productsNav}
             </a>
           </nav>
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Desktop: full CTA + lang toggles */}
+
+          {/* Actions */}
+          <div className="flex items-center gap-3">
+            {/* Desktop CTA — filled */}
             {route === 'home' && (
-              <Button as="a" href="#planning-tiers" variant="secondary" size="sm" className="hidden sm:inline-flex">
+              <Button as="a" href="#planning-tiers" variant="primary" size="sm" className="hidden sm:inline-flex min-h-[38px] text-[13px] rounded-xl">
                 {t.primaryCta}
               </Button>
             )}
-            <div className="hidden sm:flex items-center gap-2">
-              <Button
-                type="button"
-                size="sm"
-                variant={lang === 'pt' ? 'primary' : 'ghost'}
-                className={`min-h-[40px] ${
-                  lang === 'pt' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
-                }`}
-                onClick={() => setLang('pt')}
-              >
+            {/* Language toggle — minimal text */}
+            <div className="hidden sm:flex items-center text-[12px] font-medium tracking-wide">
+              <button type="button" onClick={() => setLang('pt')}
+                className={`px-1.5 py-1 transition-colors ${lang === 'pt' ? 'text-primary' : 'text-primary/35 hover:text-primary/60'}`}>
                 PT
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                variant={lang === 'en' ? 'primary' : 'ghost'}
-                className={`min-h-[40px] ${
-                  lang === 'en' ? 'bg-primary text-white border-primary' : 'border-primary/20 text-primary/70'
-                }`}
-                onClick={() => setLang('en')}
-              >
+              </button>
+              <span className="text-primary/15">|</span>
+              <button type="button" onClick={() => setLang('en')}
+                className={`px-1.5 py-1 transition-colors ${lang === 'en' ? 'text-primary' : 'text-primary/35 hover:text-primary/60'}`}>
                 EN
-              </Button>
+              </button>
             </div>
-            {/* Mobile: hamburger button */}
-            <button type="button" onClick={() => setMobileMenuOpen(true)} className="sm:hidden flex items-center justify-center h-11 w-11 rounded-xl border border-primary/10 hover:bg-cream/40 transition" aria-label="Menu">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+            {/* Mobile: hamburger */}
+            <button type="button" onClick={() => setMobileMenuOpen(true)} className="sm:hidden flex items-center justify-center h-10 w-10 rounded-xl border border-primary/10 hover:bg-cream/40 transition" aria-label="Menu">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
             </button>
           </div>
         </div>
@@ -2565,32 +2554,74 @@ export default function App() {
         )}
       </main>
 
-      {/* #13/#15 Enhanced footer with navigation, social, copyright */}
-      <footer className="py-12 md:py-16 border-t border-primary/10 bg-primary/[0.03]">
-        <div className={`${container} grid gap-8 sm:grid-cols-[1fr_auto_auto]`}>
-          <div className="space-y-3">
-            <img src={logoBrand} alt={t.footerTitle} className="h-14 sm:h-20 w-auto object-contain" />
-            <p className="font-subtitle font-light text-sm text-primary max-w-[260px]">{t.footerTagline || t.footerBody}</p>
-          </div>
-          <div className="space-y-2">
-            <p className="text-xs font-semibold text-primary/40 uppercase tracking-wider">{lang === 'pt' ? 'Navegação' : 'Navigation'}</p>
-            {(t.footerNav || t.navLinks).map((link) => (
-              <a key={link.href} href={link.href} className="block text-sm text-primary/70 hover:text-primary transition">{link.label}</a>
-            ))}
-            <a href="/produtos" onClick={(e) => { e.preventDefault(); navigate('/produtos') }}
-              className="block text-sm text-primary/70 hover:text-primary transition">{t.productsNav}</a>
-          </div>
-          <div className="space-y-2">
-            <p className="text-xs font-semibold text-primary/40 uppercase tracking-wider">{lang === 'pt' ? 'Contacto' : 'Contact'}</p>
-            <div className="flex gap-3">
-              <a href="https://wa.me/351919676329" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><img src={btnWhatsapp} alt="WhatsApp" className="h-10 w-auto" /></a>
-              <a href="mailto:joana_krisna@hotmail.com" aria-label="Email"><img src={btnEmail} alt="Email" className="h-10 w-auto" /></a>
-              <a href="https://www.instagram.com/family_in_trouble/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src={btnInstagram} alt="Instagram" className="h-10 w-auto" /></a>
+      {/* Warm Editorial Footer */}
+      <footer className="relative overflow-hidden">
+        {/* Warm gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-tealSoft/40 via-white to-cream/40 pointer-events-none" />
+
+        <div className="relative pt-10 pb-6 md:pt-12 md:pb-8">
+          <div className={container}>
+            {/* Main footer grid */}
+            <div className="grid gap-7 sm:gap-6 sm:grid-cols-[1.4fr_1fr_1fr] sm:items-start">
+
+              {/* Brand column */}
+              <div className="space-y-2.5">
+                <img src={logoBrand} alt={t.footerTitle} className="h-12 sm:h-14 w-auto object-contain" />
+                <p className="font-display text-base sm:text-lg text-primary/80 max-w-[260px] leading-snug">
+                  {t.footerTagline}
+                </p>
+              </div>
+
+              {/* Navigation column */}
+              <div className="space-y-3">
+                <p className="text-[11px] font-semibold text-primary/35 uppercase tracking-[0.15em]">
+                  {lang === 'pt' ? 'Navegação' : 'Navigation'}
+                </p>
+                <nav className="flex flex-col gap-2">
+                  {(t.footerNav || t.navLinks).map((link) => (
+                    <a key={link.href} href={link.href}
+                      className="text-[13px] text-primary/60 hover:text-primary transition-colors w-fit">
+                      {link.label}
+                    </a>
+                  ))}
+                  <a href="/produtos" onClick={(e) => { e.preventDefault(); navigate('/produtos') }}
+                    className="text-[13px] text-primary/60 hover:text-primary transition-colors w-fit">
+                    {t.productsNav}
+                  </a>
+                </nav>
+              </div>
+
+              {/* Contact column */}
+              <div className="space-y-3">
+                <p className="text-[11px] font-semibold text-primary/35 uppercase tracking-[0.15em]">
+                  {lang === 'pt' ? 'Contacto' : 'Contact'}
+                </p>
+                <div className="flex flex-col gap-2">
+                  <a href="https://wa.me/351919676329" target="_blank" rel="noopener noreferrer"
+                    className="text-[13px] text-primary/60 hover:text-primary transition-colors w-fit flex items-center gap-2">
+                    <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
+                  </a>
+                  <a href="mailto:joana_krisna@hotmail.com"
+                    className="text-[13px] text-primary/60 hover:text-primary transition-colors w-fit flex items-center gap-2">
+                    <Mail className="h-3.5 w-3.5" /> Email
+                  </a>
+                  <a href="https://www.instagram.com/family_in_trouble/" target="_blank" rel="noopener noreferrer"
+                    className="text-[13px] text-primary/60 hover:text-primary transition-colors w-fit flex items-center gap-2">
+                    <Instagram className="h-3.5 w-3.5" /> Instagram
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Divider + bottom row */}
+            <div className="mt-8 pt-4 border-t border-primary/8 flex flex-col sm:flex-row items-center justify-between gap-2">
+              <p className="flex items-center gap-1.5 text-xs text-primary/35">
+                <MapPin className="h-3 w-3" />
+                {t.footerMadeWith} <span className="inline-block text-[10px]">🇵🇹</span>
+              </p>
+              <p className="text-xs text-primary/25">{t.footerCopyright}</p>
             </div>
           </div>
-        </div>
-        <div className={`${container} mt-8 pt-4 border-t border-primary/8`}>
-          <p className="text-xs text-primary/30 text-center">{t.footerCopyright || t.footerSmall}</p>
         </div>
       </footer>
       <Analytics />
