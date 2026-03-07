@@ -1306,6 +1306,12 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
     }, 100)
   }, [])
 
+  const scrollWizardTop = () => {
+    setTimeout(() => {
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 80)
+  }
+
   const next = () => {
     if (!canAdvance) {
       setTried((prev) => ({ ...prev, [step]: true }))
@@ -1315,10 +1321,14 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
     setTimeout(() => setCelebrateStep(-1), 1200)
     const nextStep = Math.min(step + 1, 4)
     setStep(nextStep)
+    scrollWizardTop()
     /* #13 Show save prompt on entering step 2 if no email yet */
     if (nextStep === 2 && !data.email) setShowSavePrompt(true)
   }
-  const back = () => setStep((prev) => Math.max(prev - 1, 0))
+  const back = () => {
+    setStep((prev) => Math.max(prev - 1, 0))
+    scrollWizardTop()
+  }
 
   /* #5 Quick-start handler */
   const handleQuickStart = () => {
