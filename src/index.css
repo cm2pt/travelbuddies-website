@@ -8,8 +8,8 @@
 
 @font-face {
   font-family: 'More Sugar';
-  src: url('./assets/fonts/MoreSugar-Regular.otf') format('opentype'),
-    url('./assets/fonts/MoreSugar-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/MoreSugar-Regular.ttf') format('truetype'),
+    url('./assets/fonts/MoreSugar-Regular.otf') format('opentype');
   font-display: swap;
   font-style: normal;
   font-weight: 400;
@@ -17,8 +17,8 @@
 
 @font-face {
   font-family: 'More Sugar';
-  src: url('./assets/fonts/MoreSugar-Thin.otf') format('opentype'),
-    url('./assets/fonts/MoreSugar-Thin.ttf') format('truetype');
+  src: url('./assets/fonts/MoreSugar-Thin.ttf') format('truetype'),
+    url('./assets/fonts/MoreSugar-Thin.otf') format('opentype');
   font-display: swap;
   font-style: normal;
   font-weight: 300;
