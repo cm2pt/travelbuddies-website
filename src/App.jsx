@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
-import { Plane, Hotel, Target, Users, Map, Palmtree, Mountain, Heart, PartyPopper, Globe, Pencil, Zap, Hand, Sparkles, Home, ThumbsUp, Calendar, Mail, Lightbulb, CircleCheck, Building2, TreePine, Crown, Compass, X, Instagram, MessageCircle, MapPin } from 'lucide-react'
+import { Plane, Hotel, Target, Users, Map, Palmtree, Mountain, Heart, PartyPopper, Globe, Pencil, Zap, Hand, Sparkles, Home, ThumbsUp, Calendar, Mail, Lightbulb, CircleCheck, Building2, TreePine, Crown, Compass, X, Instagram, MessageCircle, MapPin, ClipboardList, Handshake, ShieldCheck } from 'lucide-react'
 import ProductsPage from './components/ProductsPage'
 import Button from './components/ui/Button'
 import Card from './components/ui/Card'
@@ -116,9 +116,9 @@ const copy = {
     pricingNote: 'Valores variam consoante a duração e complexidade.',
     howTitle: 'Como funciona',
     howSteps: [
-      { title: 'Questionário curto', text: 'Ouvimos a vossa família.' },
-      { title: 'Desenhamos e alinhamos', text: 'Ajustamos juntos, com calma.' },
-      { title: 'Viajas com confiança', text: 'Estamos por perto.' },
+      { title: 'Questionário curto', text: 'Ouvimos a vossa família.', Icon: ClipboardList },
+      { title: 'Desenhamos e alinhamos', text: 'Ajustamos juntos, com calma.', Icon: Handshake },
+      { title: 'Viajas com confiança', text: 'Estamos por perto.', Icon: ShieldCheck },
     ],
     freeTitle: 'Só a Marcação',
     freeSubtitle: 'Gratuito',
@@ -487,9 +487,9 @@ const copy = {
     pricingNote: 'Prices vary by duration and complexity.',
     howTitle: 'How it works',
     howSteps: [
-      { title: 'Quick questionnaire', text: 'We listen to your family.' },
-      { title: 'Design and align', text: 'We adjust together, calmly.' },
-      { title: 'Travel with confidence', text: 'We stay close.' },
+      { title: 'Quick questionnaire', text: 'We listen to your family.', Icon: ClipboardList },
+      { title: 'Design and align', text: 'We adjust together, calmly.', Icon: Handshake },
+      { title: 'Travel with confidence', text: 'We stay close.', Icon: ShieldCheck },
     ],
     freeTitle: 'Just Booking',
     freeSubtitle: 'Free',
@@ -794,8 +794,22 @@ const copy = {
   },
 }
 
-/* Reduced-motion support */
+/* Reduced-motion support — used across all framer-motion animations */
 const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+
+/* Shared motion shortcuts that respect prefers-reduced-motion */
+const rm = {
+  fade: prefersReducedMotion ? {} : { opacity: 0 },
+  fadeIn: { opacity: 1 },
+  slideUp: prefersReducedMotion ? {} : { opacity: 0, y: 12 },
+  slideDown: prefersReducedMotion ? {} : { opacity: 0, y: -8 },
+  slideRight: prefersReducedMotion ? {} : { opacity: 0, x: 20 },
+  slideLeft: prefersReducedMotion ? {} : { opacity: 0, x: -20 },
+  scaleIn: prefersReducedMotion ? {} : { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, y: 0, x: 0, scale: 1 },
+  dur: (d) => prefersReducedMotion ? 0 : d,
+  spring: prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 25 },
+}
 
 const revealVariant = {
   hidden: prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 },
@@ -939,7 +953,7 @@ const PillSelect = ({ options, value, onChange, multi = false, columns = 2, icon
             className={`rounded-xl border px-3 py-3.5 text-left text-sm transition-all duration-150 flex items-center gap-2 min-h-[44px] ${
               isSelected(opt)
                 ? 'border-teal bg-teal/10 text-primary font-medium shadow-sm ring-1 ring-teal/30'
-                : 'border-primary/10 bg-white/80 text-primary/70 hover:border-primary/25 hover:bg-cream/40'
+                : 'border-primary/10 bg-white/80 text-primary/60 hover:border-primary/25 hover:bg-cream/40'
             }`}
           >
             <span className={`text-[11px] shrink-0 ${isSelected(opt) ? 'text-teal' : 'text-primary/25'}`}>{indicator(opt)}</span>
@@ -953,7 +967,7 @@ const PillSelect = ({ options, value, onChange, multi = false, columns = 2, icon
         <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ duration: 0.15 }}>
           <input ref={otherRef} type="text" value={otherText} onChange={(e) => setOtherText(e.target.value)}
             placeholder={otherPlaceholder || 'Tell us more...'}
-            className="w-full rounded-xl border border-teal/30 bg-teal/5 px-3 py-2.5 text-sm text-primary placeholder:text-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60" />
+            className="w-full rounded-xl border border-teal/30 bg-teal/5 px-3 py-2.5 text-sm text-primary placeholder:text-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60" />
         </motion.div>
       )}
     </div>
@@ -966,13 +980,13 @@ const WhyTooltip = ({ text }) => {
   return (
     <span className="inline-flex flex-col">
       <button type="button" onClick={() => setOpen(!open)}
-        className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-primary/8 px-2.5 py-1 text-[11px] text-primary/50 hover:bg-primary/15 transition min-h-[32px]">
+        className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-primary/8 px-2.5 py-1 text-[11px] text-primary/35 hover:bg-primary/15 transition min-h-[32px]">
         {open ? '✕' : '?'} <span className="hidden sm:inline">{open ? '' : 'porquê'}</span>
       </button>
       <AnimatePresence>
         {open && (
           <motion.span initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.15 }}
-            className="mt-1 block rounded-xl border border-teal/20 bg-teal/5 p-2.5 text-xs text-primary/70">
+            className="mt-1 block rounded-xl border border-teal/20 bg-teal/5 p-2.5 text-xs text-primary/60">
             {text}
           </motion.span>
         )}
@@ -1003,7 +1017,7 @@ const ServiceCard = ({ card, selected, onSelect, popularLabel, isSecondary }) =>
           {card.price && <p className="text-xs text-teal font-medium mt-0.5">{card.price} <span className="text-primary/35 font-normal">{card.priceNote}</span></p>}
         </div>
       </div>
-      {card.tag && <span className="shrink-0 rounded-full bg-primary/8 px-2.5 py-0.5 text-[11px] text-primary/70">{card.tag}</span>}
+      {card.tag && <span className="shrink-0 rounded-full bg-primary/8 px-2.5 py-0.5 text-[11px] text-primary/60">{card.tag}</span>}
     </div>
     <p className="mt-1.5 ml-5 text-xs text-primary/60">{card.desc}</p>
   </button>
@@ -1016,13 +1030,13 @@ const FAQItem = ({ q, a }) => {
       <button type="button" onClick={() => { haptic(); setOpen(!open) }}
         className="w-full flex items-center justify-between py-4 text-left text-sm font-medium text-primary hover:text-primary/80 transition">
         <span>{q}</span>
-        <motion.span animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.2 }} className="text-primary/40 text-lg shrink-0 ml-3">+</motion.span>
+        <motion.span animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.2 }} className="text-primary/35 text-lg shrink-0 ml-3">+</motion.span>
       </button>
       <AnimatePresence>
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }} className="overflow-hidden">
-            <p className="pb-4 text-sm text-primary/70">{a}</p>
+            transition={{ duration: rm.dur(0.2) }} className="overflow-hidden">
+            <p className="pb-4 text-sm text-primary/60">{a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -1080,7 +1094,7 @@ const PlanQuiz = ({ t, onSelect }) => {
   if (result) {
     return (
       <div className="text-center space-y-3">
-        <p className="text-xs text-primary/50">{t.quizResultTitle}</p>
+        <p className="text-xs text-primary/35">{t.quizResultTitle}</p>
         <div className="rounded-xl border border-teal/20 bg-teal/5 p-4">
           <p className="text-xl font-display text-primary">{result.name}</p>
           <p className="text-sm text-teal font-medium mt-1">{result.price}</p>
@@ -1089,7 +1103,7 @@ const PlanQuiz = ({ t, onSelect }) => {
         <Button type="button" variant="primary" size="sm" className="w-full" onClick={() => { haptic(); onSelect?.(result.id) }}>
           {t.quizResultCta}
         </Button>
-        <button type="button" onClick={restart} className="text-xs text-primary/40 hover:text-primary/60 transition">{t.quizRestart}</button>
+        <button type="button" onClick={restart} className="text-xs text-primary/35 hover:text-primary/60 transition">{t.quizRestart}</button>
       </div>
     )
   }
@@ -1113,7 +1127,7 @@ const PlanQuiz = ({ t, onSelect }) => {
       </div>
       {step > 0 && (
         <button type="button" onClick={() => { setStep(step - 1); setAnswers(answers.slice(0, -1)) }}
-          className="text-xs text-primary/40 hover:text-primary/60 transition">← {t.wizardBack}</button>
+          className="text-xs text-primary/35 hover:text-primary/60 transition">← {t.wizardBack}</button>
       )}
     </div>
   )
@@ -1148,8 +1162,8 @@ const ContextHelper = ({ text }) => (
 const QuestionReveal = ({ show, children, id }) => (
   <AnimatePresence>
     {show && (
-      <motion.div id={id} initial={{ opacity: 0, y: 12, height: 0 }} animate={{ opacity: 1, y: 0, height: 'auto' }} exit={{ opacity: 0, y: -8, height: 0 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}>
+      <motion.div id={id} initial={prefersReducedMotion ? { opacity: 1, height: 'auto' } : { opacity: 0, y: 12, height: 0 }} animate={{ opacity: 1, y: 0, height: 'auto' }} exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -8, height: 0 }}
+        transition={{ duration: rm.dur(0.3), ease: 'easeOut' }}>
         {children}
       </motion.div>
     )}
@@ -1385,8 +1399,8 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
         <div className="space-y-5">
           {/* Destination — optional, first question */}
           <div id="q-destination" className="flex flex-col gap-2">
-            <label className="text-xs font-medium text-primary/70" htmlFor="destination">
-              {t.wizardQuestions.destination} <span className="text-primary/40 font-normal">{t.wizardOptionalTag}</span>
+            <label className="text-xs font-medium text-primary/60" htmlFor="destination">
+              {t.wizardQuestions.destination} <span className="text-primary/35 font-normal">{t.wizardOptionalTag}</span>
               <QuestionCheck done={!!data.destination} />
             </label>
             <Input id="destination" name="destination" placeholder={isPT ? 'ex: Algarve, Grécia, ainda não sei...' : 'e.g. Algarve, Greece, not sure yet...'} value={data.destination} onChange={handleChange} className="font-body text-sm" />
@@ -1394,7 +1408,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
 
           {/* Motivation — with icons, always visible */}
           <div id="q-motivation" className="flex flex-col gap-2">
-            <label className="text-xs font-medium text-primary/70">
+            <label className="text-xs font-medium text-primary/60">
               {t.wizardQuestions.motivation}
               <QuestionCheck done={!!data.motivation} />
             </label>
@@ -1408,7 +1422,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
           {/* #2 Progressive: Travelers only visible after motivation */}
           <QuestionReveal show={!!data.motivation} id="q-travelers">
             <div className="flex flex-col gap-3">
-              <label className="text-xs font-medium text-primary/70">
+              <label className="text-xs font-medium text-primary/60">
                 {t.wizardQuestions.whosTravelling}
                 <QuestionCheck done={data.adults >= 1} />
               </label>
@@ -1421,7 +1435,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
                 <div className="flex flex-wrap gap-2">
                   {data.kids.map((age, i) => (
                     <div key={i} className="flex items-center gap-1.5 rounded-xl border border-primary/10 bg-white/80 px-2.5 py-1.5">
-                      <span className="text-[11px] text-primary/50 shrink-0">C{i + 1}</span>
+                      <span className="text-[11px] text-primary/35 shrink-0">C{i + 1}</span>
                       <select value={age} onChange={(e) => setKidAge(i, e.target.value)}
                         className="font-body w-16 rounded-lg border-0 bg-transparent py-0 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60">
                         <option value="">—</option>
@@ -1440,7 +1454,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
           {/* #2 Progressive: Dates only visible after travelers */}
           <QuestionReveal show={!!data.motivation && data.adults >= 1} id="q-dates">
             <div className="flex flex-col gap-3">
-              <label className="text-xs font-medium text-primary/70">
+              <label className="text-xs font-medium text-primary/60">
                 {t.wizardQuestions.whenTravel}
                 <QuestionCheck done={!!data.dateMode && datesValid} />
               </label>
@@ -1449,12 +1463,12 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
               {data.dateMode === 'range' && (
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[11px] text-primary/50">{t.wizardQuestions.dateFrom}</span>
+                    <span className="text-[11px] text-primary/35">{t.wizardQuestions.dateFrom}</span>
                     <input type="month" name="dateFrom" value={data.dateFrom} onChange={handleChange}
                       className="font-body w-full rounded-xl border border-primary/15 bg-white px-3 py-2.5 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2" />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span className="text-[11px] text-primary/50">{t.wizardQuestions.dateTo}</span>
+                    <span className="text-[11px] text-primary/35">{t.wizardQuestions.dateTo}</span>
                     <input type="month" name="dateTo" value={data.dateTo || ''} onChange={handleChange}
                       className="font-body w-full rounded-xl border border-primary/15 bg-white px-3 py-2.5 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2" />
                   </div>
@@ -1479,7 +1493,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
       content: (
         <div className="space-y-5">
           <div id="q-attraction" className="flex flex-col gap-2">
-            <label className="text-xs font-medium text-primary/70">
+            <label className="text-xs font-medium text-primary/60">
               {t.wizardQuestions.attraction}
               <QuestionCheck done={!!data.attraction} />
             </label>
@@ -1490,7 +1504,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
           {/* #2 Progressive + #15 Dynamic label */}
           <QuestionReveal show={!!data.attraction} id="q-meal">
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-medium text-primary/70">
+              <label className="text-xs font-medium text-primary/60">
                 {data.motivation ? t.wizardDynamicMeal?.replace('{motivation}', data.motivation.toLowerCase()) : t.wizardQuestions.meal}
                 <QuestionCheck done={!!data.meal} />
               </label>
@@ -1501,7 +1515,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
 
           <QuestionReveal show={!!data.attraction && !!data.meal} id="q-lodging">
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-medium text-primary/70">
+              <label className="text-xs font-medium text-primary/60">
                 {/* #15 Dynamic label */}
                 {data.attraction ? t.wizardDynamicLodging?.replace('{attraction}', data.attraction) : t.wizardQuestions.lodging}
                 <QuestionCheck done={!!data.lodging} />
@@ -1516,8 +1530,8 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
 
           <QuestionReveal show={!!data.lodging} id="q-lodgingValues">
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-medium text-primary/70">
-                {t.wizardQuestions.lodgingValues} <span className="text-primary/40 font-normal">{t.wizardOptionalTag}</span>
+              <label className="text-xs font-medium text-primary/60">
+                {t.wizardQuestions.lodgingValues} <span className="text-primary/35 font-normal">{t.wizardOptionalTag}</span>
                 {t.wizardWhyAsk?.lodgingValues && <WhyTooltip text={t.wizardWhyAsk.lodgingValues} />}
               </label>
               <PillSelect options={t.wizardOptions.lodgingValues} value={data.lodgingValues} onChange={(v) => setPill('lodgingValues', v)} multi otherPlaceholder={t.wizardOtherPlaceholder} />
@@ -1526,8 +1540,8 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
 
           <QuestionReveal show={!!data.lodging} id="q-budget">
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-medium text-primary/70" htmlFor="budget">
-                {t.wizardQuestions.budget} <span className="text-primary/40 font-normal">{t.wizardOptionalTag}</span>
+              <label className="text-xs font-medium text-primary/60" htmlFor="budget">
+                {t.wizardQuestions.budget} <span className="text-primary/35 font-normal">{t.wizardOptionalTag}</span>
                 {t.wizardWhyAsk?.budget && <WhyTooltip text={t.wizardWhyAsk.budget} />}
               </label>
               <Input id="budget" name="budget" placeholder={isPT ? 'ex: 2000€, sem limite, quero ver opções...' : 'e.g. €2000, no limit, show me options...'} value={data.budget} onChange={handleChange} className="font-body text-sm" />
@@ -1542,7 +1556,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
       title: t.wizardStepTitles[2],
       content: (
         <div className="flex flex-col gap-3">
-          <label className="text-xs font-medium text-primary/70">{t.wizardQuestions.service}</label>
+          <label className="text-xs font-medium text-primary/60">{t.wizardQuestions.service}</label>
           <div className="grid gap-3">
             {t.serviceCards.map((card, idx) => (
               <ServiceCard key={card.id} card={card} selected={data.service === card.id}
@@ -1559,7 +1573,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden">
                 <div className="rounded-xl border border-teal/15 bg-teal/5 p-3 mt-1">
-                  <p className="text-[11px] font-medium text-primary/50 mb-2">{t.wizardDurationLabel}</p>
+                  <p className="text-[11px] font-medium text-primary/35 mb-2">{t.wizardDurationLabel}</p>
                   {t.wizardDurationOptions.map((opt, i) => {
                     const isBase = data.service.includes('Base')
                     const prices = isBase ? t.wizardPriceTable.base : t.wizardPriceTable.premium
@@ -1585,14 +1599,14 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
             {showSavePrompt && !data.email && (
               <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
                 className="mt-2 rounded-2xl border border-teal/20 bg-teal/5 p-4">
-                <p className="text-xs text-primary/70 mb-2">{t.wizardSaveEmailPrompt}</p>
+                <p className="text-xs text-primary/60 mb-2">{t.wizardSaveEmailPrompt}</p>
                 <div className="flex gap-2">
                   <input type="email" value={saveEmail} onChange={(e) => setSaveEmail(e.target.value)} placeholder={isPT ? 'o-teu@email.com' : 'your@email.com'}
                     className="font-body flex-1 rounded-xl border border-primary/15 bg-white px-3 py-2 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60" />
                   <button type="button" onClick={() => { if (saveEmail.includes('@')) { setPill('email', saveEmail); setShowSavePrompt(false) } }}
                     className="shrink-0 rounded-xl bg-teal text-white px-3 py-2 text-xs font-medium hover:bg-teal/90 transition">{t.wizardSaveEmailBtn}</button>
                 </div>
-                <button type="button" onClick={() => setShowSavePrompt(false)} className="mt-1.5 text-[11px] text-primary/40 hover:text-primary/60">✕ {isPT ? 'Não, obrigado' : 'No thanks'}</button>
+                <button type="button" onClick={() => setShowSavePrompt(false)} className="mt-1.5 text-[11px] text-primary/35 hover:text-primary/60">✕ {isPT ? 'Não, obrigado' : 'No thanks'}</button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -1610,7 +1624,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
             const current = data.travelerProfiles.find((p) => p.role === 'adult' && p.index === i)
             return (
               <div key={`adult-${i}`} id={`q-adult-${i}`} className="flex flex-col gap-2">
-                <label className="text-xs font-medium text-primary/70">
+                <label className="text-xs font-medium text-primary/60">
                   {t.wizardQuestions.adultProfile.replace('{n}', String(i + 1))}
                   {i === 0 && t.wizardWhyAsk?.adultProfile && <WhyTooltip text={t.wizardWhyAsk.adultProfile} />}
                 </label>
@@ -1633,7 +1647,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
             const childOpts = showNap ? [...t.wizardOptions.childProfile, t.wizardOptions.childProfileNap] : t.wizardOptions.childProfile
             return (
               <div key={`child-${i}`} id={`q-child-${i}`} className="flex flex-col gap-2">
-                <label className="text-xs font-medium text-primary/70">{label}</label>
+                <label className="text-xs font-medium text-primary/60">{label}</label>
                 <PillSelect options={childOpts} value={current?.profile || ''} onChange={(v) => setTravelerProfile('child', i, v)}
                   onAutoAdvance={() => {
                     const nextId = i + 1 < data.kids.length ? `q-child-${i + 1}` : null
@@ -1643,7 +1657,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
               </div>
             )
           })}
-          {totalTravelers === 0 && <p className="text-sm text-primary/50">{isPT ? 'Volta ao passo 1 e indica quem vai viajar.' : 'Go back to step 1 and add your travelers.'}</p>}
+          {totalTravelers === 0 && <p className="text-sm text-primary/35">{isPT ? 'Volta ao passo 1 e indica quem vai viajar.' : 'Go back to step 1 and add your travelers.'}</p>}
         </div>
       ),
     },
@@ -1659,26 +1673,26 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
           )}
 
           <div id="q-familyTraveled" className="flex flex-col gap-2">
-            <label className="text-xs font-medium text-primary/70">{t.wizardQuestions.familyTraveled}</label>
+            <label className="text-xs font-medium text-primary/60">{t.wizardQuestions.familyTraveled}</label>
             <PillSelect options={t.wizardOptions.familyTraveled} value={data.familyTraveled} onChange={(v) => setPill('familyTraveled', v)} onAutoAdvance={() => scrollToNext('q-experienceNotes')} />
             {showError(4, data.familyTraveled) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
           </div>
 
           {/* Single smart textarea instead of 4 (#10) */}
           <div id="q-experienceNotes" className="flex flex-col gap-2">
-            <label className="text-xs font-medium text-primary/70">
-              {isPT ? 'Partilha o que quiseres' : 'Share what you like'} <span className="text-primary/40 font-normal">{t.wizardOptionalTag}</span>
+            <label className="text-xs font-medium text-primary/60">
+              {isPT ? 'Partilha o que quiseres' : 'Share what you like'} <span className="text-primary/35 font-normal">{t.wizardOptionalTag}</span>
             </label>
             <Input as="textarea" id="experienceNotes" name="experienceNotes" rows="4" placeholder={t.wizardExperiencePrompt} value={data.experienceNotes} onChange={handleChange} className="font-body text-sm" />
           </div>
 
           {/* Email — moved here from Step 4 (#3) */}
           <div id="q-email" className="flex flex-col gap-2 rounded-2xl border border-teal/20 bg-teal/5 p-4">
-            <label className="text-xs font-medium text-primary/70" htmlFor="email">{t.wizardQuestions.email}</label>
+            <label className="text-xs font-medium text-primary/60" htmlFor="email">{t.wizardQuestions.email}</label>
             <Input id="email" name="email" type="email" required placeholder={isPT ? 'o-teu@email.com' : 'your@email.com'} value={data.email} onChange={handleChange} className="font-body text-sm" />
             {showError(4, data.email.trim()) && <p className="text-xs text-amber-600">{t.wizardRequiredNote}</p>}
-            <p className="text-xs text-primary/50">{t.wizardReassureEmail}</p>
-            <p className="text-xs text-primary/50">{t.wizardReassurePrivacy}</p>
+            <p className="text-xs text-primary/35">{t.wizardReassureEmail}</p>
+            <p className="text-xs text-primary/35">{t.wizardReassurePrivacy}</p>
           </div>
         </div>
       ),
@@ -1693,15 +1707,15 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
           className="max-w-sm mx-auto">
           <div className="mb-3">{ic(Plane, { size: 32 })}</div>
           <h3 className="font-display text-2xl text-primary">{t.wizardWelcomeTitle}</h3>
-          <p className="mt-2 text-sm text-primary/70">{t.wizardWelcomeBody}</p>
-          <p className="mt-1 text-xs text-primary/50">{t.wizardWelcomeNote}</p>
+          <p className="mt-2 text-sm text-primary/60">{t.wizardWelcomeBody}</p>
+          <p className="mt-1 text-xs text-primary/35">{t.wizardWelcomeNote}</p>
           <p className="mt-2 text-xs text-teal/80 font-medium">{t.wizardWelcomeSocialProof}</p>
 
           {/* Quick-match mini quiz — 3 taps before entering the full wizard */}
           <div className="mt-5 text-left space-y-3">
             <p className="text-xs font-medium text-primary/60 text-center">{isPT ? 'Começa por aqui:' : 'Start here:'}</p>
             <div>
-              <p className="text-xs text-primary/50 mb-1.5">{isPT ? 'O que vos atrai mais?' : 'What attracts you most?'}</p>
+              <p className="text-xs text-primary/35 mb-1.5">{isPT ? 'O que vos atrai mais?' : 'What attracts you most?'}</p>
               <div className="grid grid-cols-3 gap-2">
                 {(isPT ? [{ label: 'Praia', icon: Palmtree }, { label: 'Cidade', icon: Building2 }, { label: 'Natureza', icon: TreePine }] : [{ label: 'Beach', icon: Palmtree }, { label: 'City', icon: Building2 }, { label: 'Nature', icon: TreePine }]).map(({ label, icon: Icon }) => (
                   <button key={label} type="button" onClick={() => { haptic(); setPill('attraction', data.attraction === label ? '' : label) }}
@@ -1713,7 +1727,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
               </div>
             </div>
             <div>
-              <p className="text-xs text-primary/50 mb-1.5">{isPT ? 'Quantas crianças?' : 'How many kids?'}</p>
+              <p className="text-xs text-primary/35 mb-1.5">{isPT ? 'Quantas crianças?' : 'How many kids?'}</p>
               <div className="grid grid-cols-4 gap-2">
                 {[1, 2, 3, '4+'].map((n) => {
                   const val = n === '4+' ? 4 : n
@@ -1738,7 +1752,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
               {t.wizardWelcomeStart}
             </Button>
             <button type="button" onClick={handleQuickStart}
-              className="text-xs text-primary/50 hover:text-teal transition underline underline-offset-2 decoration-primary/20 hover:decoration-teal/50">
+              className="text-xs text-primary/35 hover:text-teal transition underline underline-offset-2 decoration-primary/20 hover:decoration-teal/50">
               <span className="inline-flex items-center gap-1">{ic(Zap, { size: 12 })} {t.wizardWelcomeQuickStart}</span>
             </button>
             <p className="text-[11px] text-primary/30">{t.wizardWelcomeQuickNote}</p>
@@ -1787,21 +1801,21 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
         ))}
       </div>
       <div className="mt-1 flex items-center justify-between sm:hidden">
-        <span className="text-[11px] text-primary/40">{t.wizardProgress} {step + 1}/{stepsCount}</span>
-        {remainingText && <span className="text-[11px] text-primary/40">{remainingText}</span>}
+        <span className="text-[11px] text-primary/35">{t.wizardProgress} {step + 1}/{stepsCount}</span>
+        {remainingText && <span className="text-[11px] text-primary/35">{remainingText}</span>}
       </div>
 
       {/* Plan confirmation banner — shows when a service was pre-selected from cards */}
       {preselectedService && step === 0 && (
         <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="mt-3 rounded-xl border border-teal/20 bg-teal/5 px-3 py-2 flex items-center justify-between gap-2">
-          <p className="text-xs text-primary/70">
+          <p className="text-xs text-primary/60">
             {isPT ? 'Plano selecionado:' : 'Selected plan:'}{' '}
             <span className="font-medium text-primary">{
               t.serviceCards.find((c) => c.id === preselectedService)?.title || preselectedService
             }</span>
           </p>
           <button type="button" onClick={() => { setData((prev) => ({ ...prev, service: '' })); /* Clear but don't reset preselected */ }}
-            className="text-[11px] text-primary/40 hover:text-primary/70 transition shrink-0 min-h-[32px]">{isPT ? 'alterar' : 'change'}</button>
+            className="text-[11px] text-primary/35 hover:text-primary/60 transition shrink-0 min-h-[32px]">{isPT ? 'alterar' : 'change'}</button>
         </motion.div>
       )}
 
@@ -1966,8 +1980,8 @@ export default function App() {
             <a
               href="/"
               onClick={(event) => { event.preventDefault(); navigate('/') }}
-              className={`relative py-1 transition-colors hover:text-primary/70 after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:bg-teal after:transition-all after:duration-200 ${
-                route === 'home' ? 'text-primary font-semibold after:w-full' : 'text-primary/70 after:w-0 hover:after:w-full'
+              className={`relative py-1 transition-colors hover:text-primary/60 after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:bg-teal after:transition-all after:duration-200 ${
+                route === 'home' ? 'text-primary font-semibold after:w-full' : 'text-primary/60 after:w-0 hover:after:w-full'
               }`}
             >
               {t.homeNav}
@@ -1975,15 +1989,15 @@ export default function App() {
             {route === 'home' &&
               t.navLinks.map((link) => (
                 <a key={link.href} href={link.href}
-                  className="relative py-1 text-primary/70 transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-0 after:bg-teal after:transition-all after:duration-200 hover:after:w-full">
+                  className="relative py-1 text-primary/60 transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-0 after:bg-teal after:transition-all after:duration-200 hover:after:w-full">
                   {link.label}
                 </a>
               ))}
             <a
               href="/produtos"
               onClick={(event) => { event.preventDefault(); navigate('/produtos') }}
-              className={`relative py-1 transition-colors hover:text-primary/70 after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:bg-teal after:transition-all after:duration-200 ${
-                route === 'produtos' ? 'text-primary font-semibold after:w-full' : 'text-primary/70 after:w-0 hover:after:w-full'
+              className={`relative py-1 transition-colors hover:text-primary/60 after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:bg-teal after:transition-all after:duration-200 ${
+                route === 'produtos' ? 'text-primary font-semibold after:w-full' : 'text-primary/60 after:w-0 hover:after:w-full'
               }`}
             >
               {t.productsNav}
@@ -2039,7 +2053,7 @@ export default function App() {
                 </button>
               </nav>
               <div className="mt-4 pt-4 border-t border-primary/10 flex items-center justify-between">
-                <span className="text-xs text-primary/40">{lang === 'pt' ? 'Idioma' : 'Language'}</span>
+                <span className="text-xs text-primary/35">{lang === 'pt' ? 'Idioma' : 'Language'}</span>
                 <div className="flex gap-2">
                   <button type="button" onClick={() => { setLang('pt'); setMobileMenuOpen(false) }}
                     className={`rounded-lg px-4 py-2 text-sm font-medium transition min-h-[40px] ${lang === 'pt' ? 'bg-primary text-white' : 'border border-primary/15 text-primary/60'}`}>
@@ -2067,7 +2081,7 @@ export default function App() {
         {route === 'home' ? (
           <>
             {/* Urgency ribbon */}
-            <div className="bg-blush/20 border-b border-blush/30 py-2 text-center text-xs text-primary/70">
+            <div className="bg-blush/20 border-b border-blush/30 py-2 text-center text-xs text-primary/60">
               {t.heroUrgency}
             </div>
 
@@ -2087,7 +2101,7 @@ export default function App() {
                   <h1 className="text-[1.65rem] sm:text-[2.1rem] lg:text-[2.5rem] font-display leading-[1.2] text-balance whitespace-pre-line">
                     {t.heroTitle}
                   </h1>
-                  <p className="font-body mt-2 text-sm sm:text-base text-primary/70 text-balance max-w-lg">{t.heroBody}</p>
+                  <p className="font-body mt-2 text-sm sm:text-base text-primary/60 text-balance max-w-lg">{t.heroBody}</p>
                   <div className="mt-4">
                     <Button as="a" href={`#planning-tiers`} variant="primary" size="lg">
                       {t.primaryCta}
@@ -2103,7 +2117,7 @@ export default function App() {
               <div className="py-3 border-t border-primary/5">
                 <div className={`${container} flex items-center justify-center gap-3 sm:gap-5 flex-wrap`}>
                   {t.proofBar.map((item, i) => (
-                    <span key={item} className="flex items-center gap-1.5 text-xs text-primary/50 font-medium">
+                    <span key={item} className="flex items-center gap-1.5 text-xs text-primary/35 font-medium">
                       <span className="h-1.5 w-1.5 rounded-full bg-teal/60" />
                       {item}
                     </span>
@@ -2128,6 +2142,38 @@ export default function App() {
               )}
             </AnimatePresence>
 
+            {/* HOW IT WORKS — 3-step visual timeline */}
+            <section className="py-10 md:py-12 border-t border-primary/5">
+              <div className={container}>
+                <Reveal>
+                  <h2 className="text-center text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.howTitle}</h2>
+                </Reveal>
+                <div className="mt-8 grid gap-6 sm:grid-cols-3 max-w-3xl mx-auto">
+                  {t.howSteps.map((step, i) => (
+                    <Reveal key={i}>
+                      <div className="flex flex-col items-center text-center gap-3">
+                        {/* Step number + icon */}
+                        <div className="relative">
+                          <div className="flex items-center justify-center h-14 w-14 rounded-2xl bg-teal/10">
+                            <step.Icon className="h-6 w-6 text-teal" strokeWidth={1.5} />
+                          </div>
+                          <span className="absolute -top-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-teal text-white text-[11px] font-semibold shadow-sm">{i + 1}</span>
+                        </div>
+                        <div>
+                          <h3 className="font-display text-base text-primary">{step.title}</h3>
+                          <p className="mt-1 text-sm text-primary/60">{step.text}</p>
+                        </div>
+                        {/* Connector line — only between steps on desktop */}
+                        {i < 2 && (
+                          <div className="hidden sm:block absolute top-7 left-full w-full h-px bg-primary/8" />
+                        )}
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+
             {/* SERVICES — Clean comparison table */}
             <section id="planning-tiers" className="py-10 md:py-12 bg-white/70 border-t border-primary/5">
               <div className={container}>
@@ -2148,7 +2194,7 @@ export default function App() {
                         </div>
                         <div>
                           <h3 className="font-display text-[1.35rem] sm:text-2xl text-primary leading-none">{t.freeTitle}</h3>
-                          <p className="mt-0.5 text-xs text-primary/50">{t.freeBenefit}</p>
+                          <p className="mt-0.5 text-xs text-primary/35">{t.freeBenefit}</p>
                         </div>
                       </div>
                       {/* Price hero */}
@@ -2189,12 +2235,12 @@ export default function App() {
                         </div>
                         <div>
                           <h3 className="font-display text-[1.35rem] sm:text-2xl text-primary leading-none">{t.baseTitle}</h3>
-                          <p className="mt-0.5 text-xs text-primary/50">{t.baseBenefit}</p>
+                          <p className="mt-0.5 text-xs text-primary/35">{t.baseBenefit}</p>
                         </div>
                       </div>
                       {/* Price hero */}
                       <div className="mt-4 py-3 border-y border-primary/8 text-center">
-                        <span className="text-sm text-primary/50">{t.priceFrom} </span>
+                        <span className="text-sm text-primary/35">{t.priceFrom} </span>
                         <span className="text-2xl font-body font-bold text-primary">30€</span>
                       </div>
                       {/* Feature checklist */}
@@ -2231,12 +2277,12 @@ export default function App() {
                         </div>
                         <div>
                           <h3 className="font-display text-[1.35rem] sm:text-2xl text-primary leading-none">{t.premiumTitle}</h3>
-                          <p className="mt-0.5 text-xs text-primary/50">{t.premiumBenefit}</p>
+                          <p className="mt-0.5 text-xs text-primary/35">{t.premiumBenefit}</p>
                         </div>
                       </div>
                       {/* Price hero */}
                       <div className="mt-4 py-3 border-y border-primary/8 text-center">
-                        <span className="text-sm text-primary/50">{t.priceFrom} </span>
+                        <span className="text-sm text-primary/35">{t.priceFrom} </span>
                         <span className="text-2xl font-body font-bold text-primary">75€</span>
                       </div>
                       {/* Feature checklist */}
@@ -2265,7 +2311,7 @@ export default function App() {
                 </div>
 
                 {/* Travel Planner note */}
-                <p className="mt-4 text-center text-xs text-primary/40">{t.travelPlannerNote}</p>
+                <p className="mt-4 text-center text-xs text-primary/35">{t.travelPlannerNote}</p>
 
                 {/* Duration pricing toggle */}
                 <details className="mt-3 text-center">
@@ -2273,12 +2319,12 @@ export default function App() {
                     {t.pricingByDuration}
                   </summary>
                   <div className="mt-3 overflow-x-auto">
-                    <table className="mx-auto text-xs text-primary/70 border-collapse">
+                    <table className="mx-auto text-xs text-primary/60 border-collapse">
                       <thead>
                         <tr>
-                          <th className="px-3 py-1.5 text-left font-medium text-primary/50">{t.durationLabel ?? (lang === 'pt' ? 'Duração' : 'Duration')}</th>
+                          <th className="px-3 py-1.5 text-left font-medium text-primary/35">{t.durationLabel ?? (lang === 'pt' ? 'Duração' : 'Duration')}</th>
                           {t.durationTiers.map((d) => (
-                            <th key={d.days} className="px-3 py-1.5 text-center font-medium text-primary/50">{d.label}</th>
+                            <th key={d.days} className="px-3 py-1.5 text-center font-medium text-primary/35">{d.label}</th>
                           ))}
                         </tr>
                       </thead>
@@ -2335,19 +2381,39 @@ export default function App() {
               {/* #20 Full-width success state replaces wizard after submit */}
               {message ? (
                 <div className={container}>
-                  <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}
-                    className="max-w-lg mx-auto text-center py-8">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 15, delay: 0.2 }}
+                  <motion.div initial={rm.scaleIn} animate={rm.visible} transition={{ duration: rm.dur(0.4) }}
+                    className="max-w-lg mx-auto text-center py-8 relative overflow-hidden">
+                    {/* Celebration sparkles */}
+                    {!prefersReducedMotion && (
+                      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+                        {[...Array(8)].map((_, i) => (
+                          <motion.span key={i}
+                            initial={{ opacity: 0, scale: 0, x: '50%', y: '40%' }}
+                            animate={{
+                              opacity: [0, 1, 0],
+                              scale: [0, 1.2, 0.5],
+                              x: `${20 + Math.random() * 60}%`,
+                              y: `${10 + Math.random() * 40}%`,
+                            }}
+                            transition={{ duration: 1.2, delay: 0.3 + i * 0.12, ease: 'easeOut' }}
+                            className="absolute text-teal/40"
+                          >
+                            <Sparkles size={12 + Math.random() * 10} />
+                          </motion.span>
+                        ))}
+                      </div>
+                    )}
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 15, delay: 0.2 }}
                       className="mb-4 flex justify-center"><CircleCheck size={48} className="text-teal" strokeWidth={1.5} /></motion.div>
                     <h2 className="font-display text-2xl sm:text-3xl text-primary">{t.wizardSuccessTitle}</h2>
-                    <p className="mt-3 text-sm text-primary/70 max-w-md mx-auto">{t.wizardSuccessBody}</p>
+                    <p className="mt-3 text-sm text-primary/60 max-w-md mx-auto">{t.wizardSuccessBody}</p>
                     <div className="mt-6 rounded-2xl border border-teal/20 bg-teal/5 p-5 text-left">
                       <p className="text-xs font-semibold text-primary/80 mb-3">{t.wizardSuccessNext}</p>
                       <div className="space-y-2">
                         {t.wizardSuccessSteps.map((s, i) => (
                           <div key={i} className="flex items-center gap-3">
                             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal text-white text-xs font-medium shrink-0">{i + 1}</span>
-                            <span className="text-sm text-primary/70">{s}</span>
+                            <span className="text-sm text-primary/60">{s}</span>
                           </div>
                         ))}
                       </div>
@@ -2358,7 +2424,7 @@ export default function App() {
                         <span className="mr-1 inline-flex align-text-bottom">{ic(Lightbulb, { size: 14 })}</span>{t.wizardSuccessUpsell}
                       </div>
                     )}
-                    <p className="mt-6 text-xs text-primary/50 mb-3">{t.wizardSuccessCta}</p>
+                    <p className="mt-6 text-xs text-primary/35 mb-3">{t.wizardSuccessCta}</p>
                     {links && (
                       <div className="grid gap-2 max-w-xs mx-auto">
                         <Button as="a" href={links.whatsapp} target="_blank" rel="noopener noreferrer" variant="primary" size="md" className="w-full">{t.whatsapp}</Button>
@@ -2394,85 +2460,78 @@ export default function App() {
                   {stepStatus && <p className="mt-2 text-xs text-teal text-center">{stepStatus}</p>}
                 </Reveal>
 
-                {/* Right: #4 Humanized Resumo — conversational style with icons */}
+                {/* Right: #41 Conversational Resumo — natural language with icons */}
                 <Reveal className="hidden lg:block">
                   <Card variant="elevated" className="p-5 sticky top-24">
                     <div>
-                      <p className="text-sm font-semibold">{t.wizardSummaryTitle}</p>
+                      <p className="text-sm font-semibold text-primary">{t.wizardSummaryTitle}</p>
                       <p className="text-xs text-primary/60 mt-1">{t.wizardSummaryBody}</p>
-                      <div className="mt-3 space-y-2.5">
+                      <div className="mt-3 space-y-2">
                         {wizardData && (wizardData.motivation || wizardData.dateMode || wizardData.meal || wizardData.lodging || wizardData.service || wizardData.email || wizardData.travelerProfiles?.length || wizardData.familyTraveled) ? (
                           <>
+                            {/* Conversational sentence builder */}
                             {wizardData.motivation && (
-                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="shrink-0">{t.wizardMotivationIcons?.[wizardData.motivation] || ic(Plane)}</span>
-                                <div>
-                                  <p className="text-[11px] text-primary/40">{t.messageLabels.motivation}</p>
-                                  <p className="text-xs text-primary/80 font-medium">{wizardData.motivation}</p>
-                                </div>
-                              </div>
+                              <motion.div initial={rm.slideUp} animate={rm.visible} transition={{ duration: rm.dur(0.2) }} className="flex items-start gap-2.5 rounded-xl bg-cream/40 px-3 py-2.5">
+                                <span className="shrink-0 mt-0.5">{t.wizardMotivationIcons?.[wizardData.motivation] || ic(Plane)}</span>
+                                <p className="text-xs text-primary/80 leading-relaxed">
+                                  {lang === 'pt'
+                                    ? <><span className="font-medium">{wizardData.motivation}</span> {wizardData.destination ? <>para <span className="font-medium">{wizardData.destination}</span></> : null}</>
+                                    : <><span className="font-medium">{wizardData.motivation}</span> {wizardData.destination ? <>to <span className="font-medium">{wizardData.destination}</span></> : null}</>
+                                  }
+                                </p>
+                              </motion.div>
                             )}
                             {(wizardData.adults || wizardData.kids?.length > 0) && (
-                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="shrink-0">{ic(Users)}</span>
-                                <div>
-                                  <p className="text-[11px] text-primary/40">{t.messageLabels.travelers}</p>
-                                  <p className="text-xs text-primary/80 font-medium">{formatTravelers(lang, wizardData)}</p>
-                                </div>
-                              </div>
+                              <motion.div initial={rm.slideUp} animate={rm.visible} transition={{ duration: rm.dur(0.2), delay: rm.dur(0.05) }} className="flex items-start gap-2.5 rounded-xl bg-cream/40 px-3 py-2.5">
+                                <span className="shrink-0 mt-0.5">{ic(Users)}</span>
+                                <p className="text-xs text-primary/80 leading-relaxed">
+                                  <span className="font-medium">{formatTravelers(lang, wizardData)}</span>
+                                </p>
+                              </motion.div>
                             )}
                             {wizardData.dateMode && (
-                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="shrink-0">{ic(Calendar)}</span>
-                                <div>
-                                  <p className="text-[11px] text-primary/40">{t.messageLabels.dates}</p>
-                                  <p className="text-xs text-primary/80 font-medium">{formatDates(lang, wizardData)}</p>
-                                </div>
-                              </div>
+                              <motion.div initial={rm.slideUp} animate={rm.visible} transition={{ duration: rm.dur(0.2), delay: rm.dur(0.1) }} className="flex items-start gap-2.5 rounded-xl bg-cream/40 px-3 py-2.5">
+                                <span className="shrink-0 mt-0.5">{ic(Calendar)}</span>
+                                <p className="text-xs text-primary/80 leading-relaxed">
+                                  <span className="font-medium">{formatDates(lang, wizardData)}</span>
+                                </p>
+                              </motion.div>
                             )}
                             {(wizardData.attraction || wizardData.lodging || wizardData.meal) && (
-                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="shrink-0">{ic(Hotel)}</span>
-                                <div>
-                                  <p className="text-[11px] text-primary/40">{t.wizardSummarySections.lodging}</p>
-                                  <p className="text-xs text-primary/80 font-medium">
-                                    {[wizardData.attraction, wizardData.lodging, wizardData.meal].filter(Boolean).join(' · ')}
-                                  </p>
-                                </div>
-                              </div>
+                              <motion.div initial={rm.slideUp} animate={rm.visible} transition={{ duration: rm.dur(0.2), delay: rm.dur(0.15) }} className="flex items-start gap-2.5 rounded-xl bg-cream/40 px-3 py-2.5">
+                                <span className="shrink-0 mt-0.5">{ic(Hotel)}</span>
+                                <p className="text-xs text-primary/80 leading-relaxed">
+                                  {[wizardData.attraction, wizardData.lodging, wizardData.meal].filter(Boolean).join(' · ')}
+                                </p>
+                              </motion.div>
                             )}
                             {wizardData.service && (
-                              <div className="flex items-start gap-2 rounded-xl bg-teal/8 px-3 py-2">
-                                <span className="shrink-0">{ic(Target)}</span>
-                                <div>
-                                  <p className="text-[11px] text-primary/40">{t.messageLabels.service}</p>
-                                  <p className="text-xs text-primary/80 font-medium">{wizardData.service}</p>
-                                </div>
-                              </div>
+                              <motion.div initial={rm.slideUp} animate={rm.visible} transition={{ duration: rm.dur(0.2), delay: rm.dur(0.2) }} className="flex items-start gap-2.5 rounded-xl bg-teal/8 border border-teal/10 px-3 py-2.5">
+                                <span className="shrink-0 mt-0.5">{ic(Target)}</span>
+                                <p className="text-xs text-primary/80 leading-relaxed font-medium">
+                                  {t.serviceCards?.find((c) => c.id === wizardData.service)?.title || wizardData.service}
+                                </p>
+                              </motion.div>
                             )}
                             {wizardData.travelerProfiles?.filter((p) => p.profile).length > 0 && (
-                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="shrink-0">{ic(Users)}</span>
-                                <div>
-                                  <p className="text-[11px] text-primary/40">{t.wizardSummarySections.profiles}</p>
+                              <motion.div initial={rm.slideUp} animate={rm.visible} transition={{ duration: rm.dur(0.2), delay: rm.dur(0.25) }} className="flex items-start gap-2.5 rounded-xl bg-cream/40 px-3 py-2.5">
+                                <span className="shrink-0 mt-0.5">{ic(Heart)}</span>
+                                <div className="text-xs text-primary/80 leading-relaxed">
                                   {wizardData.travelerProfiles.filter((p) => p.profile).map((p, i) => (
-                                    <p key={i} className="text-xs text-primary/70">{p.role === 'adult' ? `A${p.index + 1}` : `C${p.index + 1}`}: {p.profile}</p>
+                                    <p key={i}>{p.role === 'adult' ? `A${p.index + 1}` : `C${p.index + 1}`}: {p.profile}</p>
                                   ))}
                                 </div>
-                              </div>
+                              </motion.div>
                             )}
                             {wizardData.email && (
-                              <div className="flex items-start gap-2 rounded-xl bg-cream/50 px-3 py-2">
-                                <span className="shrink-0">{ic(Mail)}</span>
-                                <div>
-                                  <p className="text-[11px] text-primary/40">{t.messageLabels.email}</p>
-                                  <p className="text-xs text-primary/80 font-medium">{wizardData.email}</p>
-                                </div>
-                              </div>
+                              <motion.div initial={rm.slideUp} animate={rm.visible} transition={{ duration: rm.dur(0.2), delay: rm.dur(0.3) }} className="flex items-start gap-2.5 rounded-xl bg-cream/40 px-3 py-2.5">
+                                <span className="shrink-0 mt-0.5">{ic(Mail)}</span>
+                                <p className="text-xs text-primary/80 leading-relaxed font-medium">{wizardData.email}</p>
+                              </motion.div>
                             )}
                           </>
                         ) : (
-                          <div className="rounded-2xl border border-dashed border-primary/15 bg-cream/30 p-4 text-center">
+                          <div className="rounded-2xl border border-dashed border-primary/10 bg-cream/20 p-4 text-center">
                             <p className="text-xs text-primary/35">{lang === 'pt' ? 'As tuas respostas aparecem aqui...' : 'Your answers will appear here...'}</p>
                           </div>
                         )}
@@ -2506,7 +2565,7 @@ export default function App() {
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-teal"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                       </div>
                       <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.leadMagnetTitle}</h2>
-                      <p className="mt-2 text-sm text-primary/70">{t.leadMagnetBody}</p>
+                      <p className="mt-2 text-sm text-primary/60">{t.leadMagnetBody}</p>
                       <div className="mt-4 flex flex-col gap-1.5 items-start max-w-xs mx-auto text-left">
                         {(lang === 'pt' ? ['Checklist de malas para toda a família', 'Timeline dia-a-dia para a viagem', 'Dicas práticas por tipo de destino'] : ['Family packing checklist', 'Day-by-day trip timeline', 'Practical tips by destination type']).map((item) => (
                           <div key={item} className="flex items-center gap-2 text-xs text-primary/60">
@@ -2534,7 +2593,7 @@ export default function App() {
                 <div className="max-w-[720px]">
                   <Reveal>
                     <h2 className="text-[1.5rem] sm:text-[1.8rem] font-display leading-[1.25]">{t.founderTitle}</h2>
-                    <p className="mt-3 text-sm text-primary/70 leading-relaxed">{t.founderBody}</p>
+                    <p className="mt-3 text-sm text-primary/60 leading-relaxed">{t.founderBody}</p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {t.founderHighlights.map((h) => (
                         <span key={h} className="rounded-full bg-teal/10 text-teal px-3 py-1 text-xs font-medium">{h}</span>
@@ -2651,7 +2710,7 @@ export default function App() {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               className="relative w-full max-w-md rounded-2xl bg-white shadow-2xl p-6">
               <button type="button" onClick={() => setShowQuizModal(false)}
-                className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-primary/5 transition text-primary/40 hover:text-primary/70">
+                className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-primary/5 transition text-primary/35 hover:text-primary/60">
                 <X className="h-5 w-5" />
               </button>
               <h3 className="font-display text-xl text-primary text-center">{t.quizTitle}</h3>
