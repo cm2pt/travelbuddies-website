@@ -30,15 +30,15 @@ const icLg = (Icon, props = {}) => <Icon size={20} className="text-teal" strokeW
 
 /* Feature comparison matrix — defines which features each tier includes */
 const FEATURE_MATRIX = [
-  { key: 'booking',     free: true,  base: true,  premium: true  },
-  { key: 'profile',     free: false, base: true,  premium: true  },
-  { key: 'itinerary',   free: false, base: true,  premium: true  },
-  { key: 'flights',     free: false, base: true,  premium: true  },
-  { key: 'checklist',   free: false, base: true,  premium: true  },
-  { key: 'guide',       free: false, base: true,  premium: true  },
-  { key: 'dayByDay',    free: false, base: false, premium: true  },
-  { key: 'experiences', free: false, base: false, premium: true  },
-  { key: 'liveSupport', free: false, base: false, premium: true  },
+  { key: 'flights',     free: true,       base: true,       premium: true       },
+  { key: 'experiences', free: true,       base: true,       premium: true       },
+  { key: 'booking',     free: true,       base: 'optional', premium: 'optional' },
+  { key: 'guide',       free: true,       base: true,       premium: true       },
+  { key: 'liveSupport', free: true,       base: true,       premium: true       },
+  { key: 'profile',     free: false,      base: true,       premium: true       },
+  { key: 'itinerary',   free: false,      base: true,       premium: true       },
+  { key: 'checklist',   free: false,      base: true,       premium: true       },
+  { key: 'dayByDay',    free: false,      base: false,      premium: true       },
 ]
 
 const LANG_STORAGE_KEY = 'travelbuddies_lang'
@@ -82,16 +82,17 @@ const copy = {
     premiumWhen: 'Para viagens longas, destinos complexos, ou quando só queres aparecer no aeroporto.',
     // Feature comparison labels
     featureLabels: {
-      booking: 'Marcação de voos e alojamento',
-      profile: 'Perfil de viagem da família',
-      itinerary: 'Roteiro adaptado',
-      flights: 'Sugestão de voos e alojamento',
-      checklist: 'Checklist de preparação',
+      flights: 'Sugestão de voos e alojamentos',
+      experiences: 'Sugestão de experiências',
+      booking: 'Marcação da viagem',
       guide: 'Mini guia do destino',
-      dayByDay: 'Plano dia a dia',
-      experiences: 'Marcação de experiências',
       liveSupport: 'Suporte durante a viagem',
+      profile: 'Perfil de viagem da família',
+      itinerary: 'Roteiro personalizado',
+      checklist: 'Checklist de preparação',
+      dayByDay: 'Plano dia a dia',
     },
+    featureOptional: 'Opcional',
     pricingByDuration: 'Ver preços por duração',
     travelPlannerNote: 'Todos os planos incluem Travel Planner em PDF',
     priceFrom: 'desde',
@@ -453,16 +454,17 @@ const copy = {
     premiumOutcome: 'Full day-by-day plan, booked experiences and support during the trip.',
     // Feature comparison labels
     featureLabels: {
-      booking: 'Flight & accommodation booking',
-      profile: 'Family travel profile',
-      itinerary: 'Adapted itinerary',
-      flights: 'Flight & lodging suggestions',
-      checklist: 'Preparation checklist',
+      flights: 'Flight & accommodation suggestions',
+      experiences: 'Experience suggestions',
+      booking: 'Trip booking',
       guide: 'Mini destination guide',
-      dayByDay: 'Day-by-day plan',
-      experiences: 'Experience booking',
       liveSupport: 'Support during the trip',
+      profile: 'Family travel profile',
+      itinerary: 'Personalized itinerary',
+      checklist: 'Preparation checklist',
+      dayByDay: 'Day-by-day plan',
     },
+    featureOptional: 'Optional',
     pricingByDuration: 'See prices by duration',
     travelPlannerNote: 'All plans include a Travel Planner PDF',
     priceFrom: 'from',
@@ -2155,13 +2157,16 @@ export default function App() {
                       </div>
                       {/* Feature checklist */}
                       <ul className="mt-4 space-y-2.5 flex-1">
-                        {FEATURE_MATRIX.map(({ key, free: included }) => (
-                          <li key={key} className={`flex items-start gap-2.5 text-[13px] leading-snug ${included ? 'text-primary/80' : 'text-primary/25 hidden sm:flex'}`}>
-                            {included
-                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
-                              : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
+                        {FEATURE_MATRIX.map(({ key, free: status }) => (
+                          <li key={key} className={`flex items-start gap-2.5 text-[13px] leading-snug ${status ? 'text-primary/80' : 'text-primary/25 hidden sm:flex'}`}>
+                            {status === 'optional'
+                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal/50" />
+                              : status
+                                ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
+                                : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
                             }
                             <span>{t.featureLabels[key]}</span>
+                            {status === 'optional' && <span className="ml-auto text-[10px] font-medium text-teal/70 border border-teal/25 rounded-full px-2 py-0.5 leading-none shrink-0">{t.featureOptional}</span>}
                           </li>
                         ))}
                       </ul>
@@ -2194,13 +2199,16 @@ export default function App() {
                       </div>
                       {/* Feature checklist */}
                       <ul className="mt-4 space-y-2.5 flex-1">
-                        {FEATURE_MATRIX.map(({ key, base: included }) => (
-                          <li key={key} className={`flex items-start gap-2.5 text-[13px] leading-snug ${included ? 'text-primary/80' : 'text-primary/25 hidden sm:flex'}`}>
-                            {included
-                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
-                              : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
+                        {FEATURE_MATRIX.map(({ key, base: status }) => (
+                          <li key={key} className={`flex items-start gap-2.5 text-[13px] leading-snug ${status ? 'text-primary/80' : 'text-primary/25 hidden sm:flex'}`}>
+                            {status === 'optional'
+                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal/50" />
+                              : status
+                                ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
+                                : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
                             }
                             <span>{t.featureLabels[key]}</span>
+                            {status === 'optional' && <span className="ml-auto text-[10px] font-medium text-teal/70 border border-teal/25 rounded-full px-2 py-0.5 leading-none shrink-0">{t.featureOptional}</span>}
                           </li>
                         ))}
                       </ul>
@@ -2233,13 +2241,16 @@ export default function App() {
                       </div>
                       {/* Feature checklist */}
                       <ul className="mt-4 space-y-2.5 flex-1">
-                        {FEATURE_MATRIX.map(({ key, premium: included }) => (
-                          <li key={key} className={`flex items-start gap-2.5 text-[13px] leading-snug ${included ? 'text-primary/80' : 'text-primary/25 hidden sm:flex'}`}>
-                            {included
-                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
-                              : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
+                        {FEATURE_MATRIX.map(({ key, premium: status }) => (
+                          <li key={key} className={`flex items-start gap-2.5 text-[13px] leading-snug ${status ? 'text-primary/80' : 'text-primary/25 hidden sm:flex'}`}>
+                            {status === 'optional'
+                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal/50" />
+                              : status
+                                ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
+                                : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
                             }
                             <span>{t.featureLabels[key]}</span>
+                            {status === 'optional' && <span className="ml-auto text-[10px] font-medium text-teal/70 border border-teal/25 rounded-full px-2 py-0.5 leading-none shrink-0">{t.featureOptional}</span>}
                           </li>
                         ))}
                       </ul>
