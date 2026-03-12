@@ -1376,7 +1376,7 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
   /* Helpers for travelers */
   const totalTravelers = data.adults + data.kids.length
   const allKidsHaveAge = data.kids.length === 0 || data.kids.every((k) => k)
-  const datesValid = data.dateMode === 'flexible' || (data.dateMode === 'range' && data.dateFrom.trim())
+  const datesValid = data.dateMode === 'flexible' || (data.dateMode === 'range' && data.dateFrom.trim() && data.dateTo?.trim())
   const allProfilesFilled = data.travelerProfiles.length === totalTravelers && data.travelerProfiles.every((p) => p.profile)
 
   /* Step order: 0=trip, 1=lodging+attraction, 2=service, 3=profiles, 4=experiences+email */
@@ -1959,6 +1959,36 @@ export default function App() {
     const built = buildMessage(lang, data)
     setMessage(built)
     await copyToClipboard(built)
+
+    // Silent backup to Google Sheets + email notification
+    try {
+      fetch('https://script.google.com/macros/s/AKfycbxZhQYnJgnDkUmFEizCmNHLxdapBM9jRaB1EykTeByEy9P4O4pH1jRJqqbYm_fcEVisqw/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          email: data.email || '',
+          destination: data.destination || '',
+          attraction: data.attraction || '',
+          motivation: data.motivation || '',
+          travelers: formatTravelers(lang, data),
+          dates: formatDates(lang, data),
+          meal: data.meal || '',
+          lodging: data.lodging || '',
+          lodgingValues: (data.lodgingValues || []).join(', '),
+          budget: data.budget || '',
+          service: t.serviceCards?.find(s => s.id === data.service)?.title || data.service || '',
+          profiles: (data.travelerProfiles || []).map(p => `${p.role}${p.index + 1}: ${p.profile || '-'}`).join(' | '),
+          familyTraveled: data.familyTraveled || '',
+          experienceNotes: data.experienceNotes || '',
+          previousTrips: data.previousTrips || '',
+          hardest: data.hardest || '',
+          success: data.success || '',
+          moreInfo: data.moreInfo || '',
+          lang,
+        }),
+      }).catch(() => {})
+    } catch {}
   }
 
   const handleStepChange = (currentStep, totalSteps) => {
