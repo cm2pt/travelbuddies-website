@@ -94,7 +94,7 @@ const copy = {
     },
     featureOptional: 'Opcional',
     pricingByDuration: 'Ver preços por duração',
-    travelPlannerNote: 'Todos os planos incluem Travel Planner em PDF',
+    travelPlannerNote: 'Todos os planos incluem a opção de marcação de viagem',
     priceFrom: 'desde',
     // Duration-based pricing tiers
     durationLabel: 'Duração da viagem',
@@ -288,7 +288,7 @@ const copy = {
       flexible: 'Sou flexível',
       dateFrom: 'De',
       dateTo: 'Até',
-      datePlaceholder: 'ex: 15 Jul – 30 Jul 2025',
+      datePlaceholder: 'ex: 15 Jul – 30 Jul 2026',
       flexibleNote: 'Alguma preferência? (ex: Julho, Verão...)',
       meal: 'Que tipo de regime alimentar preferem?',
       lodging: 'Que tipo de alojamento preferes?',
@@ -466,7 +466,7 @@ const copy = {
     },
     featureOptional: 'Optional',
     pricingByDuration: 'See prices by duration',
-    travelPlannerNote: 'All plans include a Travel Planner PDF',
+    travelPlannerNote: 'All plans include the option of trip booking',
     priceFrom: 'from',
     durationLabel: 'Trip duration',
     durationTiers: [
@@ -658,7 +658,7 @@ const copy = {
       flexible: "I'm flexible",
       dateFrom: 'From',
       dateTo: 'To',
-      datePlaceholder: 'e.g. Jul 15 – Jul 30, 2025',
+      datePlaceholder: 'e.g. Jul 15 – Jul 30, 2026',
       flexibleNote: 'Any preference? (e.g. July, Summer...)',
       meal: 'Which meal plan do you prefer?',
       lodging: 'What type of lodging do you prefer?',
@@ -863,7 +863,14 @@ const formatDates = (lang, form) => {
     return `${lang === 'pt' ? 'Flexível' : 'Flexible'}${detail}`
   }
   if (form.dateMode === 'range' && form.dateFrom?.trim()) {
-    return form.dateFrom.trim()
+    const from = form.dateFrom.trim()
+    const to = form.dateTo?.trim()
+    const fmt = (iso) => {
+      const d = new Date(iso + (iso.length === 7 ? '-01' : ''))
+      return d.toLocaleDateString(lang === 'pt' ? 'pt-PT' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+    }
+    if (to) return `${fmt(from)} – ${fmt(to)}`
+    return fmt(from)
   }
   return '-'
 }
@@ -1469,17 +1476,17 @@ const DiagnosisWizard = ({ t, onSubmit, onAutosave, onStepChange, onDataChange, 
                 <QuestionCheck done={!!data.dateMode && datesValid} />
               </label>
               <PillSelect options={[t.wizardQuestions.haveDates, t.wizardQuestions.flexible]} value={data.dateMode === 'range' ? t.wizardQuestions.haveDates : data.dateMode === 'flexible' ? t.wizardQuestions.flexible : ''} onChange={(v) => setPill('dateMode', v === t.wizardQuestions.haveDates ? 'range' : 'flexible')} columns={2} />
-              {/* #9 Smarter date input — month pickers */}
+              {/* #9 Smarter date input — date pickers */}
               {data.dateMode === 'range' && (
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex flex-col gap-1">
                     <span className="text-[11px] text-primary/35">{t.wizardQuestions.dateFrom}</span>
-                    <input type="month" name="dateFrom" value={data.dateFrom} onChange={handleChange}
+                    <input type="date" name="dateFrom" value={data.dateFrom} onChange={handleChange}
                       className="font-body w-full rounded-xl border border-primary/15 bg-white px-3 py-2.5 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2" />
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-[11px] text-primary/35">{t.wizardQuestions.dateTo}</span>
-                    <input type="month" name="dateTo" value={data.dateTo || ''} onChange={handleChange}
+                    <input type="date" name="dateTo" value={data.dateTo || ''} onChange={handleChange}
                       className="font-body w-full rounded-xl border border-primary/15 bg-white px-3 py-2.5 text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/60 focus-visible:ring-offset-2" />
                   </div>
                 </div>
