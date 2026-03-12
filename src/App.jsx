@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
-import { Plane, Hotel, Target, Users, Map, Palmtree, Mountain, Heart, PartyPopper, Globe, Pencil, Zap, Hand, Sparkles, Home, ThumbsUp, Calendar, Mail, Lightbulb, CircleCheck, Building2, TreePine, Crown, Compass, X, Instagram, MessageCircle, MapPin, ClipboardList, Handshake, ShieldCheck } from 'lucide-react'
+import { Plane, Hotel, Target, Users, Map, Palmtree, Mountain, Heart, PartyPopper, Globe, Pencil, Zap, Hand, Sparkles, Home, ThumbsUp, Calendar, Mail, Lightbulb, CircleCheck, Building2, TreePine, Star, Compass, X, Instagram, MessageCircle, MapPin, ClipboardList, Handshake, ShieldCheck } from 'lucide-react'
 import ProductsPage from './components/ProductsPage'
 import Button from './components/ui/Button'
 import Card from './components/ui/Card'
@@ -28,18 +28,7 @@ const REMOTE_IMAGES = {
 const ic = (Icon, props = {}) => <Icon size={16} className="text-teal" strokeWidth={2} {...props} />
 const icLg = (Icon, props = {}) => <Icon size={20} className="text-teal" strokeWidth={2} {...props} />
 
-/* Feature comparison matrix — defines which features each tier includes */
-const FEATURE_MATRIX = [
-  { key: 'flights',     free: true,       base: true,       premium: true       },
-  { key: 'experiences', free: true,       base: true,       premium: true       },
-  { key: 'booking',     free: true,       base: 'optional', premium: 'optional' },
-  { key: 'guide',       free: true,       base: true,       premium: true       },
-  { key: 'liveSupport', free: true,       base: true,       premium: true       },
-  { key: 'profile',     free: false,      base: true,       premium: true       },
-  { key: 'itinerary',   free: false,      base: true,       premium: true       },
-  { key: 'checklist',   free: false,      base: true,       premium: true       },
-  { key: 'dayByDay',    free: false,      base: false,      premium: true       },
-]
+/* Per-tier feature lists — stacked model where each tier includes the previous */
 
 const LANG_STORAGE_KEY = 'travelbuddies_lang'
 const WIZARD_STORAGE_KEY = 'travelbuddies_wizard'
@@ -80,19 +69,32 @@ const copy = {
     premiumOutcome: 'Plano completo dia a dia, experiências marcadas e suporte durante a viagem.',
     baseWhen: 'Para quem sabe para onde vai mas quer ajuda a montar a viagem.',
     premiumWhen: 'Para viagens longas, destinos complexos, ou quando só queres aparecer no aeroporto.',
-    // Feature comparison labels
-    featureLabels: {
-      flights: 'Sugestão de voos e alojamentos',
-      experiences: 'Sugestão de experiências',
-      booking: 'Marcação da viagem',
-      guide: 'Mini guia do destino',
-      liveSupport: 'Suporte durante a viagem',
-      profile: 'Perfil de viagem da família',
-      itinerary: 'Roteiro personalizado',
-      checklist: 'Checklist de preparação',
-      dayByDay: 'Plano dia a dia',
-    },
-    featureOptional: 'Opcional',
+    // Per-tier feature lists
+    freeFeatures: [
+      { label: 'Sugestão de voos e alojamentos', included: true },
+      { label: 'Sugestão de experiências', included: true },
+      { label: 'Marcação da viagem', included: true },
+      { label: 'Mini guia do destino', included: true },
+      { label: 'Suporte durante a viagem', included: true, note: '*relativo às reservas efetuadas' },
+      { label: 'Roteiro personalizado', included: false },
+      { label: 'Checklist de preparação', included: false },
+    ],
+    baseIncludes: 'Reserva e Vai +',
+    baseFeatures: [
+      { label: 'Diagnóstico do perfil da família em viagem', included: true },
+      { label: 'Sugestão de viagens para a família', included: true },
+      { label: 'Recomendação de passeios e experiências', included: true },
+      { label: 'Guia completo do destino', included: true },
+      { label: 'Roteiro personalizado', included: true },
+      { label: 'Checklist de preparação', included: true },
+      { label: 'Travel Planner FamilyInTrouble em PDF', included: true },
+      { label: 'Suporte durante a viagem', included: true, note: '*relativo às reservas efetuadas' },
+    ],
+    premiumIncludes: 'Viagem à Medida +',
+    premiumFeatures: [
+      { label: 'Plano dia a dia completo', included: true },
+      { label: 'Suporte a Imprevistos', included: true, note: 'Mudança de planos durante Viagem' },
+    ],
     pricingByDuration: 'Ver preços por duração',
     travelPlannerNote: 'Todos os planos incluem a opção de marcação de viagem',
     priceFrom: 'desde',
@@ -104,14 +106,14 @@ const copy = {
       { label: '15+ dias', days: '15+d' },
     ],
     basePricing: [
-      { discount: 30, full: 60 },
-      { discount: 40, full: 80 },
       { discount: 50, full: 100 },
+      { discount: 65, full: 130 },
+      { discount: 80, full: 160 },
     ],
     premiumPricing: [
-      { discount: 75, full: 150 },
       { discount: 90, full: 180 },
       { discount: 110, full: 220 },
+      { discount: 130, full: 260 },
     ],
     pricingNote: 'Valores variam consoante a duração e complexidade.',
     howTitle: 'Como funciona',
@@ -122,20 +124,20 @@ const copy = {
     ],
     freeTitle: 'Reserva e Vai',
     freeSubtitle: 'Gratuito',
-    freeBenefit: 'Nós reservamos. Tu vais.',
+    freeBenefit: 'Nós marcamos. Tu viajas.',
     freeOutcome: 'Pesquisamos, comparamos e marcamos voos e alojamento por ti.',
     freeTag: 'Gratuito',
     planningTitle: 'Precisas de ajuda a planear?',
     planningBody: 'Além da marcação gratuita, temos planos de organização para famílias que querem tudo pensado ao detalhe.',
     baseBadge: 'Mais pedido',
-    baseSubtitle: 'A partir de 30€',
-    baseBenefit: 'Orientação clara. Feita à medida.',
+    baseSubtitle: '50€',
+    baseBenefit: 'Orientação clara. Decisão leve.',
     serviceCta: 'Escolher este serviço',
     serviceCtaFree: 'Pedir orçamento',
-    basePrice: 'A partir de 30€',
-    premiumPrice: 'A partir de 75€',
-    premiumSubtitle: 'A partir de 75€',
-    premiumBenefit: 'Desliga e aproveita. Nós tratamos de tudo.',
+    basePrice: '50€',
+    premiumPrice: 'Desde 90€',
+    premiumSubtitle: 'Desde 90€',
+    premiumBenefit: 'Desliga e aproveita. Nós tratamos.',
     // Quiz copy
     quizTitle: 'Qual é o plano certo para ti?',
     quizBody: 'Responde a 3 perguntas rápidas.',
@@ -237,7 +239,7 @@ const copy = {
     wizardSuccessBody: 'Recebemos as tuas respostas. Vamos analisar e enviamos uma proposta personalizada em breve.',
     wizardSuccessNext: 'Próximos passos:',
     wizardSuccessSteps: ['Analisamos o perfil da tua família', 'Desenhamos opções à medida', 'Enviamos a proposta por email'],
-    wizardSuccessUpsell: 'Sabias que também ajudamos a planear toda a viagem? Planos a partir de 30€ com marcação.',
+    wizardSuccessUpsell: 'Sabias que também ajudamos a planear toda a viagem? Planos a partir de 50€.',
     wizardSuccessCta: 'Ou envia-nos diretamente:',
     wizardPopularTag: 'Mais popular',
     wizardRestartConfirm: 'Tens a certeza? Todas as respostas serão apagadas.',
@@ -313,18 +315,18 @@ const copy = {
     wizardProgressRemainingSingle: 'Só falta 1 passo.',
     wizardOptionalLabel: 'Se já souberes...',
     serviceCards: [
-      { id: 'Orçamento e marcação de viagem', title: 'Reserva e Vai', desc: 'Já sabes o que queres. Nós marcamos, sem custos.', tag: 'Gratuito', price: '' },
-      { id: 'Organização de Viagem em família (Plano Base)', title: 'Viagem à Medida', desc: 'Sabes o destino mas precisas de ajuda a organizar.', tag: 'Mais pedido', price: 'desde 30€', priceNote: '(com marcação)' },
-      { id: 'Organização de Viagem em família (Premium)', title: 'Viagem sem Troubles', desc: 'Queres desligar. Nós tratamos de tudo.', tag: 'Tudo tratado', price: 'desde 75€', priceNote: '(com marcação)' },
+      { id: 'Orçamento e marcação de viagem', title: 'Reserva e Vai', desc: 'Nós marcamos. Tu viajas.', tag: 'Grátis', price: '' },
+      { id: 'Organização de Viagem em família (Plano Base)', title: 'Viagem à Medida', desc: 'Orientação clara. Decisão leve.', tag: 'Mais pedido', price: '50€', priceNote: '/ até 7 dias' },
+      { id: 'Organização de Viagem em família (Premium)', title: 'Viagem sem Troubles', desc: 'Desliga e aproveita. Nós tratamos.', tag: 'Tudo tratado', price: 'desde 90€', priceNote: '/ até 7 dias' },
       { id: 'Ainda não sei', title: 'Ainda não sei', desc: 'Sem problema! Nós ajudamos a escolher.', tag: '', price: '' },
     ],
     wizardDurationLabel: 'Duração da viagem:',
     wizardDurationOptions: ['Até 7 dias', '8–14 dias', '15+ dias'],
     wizardPriceTable: {
-      base: ['30€', '40€', '50€'],
-      premium: ['75€', '90€', '110€'],
-      baseFull: ['60€', '80€', '100€'],
-      premiumFull: ['150€', '180€', '220€'],
+      base: ['50€', '65€', '80€'],
+      premium: ['90€', '110€', '130€'],
+      baseFull: ['100€', '130€', '160€'],
+      premiumFull: ['180€', '220€', '260€'],
     },
     wizardSummaryTitle: 'Resumo',
     wizardSummaryBody: 'Revê e envia pelo canal que preferires.',
@@ -452,19 +454,32 @@ const copy = {
     premiumBadge: 'All sorted',
     baseOutcome: 'Itinerary adapted to your family profile, with guidance at every step.',
     premiumOutcome: 'Full day-by-day plan, booked experiences and support during the trip.',
-    // Feature comparison labels
-    featureLabels: {
-      flights: 'Flight & accommodation suggestions',
-      experiences: 'Experience suggestions',
-      booking: 'Trip booking',
-      guide: 'Mini destination guide',
-      liveSupport: 'Support during the trip',
-      profile: 'Family travel profile',
-      itinerary: 'Personalized itinerary',
-      checklist: 'Preparation checklist',
-      dayByDay: 'Day-by-day plan',
-    },
-    featureOptional: 'Optional',
+    // Per-tier feature lists
+    freeFeatures: [
+      { label: 'Flight & accommodation suggestions', included: true },
+      { label: 'Experience suggestions', included: true },
+      { label: 'Trip booking', included: true },
+      { label: 'Mini destination guide', included: true },
+      { label: 'Support during the trip', included: true, note: '*related to bookings made' },
+      { label: 'Personalized itinerary', included: false },
+      { label: 'Preparation checklist', included: false },
+    ],
+    baseIncludes: 'Book & Go +',
+    baseFeatures: [
+      { label: 'Family travel profile assessment', included: true },
+      { label: 'Trip suggestions for the family', included: true },
+      { label: 'Activity & experience recommendations', included: true },
+      { label: 'Complete destination guide', included: true },
+      { label: 'Personalized itinerary', included: true },
+      { label: 'Preparation checklist', included: true },
+      { label: 'Travel Planner FamilyInTrouble (PDF)', included: true },
+      { label: 'Support during the trip', included: true, note: '*related to bookings made' },
+    ],
+    premiumIncludes: 'Tailored Trip +',
+    premiumFeatures: [
+      { label: 'Complete day-by-day plan', included: true },
+      { label: 'Contingency support', included: true, note: 'Plan changes during the trip' },
+    ],
     pricingByDuration: 'See prices by duration',
     travelPlannerNote: 'All plans include the option of trip booking',
     priceFrom: 'from',
@@ -475,14 +490,14 @@ const copy = {
       { label: '15+ days', days: '15+d' },
     ],
     basePricing: [
-      { discount: 30, full: 60 },
-      { discount: 40, full: 80 },
       { discount: 50, full: 100 },
+      { discount: 65, full: 130 },
+      { discount: 80, full: 160 },
     ],
     premiumPricing: [
-      { discount: 75, full: 150 },
       { discount: 90, full: 180 },
       { discount: 110, full: 220 },
+      { discount: 130, full: 260 },
     ],
     pricingNote: 'Prices vary by duration and complexity.',
     howTitle: 'How it works',
@@ -493,20 +508,20 @@ const copy = {
     ],
     freeTitle: 'Book & Go',
     freeSubtitle: 'Free',
-    freeBenefit: 'We book. You go.',
+    freeBenefit: 'We book. You travel.',
     freeOutcome: 'We search, compare and book flights and accommodation for you.',
     freeTag: 'Free',
     planningTitle: 'Need help planning?',
     planningBody: 'Beyond our free booking, we have planning packages for families who want every detail taken care of.',
     baseBadge: 'Most popular',
-    baseSubtitle: 'From 30€',
-    baseBenefit: 'Clear guidance. Tailored for you.',
+    baseSubtitle: '50€',
+    baseBenefit: 'Clear guidance. Light decisions.',
     serviceCta: 'Choose this service',
     serviceCtaFree: 'Get a quote',
-    basePrice: 'From 30€',
-    premiumPrice: 'From 75€',
-    premiumSubtitle: 'From 75€',
-    premiumBenefit: 'Switch off and enjoy. We handle everything.',
+    basePrice: '50€',
+    premiumPrice: 'From 90€',
+    premiumSubtitle: 'From 90€',
+    premiumBenefit: 'Switch off and enjoy. We handle it.',
     quizTitle: 'Which plan is right for you?',
     quizBody: 'Answer 3 quick questions.',
     quizCtaBanner: 'Not sure which to choose?',
@@ -607,7 +622,7 @@ const copy = {
     wizardSuccessBody: "We received your answers. We'll analyze your family profile and send a personalized proposal soon.",
     wizardSuccessNext: 'What happens next:',
     wizardSuccessSteps: ['We analyze your family profile', 'Design tailored options', 'Send a proposal via email'],
-    wizardSuccessUpsell: 'Did you know we also help plan your entire trip? Plans from 30€ with booking.',
+    wizardSuccessUpsell: 'Did you know we also help plan your entire trip? Plans from 50€.',
     wizardSuccessCta: 'Or reach out directly:',
     wizardPopularTag: 'Most popular',
     wizardRestartConfirm: 'Are you sure? All answers will be cleared.',
@@ -683,18 +698,18 @@ const copy = {
     wizardProgressRemainingSingle: 'Only 1 step left.',
     wizardOptionalLabel: 'If you already know...',
     serviceCards: [
-      { id: 'Orçamento e marcação de viagem', title: 'Book & Go', desc: 'You know what you want. We book it, no fees.', tag: 'Free', price: '' },
-      { id: 'Organização de Viagem em família (Plano Base)', title: 'Tailored Trip', desc: 'You know the destination but need help organizing.', tag: 'Most popular', price: 'from 30€', priceNote: '(with booking)' },
-      { id: 'Organização de Viagem em família (Premium)', title: 'Trouble-Free Trip', desc: 'You want to switch off. We handle everything.', tag: 'All sorted', price: 'from 75€', priceNote: '(with booking)' },
+      { id: 'Orçamento e marcação de viagem', title: 'Book & Go', desc: 'We book. You travel.', tag: 'Free', price: '' },
+      { id: 'Organização de Viagem em família (Plano Base)', title: 'Tailored Trip', desc: 'Clear guidance. Light decisions.', tag: 'Most popular', price: '50€', priceNote: '/ up to 7 days' },
+      { id: 'Organização de Viagem em família (Premium)', title: 'Trouble-Free Trip', desc: 'Switch off and enjoy. We handle it.', tag: 'All sorted', price: 'from 90€', priceNote: '/ up to 7 days' },
       { id: 'Ainda não sei', title: "Not sure yet", desc: "No problem! We'll help you choose.", tag: '', price: '' },
     ],
     wizardDurationLabel: 'Trip duration:',
     wizardDurationOptions: ['Up to 7 days', '8–14 days', '15+ days'],
     wizardPriceTable: {
-      base: ['30€', '40€', '50€'],
-      premium: ['75€', '90€', '110€'],
-      baseFull: ['60€', '80€', '100€'],
-      premiumFull: ['150€', '180€', '220€'],
+      base: ['50€', '65€', '80€'],
+      premium: ['90€', '110€', '130€'],
+      baseFull: ['100€', '130€', '160€'],
+      premiumFull: ['180€', '220€', '260€'],
     },
     wizardSummaryTitle: 'Summary',
     wizardSummaryBody: 'Review and send via your preferred channel.',
@@ -2250,16 +2265,13 @@ export default function App() {
                       </div>
                       {/* Feature checklist */}
                       <ul className="mt-4 space-y-2.5 flex-1">
-                        {FEATURE_MATRIX.map(({ key, free: status }) => (
-                          <li key={key} className={`flex items-start gap-2.5 text-[13px] leading-snug ${status ? 'text-primary/80' : 'text-primary/25 hidden sm:flex'}`}>
-                            {status === 'optional'
-                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal/50" />
-                              : status
-                                ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
-                                : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
+                        {t.freeFeatures.map((f, i) => (
+                          <li key={i} className={`flex items-start gap-2.5 text-[13px] leading-snug ${f.included ? 'text-primary/80' : 'text-primary/25'}`}>
+                            {f.included
+                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
+                              : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
                             }
-                            <span>{t.featureLabels[key]}</span>
-                            {status === 'optional' && <span className="ml-auto text-[10px] font-medium text-teal/70 border border-teal/25 rounded-full px-2 py-0.5 leading-none shrink-0">{t.featureOptional}</span>}
+                            <span>{f.label}{f.note && <span className="text-[10px] text-primary/30 ml-1">{f.note}</span>}</span>
                           </li>
                         ))}
                       </ul>
@@ -2287,21 +2299,17 @@ export default function App() {
                       </div>
                       {/* Price hero */}
                       <div className="mt-4 py-3 border-y border-primary/8 text-center">
-                        <span className="text-sm text-primary/35">{t.priceFrom} </span>
-                        <span className="text-2xl font-body font-bold text-primary">30€</span>
+                        <span className="text-2xl font-body font-bold text-primary">50€</span>
+                        <span className="text-sm text-primary/35 ml-1">/ {t.durationTiers[0].label.toLowerCase()}</span>
                       </div>
+                      {/* "Includes previous tier" label */}
+                      <p className="mt-3 text-[11px] font-medium text-teal/70">{t.baseIncludes}</p>
                       {/* Feature checklist */}
-                      <ul className="mt-4 space-y-2.5 flex-1">
-                        {FEATURE_MATRIX.map(({ key, base: status }) => (
-                          <li key={key} className={`flex items-start gap-2.5 text-[13px] leading-snug ${status ? 'text-primary/80' : 'text-primary/25 hidden sm:flex'}`}>
-                            {status === 'optional'
-                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal/50" />
-                              : status
-                                ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
-                                : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
-                            }
-                            <span>{t.featureLabels[key]}</span>
-                            {status === 'optional' && <span className="ml-auto text-[10px] font-medium text-teal/70 border border-teal/25 rounded-full px-2 py-0.5 leading-none shrink-0">{t.featureOptional}</span>}
+                      <ul className="mt-2 space-y-2.5 flex-1">
+                        {t.baseFeatures.map((f, i) => (
+                          <li key={i} className="flex items-start gap-2.5 text-[13px] leading-snug text-primary/80">
+                            <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
+                            <span>{f.label}{f.note && <span className="text-[10px] text-primary/30 ml-1">{f.note}</span>}</span>
                           </li>
                         ))}
                       </ul>
@@ -2314,13 +2322,13 @@ export default function App() {
                     </Card>
                   </Reveal>
 
-                  {/* PREMIUM card — warm gradient, elevated, crown icon */}
+                  {/* PREMIUM card — warm gradient, elevated, star icon */}
                   <Reveal>
                     <Card variant="elevated" className="relative p-5 bg-gradient-to-br from-cream/60 via-white to-tealSoft/20 ring-2 ring-teal/20 shadow-lg flex flex-col h-full">
                       <span className="absolute -top-2.5 right-4 rounded-full bg-primary text-white px-3 py-0.5 text-[11px] font-medium shadow-sm">{t.premiumBadge}</span>
                       <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blush/20">
-                          <Crown className="h-5 w-5 text-blush" />
+                          <Star className="h-5 w-5 text-blush" />
                         </div>
                         <div>
                           <h3 className="font-display text-[1.35rem] sm:text-2xl text-primary leading-none">{t.premiumTitle}</h3>
@@ -2330,20 +2338,17 @@ export default function App() {
                       {/* Price hero */}
                       <div className="mt-4 py-3 border-y border-primary/8 text-center">
                         <span className="text-sm text-primary/35">{t.priceFrom} </span>
-                        <span className="text-2xl font-body font-bold text-primary">75€</span>
+                        <span className="text-2xl font-body font-bold text-primary">90€</span>
+                        <span className="text-sm text-primary/35 ml-1">/ {t.durationTiers[0].label.toLowerCase()}</span>
                       </div>
+                      {/* "Includes previous tier" label */}
+                      <p className="mt-3 text-[11px] font-medium text-teal/70">{t.premiumIncludes}</p>
                       {/* Feature checklist */}
-                      <ul className="mt-4 space-y-2.5 flex-1">
-                        {FEATURE_MATRIX.map(({ key, premium: status }) => (
-                          <li key={key} className={`flex items-start gap-2.5 text-[13px] leading-snug ${status ? 'text-primary/80' : 'text-primary/25 hidden sm:flex'}`}>
-                            {status === 'optional'
-                              ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal/50" />
-                              : status
-                                ? <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
-                                : <span className="inline-flex items-center justify-center h-4 w-4 shrink-0 mt-0.5 text-primary/20">—</span>
-                            }
-                            <span>{t.featureLabels[key]}</span>
-                            {status === 'optional' && <span className="ml-auto text-[10px] font-medium text-teal/70 border border-teal/25 rounded-full px-2 py-0.5 leading-none shrink-0">{t.featureOptional}</span>}
+                      <ul className="mt-2 space-y-2.5 flex-1">
+                        {t.premiumFeatures.map((f, i) => (
+                          <li key={i} className="flex items-start gap-2.5 text-[13px] leading-snug text-primary/80">
+                            <CircleCheck className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
+                            <span>{f.label}{f.note && <span className="text-[10px] text-primary/30 ml-1">({f.note})</span>}</span>
                           </li>
                         ))}
                       </ul>
